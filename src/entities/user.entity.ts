@@ -1,75 +1,101 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  Index,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-  OneToOne,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
-
-
-export enum UserType {
-  'ADMIN' = 'admin',
-  'USER' = 'user',
-  'EMPLOYEE' = 'employee',
-  'TECHNICIAN' = 'technician',
-}
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('users')
-export class UserEntity {
+export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number;  // Auto-incrementing ID
 
-  @Column({ type: 'varchar', length: 32 })
-  name: string;
+  @Column({ length: 30, nullable: true })
+  userName: string;  // Username, up to 30 characters
 
+  @Column({ length: 50, nullable: true })
+  email: string;  // Email, up to 50 characters
 
+  @Column({ length: 200, nullable: true })
+  password: string;  // Hashed password
 
-  @Index({ unique: true })
-  @Column({ type: 'varchar', length: 50 })
-  email: string;
+  @Column({ length: 200, nullable: true })
+  confirmPassword: string;  // Confirm password field
 
+  @Column({ length: 4, nullable: true })
+  otp: string;  // One-time password (OTP), 4 characters
 
-  @Column({ type: 'tinyint', default: 0 })
-  deleted: number;
+  @Column({ length: 200, nullable: true })
+  rememberToken: string;  // "Remember me" token
 
+  @Column({ type: 'datetime', nullable: true })
+  createdAt: Date;  // Creation timestamp
 
+  @Column({ type: 'datetime', nullable: true })
+  updatedAt: Date;  // Last update timestamp
 
+  @Column({ length: 15, nullable: true })
+  phone: string;  // Phone number, max 15 characters
 
-  @Column({ type: 'varchar', length: 255 })
-  password: string;
+  @Column({ type: 'tinyint', width: 3, unsigned: true, nullable: true })
+  telegram: number;  // Telegram integration flag (0 or 1)
 
-  @Column({ type: 'varchar', length: 255 })
-  code: string;
+  @Column({ length: 10, nullable: true })
+  privilege: string;  // User privilege level, max 10 characters
 
+  @Column({
+    type: 'enum',
+    enum: ['active', 'inactive', 'deleted'],
+    default: 'active',
+  })
+  status: 'active' | 'inactive' | 'deleted';  // User status with 3 options
 
-  // @Column({
-  //   type: 'varchar',
-  //   length: 255,
-  //   select: false,
-  //   nullable: true,
-  //   default: null,
-  // })
-  // remember_token: string;
+  @Column({ type: 'datetime', nullable: true })
+  lastLogin: Date;  // Last login timestamp
 
-  @Column({ type: 'varchar', length: 255 })
-  remember_token: string;
+  @Column({ length: 20, nullable: true })
+  telegramRequest: string;  // Telegram request identifier
 
-  @Column({ type: 'varchar', length: 255 })
-  userType: string;
+  @Column({ type: 'date', nullable: true })
+  dateOfBirth: Date;  // Date of birth
 
-  @Column({ type: 'tinyint', default: 0, nullable: true })
-  status: number;
+  @Column({ length: 50, nullable: true })
+  gender: string;  // Gender, max length 50
 
-  @CreateDateColumn({ type: 'datetime' })
-  created_at: Date;
+  @Column({ type: 'text', nullable: true })
+  address: string;  // Address field
 
-  @UpdateDateColumn({ type: 'datetime' })
-  updated_at: Date;
+  @Column({ length: 255, nullable: true })
+  position: string;  // Position or job title
 
-  
+  @Column({ type: 'date', nullable: true })
+  dateOfJoining: Date;  // Date the user joined
+
+  @Column({ length: 100, nullable: true })
+  workHours: string;  // Work hours specification
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  salary: number;  // Salary in decimal format
+
+  @Column({ length: 50, nullable: true })
+  workStatus: string;  // Work status (e.g., full-time, part-time)
+
+  @Column({ type: 'text', nullable: true })
+  certifications: string;  // Certifications as text field
+
+  @Column({ type: 'text', nullable: true })
+  specializations: string;  // Specializations as text field
+
+  @Column({ length: 100, nullable: true })
+  experienceLevel: string;  // Experience level
+
+  @Column({ length: 100, nullable: true })
+  emergencyContactName: string;  // Emergency contact name
+
+  @Column({ length: 100, nullable: true })
+  relationship: string;  // Relationship to emergency contact
+
+  @Column({ length: 50, nullable: true })
+  emergencyPhoneNumber: string;  // Emergency contact phone number
+
+  @Column({ type: 'blob', nullable: true })
+  staffPhoto: Buffer;  // Staff photo stored as a BLOB
+
+  @Column({ type: 'text', nullable: true })
+  additionalNotes: string;  // Additional notes
 }

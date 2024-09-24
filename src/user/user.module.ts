@@ -4,7 +4,7 @@ import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
 import { JwtModule, JwtModuleAsyncOptions, JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '../entities/user.entity';
+import {  User } from '../entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { JwtStrategy } from '../jwt.strategy';
 
@@ -22,7 +22,7 @@ const jwtConfig: JwtModuleAsyncOptions = {
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([User]),
     JwtModule.registerAsync(jwtConfig)
   ],
   controllers: [UserController],

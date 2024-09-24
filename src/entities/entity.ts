@@ -1,9 +1,11 @@
+import { Lead } from "./Lead.entity";
+import { User } from "./User.entity";
 
-import { UserEntity } from './user.entity';
 
 
 const entities = [
-  UserEntity,
+  User,
+  Lead
  
 ];
 
