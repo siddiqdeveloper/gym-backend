@@ -10,6 +10,12 @@ import { MasterModule } from './master/master.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './all-exceptions.filter';
 import { UserModule } from './user/user.module';
+import { MemberController } from './member.controller';
+import { PackageController } from './package.controller';
+import { MemberService } from './member.service';
+import { PackageService } from './package.service';
+import { Member } from './entities/Member.entity';
+import { Package } from './entities/Package.entity';
 
 
 @Module({
@@ -24,6 +30,7 @@ import { UserModule } from './user/user.module';
     //   password: 'DwGjX1vS1STq21EVII0U0WD8jkF6MLsu',
     //   no_ready_check: true,
     // }),
+    
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -40,13 +47,16 @@ import { UserModule } from './user/user.module';
       logging: "all",
       logger:"file",
     }),
+    TypeOrmModule.forFeature([Member,Package]),
     MasterModule,
     UserModule,
 
   ],
-  controllers: [AppController],
+  controllers: [AppController,MemberController,PackageController],
   providers: [
     AppService,
+    MemberService,
+    PackageService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
