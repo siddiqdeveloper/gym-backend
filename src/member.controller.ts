@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, HttpStatus, HttpException } from '@nestjs/common';
 import { MemberService } from './member.service';
 
 @Controller('members')
@@ -7,31 +7,120 @@ export class MemberController {
 
   // Create a new member
   @Post()
-  create(@Body() member) {
-    return this.memberService.create(member);
+  async create(@Body() member) {
+    try {
+      const data = await this.memberService.create(member);
+      return {
+        status: true,
+        message: 'Member created successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException({
+        status: false,
+        message: 'Failed to create member',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
   }
 
   // Get all members
-  @Get()
-  findAll() {
-    return this.memberService.findAll();
+  @Get('all')
+  async findAll() {
+    try {
+      const data = await this.memberService.findAll();
+      return {
+        status: true,
+        message: 'Members retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException({
+        status: false,
+        message: 'Failed to retrieve members',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
   }
 
   // Get a member by ID
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.memberService.findOne(+id);
+  @Get('get/:id')
+  async findOne(@Param('id') id: string) {
+    try {
+      const data = await this.memberService.findOne(+id);
+      if (!data) {
+        throw new HttpException({
+          status: false,
+          message: 'Member not found',
+        }, HttpStatus.NOT_FOUND);
+      }
+      return {
+        status: true,
+        message: 'Member retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException({
+        status: false,
+        message: 'Failed to retrieve member',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
   }
 
   // Update a member by ID
   @Put(':id')
-  update(@Param('id') id: string, @Body() member) {
-    return this.memberService.update(+id, member);
+  async update(@Param('id') id: string, @Body() member) {
+    try {
+      const data = await this.memberService.update(+id, member);
+      return {
+        status: true,
+        message: 'Member updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException({
+        status: false,
+        message: 'Failed to update member',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
   }
 
   // Delete a member by ID
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.memberService.remove(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      await this.memberService.remove(+id);
+      return {
+        status: true,
+        message: 'Member deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException({
+        status: false,
+        message: 'Failed to delete member',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('membercode')
+  async generateMemberCode() {
+    try {
+      const data = await this.memberService.generateMemberCode();
+      return {
+        status: true,
+        message: 'Member code generated successfully',
+        data: data,
+      };
+    } catch (error) {
+        console.log(error)
+      throw new HttpException({
+        status: false,
+        message: 'Failed to generate member code',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
   }
 }

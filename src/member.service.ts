@@ -36,4 +36,27 @@ export class MemberService {
   async remove(id: any) {
     await this.memberRepository.delete(id);
   }
+
+  async generateMemberCode(): Promise<string> {
+    // Find the member with the highest code
+    const lastMember:any = await this.memberRepository
+      .createQueryBuilder('members')
+      .orderBy('members.id', 'DESC')
+      .getOne();
+
+    let newCode: string;
+
+    if (lastMember && lastMember.memberId) {
+      // Extract the number part from the code (e.g., 'MEM001' -> 1)
+      const lastCodeNumber = parseInt(lastMember.memberId.replace('MEM', ''), 10);
+      console.log(lastCodeNumber)
+      // Increment the number by 1 and format it as 'MEM' + zero-padded number
+      newCode = `MEM${(lastCodeNumber + 1).toString().padStart(3, '0')}`;
+    } else {
+      // If there are no records, start from 'MEM001'
+      newCode = 'MEM001';
+    }
+
+    return newCode;
+  }
 }
