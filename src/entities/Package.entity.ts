@@ -3,41 +3,26 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity('packages')
 export class Package {
   @PrimaryGeneratedColumn()
-  id: number;  // Auto-incrementing ID
+  id: number;
 
-  @Column({ length: 100, nullable: true })
-  packageName: string;  // Package name
+  @Column()
+  packageName: string;
 
-  @Column({ length: 50, nullable: true })
-  packageDuration: string;  // Package duration
+  @Column()
+  packageDuration: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
-  packagePrice: number;  // Package price
+  @Column('decimal', { precision: 10, scale: 2 })
+  packagePrice: number;
 
-  @Column({ type: 'text', nullable: true })
-  packageFeatures: string;  // Package features
+  @Column()
+  packageFeatures: string;
 
-  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
-  discount: number;  // Discount percentage
+  @Column('decimal', { precision: 5, scale: 2, nullable: true })
+  discount: number;
 
-  @Column({ type: 'date', nullable: true })
-  startDate: Date;  // Start date
+  @Column()
+  startDate: string; // or you can use Date type
 
-  @Column({ type: 'date', nullable: true })
-  endDate: Date;  // End date
-
-  @Column({ type: 'int', nullable: true })
-  personalTrainingSessions: number;  // Number of personal training sessions
-
-  @Column({ length: 100, nullable: true })
-  gymAccess: string;  // Gym access details
-
-  @Column({ type: 'text', nullable: true })
-  groupClassesIncluded: string;  // Group classes included
-
-  @Column({ length: 100, nullable: true })
-  nutritionConsultation: string;  // Nutrition consultation details
-
-  @Column({ type: 'text', nullable: true })
-  additionalPerks: string;  // Additional perks
+  @Column()
+  endDate: string; // or you can use Date type
 }

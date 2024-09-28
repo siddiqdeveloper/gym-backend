@@ -16,6 +16,9 @@ import { MemberService } from './member.service';
 import { PackageService } from './package.service';
 import { Member } from './entities/Member.entity';
 import { Package } from './entities/Package.entity';
+import { LeadController } from './lead.controller';
+import { LeadService } from './lead.service';
+import { Lead } from './entities/Lead.entity';
 
 
 @Module({
@@ -47,16 +50,17 @@ import { Package } from './entities/Package.entity';
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package]),
+    TypeOrmModule.forFeature([Member,Package,Lead]),
     MasterModule,
     UserModule,
 
   ],
-  controllers: [AppController,MemberController,PackageController],
+  controllers: [AppController,MemberController,PackageController,LeadController],
   providers: [
     AppService,
     MemberService,
     PackageService,
+    LeadService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,

@@ -36,8 +36,8 @@ export class Lead {
   })
   personalTraining: 'yes' | 'no';  // Personal training requirement
 
-  @Column({ type: 'text', nullable: true })
-  fitnessGoal: string;  // Lead's fitness goals (can be stored as a JSON string or comma-separated values)
+  @Column({ type: 'simple-json', nullable: true })
+  fitnessGoal: string[];  // Lead's fitness goals as an array
 
   @Column({ type: 'date', nullable: true })
   callbackDate: Date;  // Callback date

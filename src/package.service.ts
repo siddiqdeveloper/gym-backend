@@ -11,12 +11,12 @@ export class PackageService {
     private readonly packageRepository: Repository<Package>,
   ) {}
 
-  async create(createPackageDto: Partial<Package>) {
+  async create(createPackageDto) {
     const newPackage = this.packageRepository.create(createPackageDto);
     return await this.packageRepository.save(newPackage);
   }
 
-  async findAll(): Promise<Package[]> {
+  async findAll() {
     return await this.packageRepository.find();
   }
 
@@ -29,7 +29,7 @@ export class PackageService {
     return this.findOne(id);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number) {
     await this.packageRepository.delete(id);
   }
 }
