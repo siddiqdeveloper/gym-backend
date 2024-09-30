@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column,DeleteDateColumn } from 'typeorm';
 
 @Entity('members')
 export class Member {
@@ -84,4 +84,10 @@ export class Member {
 
   @Column({ type: 'date', nullable: true })
   billDate: Date;  // Bill date
+
+  @DeleteDateColumn({ type: 'timestamp' })
+  deletedAt: Date;
+
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
 }

@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository,DataSource } from 'typeorm';
 import { Package } from './entities/Package.entity';
 
 
 @Injectable()
 export class PackageService {
   constructor(
+    private dataSource: DataSource,
     @InjectRepository(Package)
     private readonly packageRepository: Repository<Package>,
   ) {}
@@ -17,6 +18,7 @@ export class PackageService {
   }
 
   async findAll() {
+   
     return await this.packageRepository.find();
   }
 

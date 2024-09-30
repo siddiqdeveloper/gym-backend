@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Lead } from './entities/Lead.entity';
 
 
 @Injectable()
 export class LeadService {
   constructor(
+    private dataSource: DataSource,
     @InjectRepository(Lead)
     private leadRepository: Repository<Lead>,
   ) {}
@@ -17,7 +18,9 @@ export class LeadService {
   }
 
   async findAll(): Promise<Lead[]> {
-    return await this.leadRepository.find();
+    const result = await this.dataSource.query('CALL get_all_leads()');
+    console.log()
+    return result[0];
   }
 
   async findOne(id: number): Promise<Lead> {

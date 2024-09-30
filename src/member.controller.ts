@@ -69,7 +69,7 @@ export class MemberController {
   }
 
   // Update a member by ID
-  @Put(':id')
+  @Put('update/:id')
   async update(@Param('id') id: string, @Body() member) {
     try {
       const data = await this.memberService.update(+id, member);
@@ -88,7 +88,7 @@ export class MemberController {
   }
 
   // Delete a member by ID
-  @Delete(':id')
+  @Delete('delete/:id')
   async remove(@Param('id') id: string) {
     try {
       await this.memberService.remove(+id);
@@ -123,4 +123,23 @@ export class MemberController {
       }, HttpStatus.BAD_REQUEST);
     }
   }
+
+  @Put('status/:id')
+async updateStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+  try {
+    const data = await this.memberService.updateStatus(id, body.isActive);
+    return {
+      status: true,
+      message: 'Member status updated successfully',
+      data: data,
+    };
+  } catch (error) {
+    console.log(error)
+    throw new HttpException({
+      status: false,
+      message: 'Failed to update member status',
+      error: error.message,
+    }, HttpStatus.BAD_REQUEST);
+  }
+}
 }

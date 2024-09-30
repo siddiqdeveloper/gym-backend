@@ -34,7 +34,7 @@ export class MemberService {
 
   // Delete a member
   async remove(id: any) {
-    await this.memberRepository.delete(id);
+    await this.memberRepository.softDelete(id);
   }
 
   async generateMemberCode(): Promise<string> {
@@ -58,5 +58,17 @@ export class MemberService {
     }
 
     return newCode;
+  }
+
+  async updateStatus(id: any, isActive: boolean) {
+    console.log(id)
+    let member:any = await this.memberRepository.findOne({where:{id:id}});
+    if (!member) {
+      throw new Error('Member not found');
+    }
+   
+    member.isActive = isActive?1:0;
+    console.log(member)
+    return this.memberRepository.save(member);
   }
 }
