@@ -104,4 +104,23 @@ export class PackageController {
       }, HttpStatus.BAD_REQUEST);
     }
   }
+
+  @Get('all/active')
+async findAllActive() {
+  try {
+    const data = await this.packageService.findAllActive();
+    return {
+      status: true,
+      message: 'Active packages retrieved successfully',
+      data: data,
+    };
+  } catch (error) {
+    console.log(error);
+    throw new HttpException({
+      status: false,
+      message: 'Failed to fetch active packages',
+      error: error.message,
+    }, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
 }

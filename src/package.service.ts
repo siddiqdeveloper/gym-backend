@@ -32,4 +32,10 @@ export class PackageService {
   async remove(id: number) {
     await this.packageRepository.delete(id);
   }
+  async findAllActive() {
+    return await this.packageRepository.find({
+      where: { isActive: 1 }, // Assuming 'isActive' is the column that denotes active status
+    });
+  }
+  
 }

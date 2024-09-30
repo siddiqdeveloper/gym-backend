@@ -25,4 +25,8 @@ export class Package {
 
   @Column()
   endDate: string; // or you can use Date type
+
+  // New column to indicate if the package is active or not
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
 }
