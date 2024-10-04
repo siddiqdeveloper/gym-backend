@@ -40,7 +40,10 @@ export class Lead {
   fitnessGoal: string[];  // Lead's fitness goals as an array
 
   @Column({ type: 'date', nullable: true })
-  callbackDate: Date;  // Callback date
+  callbackDate: Date;  // Callback 
+  
+  @Column({ type: 'date', nullable: true })
+  walkinDate: Date;  // Callback date
 
   @Column({ type: 'time', nullable: true })
   callbackTime: string;  // Callback time
