@@ -22,6 +22,8 @@ import { Lead } from './entities/Lead.entity';
 import { StaffController } from './staff.controller';
 import { StaffService } from './staff.service';
 import { Staff } from './entities/staff.entity';
+import { FellowLeadController } from './fellow-leads/fellow-lead.controller';
+import { FellowLeadService } from './fellow-leads/fellow-lead.service';
 
 
 @Module({
@@ -58,13 +60,14 @@ import { Staff } from './entities/staff.entity';
     UserModule,
 
   ],
-  controllers: [AppController,MemberController,PackageController,LeadController,StaffController],
+  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController],
   providers: [
     AppService,
     MemberService,
     PackageService,
     LeadService,
     StaffService,
+    FellowLeadService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
