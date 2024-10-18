@@ -105,7 +105,7 @@ export class MemberController {
     }
   }
 
-  @Get('membercode')
+  @Get('fetchCode')
   async generateMemberCode() {
     try {
       const data = await this.memberService.generateMemberCode();

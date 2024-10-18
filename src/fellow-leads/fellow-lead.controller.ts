@@ -1,4 +1,4 @@
-import { Controller, Get, Query, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Query, Post,HttpException, HttpStatus,Request } from '@nestjs/common';
 import { FellowLeadService } from './fellow-lead.service';
 import { FellowLead } from './fellow-lead.entity';
 
@@ -7,6 +7,19 @@ export class FellowLeadController {
   constructor(private readonly fellowLeadService: FellowLeadService) {}
 
   // Fetch fellow leads by a specific date
+
+  @Post('update')
+  async updateFellowLeadsByDate(@Request() req:any){
+    console.log(req.body);
+
+    return {
+      status: true,
+      message: 'Leads retrieved successfully',
+      data: [],
+    };
+
+  }
+
   @Get('by-date')
   async getFellowLeadsByDate(@Query('date') date: string) {
     const searchDate = new Date(date);

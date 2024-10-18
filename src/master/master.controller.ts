@@ -11,6 +11,8 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFiles,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import {
   CreateClientDto,
@@ -26,6 +28,27 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 export class MasterController {
   constructor(private ms: MasterService) {}
  
+
+  @Get('fetchCode')
+  async fetchCode(@Req() req:any) {
+    try {
+      console.log(req.query);
+      const data = await this.ms.fetchCode('');
+      return {
+        status: true,
+        message: 'Member code generated successfully',
+        data: data,
+      };
+    } catch (error) {
+        console.log(error)
+      throw new HttpException({
+        status: false,
+        message: 'Failed to generate member code',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   // @UseGuards(JwtAuthGuard)
   @Get('user')
   async saveUser(@Body() body, @Res() res: Response, @Req() req: any) {
