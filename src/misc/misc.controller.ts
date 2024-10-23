@@ -384,4 +384,251 @@ export class MiscController {
       }
     }
 
+
+
+    //////////Reminder ////////////////////
+
+
+
+    @Post('reminder/add')
+    async createReminder(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+            const check = await this.mis.createReminder(reqdata);
+            return {
+                status: true,
+                message: 'Reminder created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to Reminder',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+      }
+
+
+      @Post('reminder/update')
+    async updateReminder(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updateReminder(body);
+        return {
+            status: true,
+            message: 'Reminder Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to Reminder',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+    @Get('reminder/:id') 
+    async reminderfindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.reminderfindOne(id);
+        return {
+          status: true,
+          message: 'Reminder retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to retrieve Reminder with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    @Get('reminder/all')
+    async reminderfindAll() {
+      try {
+        const data = await this.mis.reminderfindAll();
+        console.log('hshshs',data)
+        return {
+          status: true,
+          message: 'Reminder retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve Reminder',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('reminder/delete/:id')
+    async removeReminder(@Param('id') id: number) {
+      try {
+        
+        await this.mis.removeReminder(id);
+        return {
+          status: true,
+          message: 'Reminder deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete Reminder with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+
+
+    // ////////////// checkList ///////////////
+
+
+
+
+
+
+    @Post('checkList/add')
+    async createCheckList(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+            const check = await this.mis.createCheckList(reqdata);
+            return {
+                status: true,
+                message: 'CheckList created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to CheckList',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+      }
+
+
+      @Post('checkList/update')
+    async updateCheckList(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updateCheckList(body);
+        return {
+            status: true,
+            message: 'Reminder Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to Reminder',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+    @Get('checkList/:id') 
+    async checkListfindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.checkListfindOne(id);
+        return {
+          status: true,
+          message: 'CheckList retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to retrieve CheckList with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    @Get('checkList/all')
+    async checkListfindAll() {
+      try {
+        const data = await this.mis.checkListfindAll();
+        console.log('hshshs',data)
+        return {
+          status: true,
+          message: 'CheckList retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve CheckList',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('checkList/delete/:id')
+    async removeCheckList(@Param('id') id: number) {
+      try {
+        
+        await this.mis.removeCheckList(id);
+        return {
+          status: true,
+          message: 'CheckList deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete CheckList with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
 }

@@ -29,6 +29,8 @@ import { MiscService } from './misc/misc.service';
 import { ElectricityConsumption } from './entities/electricityConsumption.entity';
 import { WaterConsumption } from './entities/waterConsumption.entity';
 import { ServiceLog } from './entities/servicelog.entity';
+import { Reminder } from './entities/reminder.entity';
+import { CheckList } from './entities/checkList.entity';
 
 
 
@@ -62,7 +64,7 @@ import { ServiceLog } from './entities/servicelog.entity';
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff,ElectricityConsumption,WaterConsumption,ServiceLog]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList]),
     MasterModule,
     UserModule,
 

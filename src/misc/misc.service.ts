@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CheckList } from 'src/entities/checkList.entity';
+
 import { ElectricityConsumption } from 'src/entities/electricityConsumption.entity';
+import { Reminder } from 'src/entities/reminder.entity';
 import { ServiceLog } from 'src/entities/servicelog.entity';
 import { WaterConsumption } from 'src/entities/waterConsumption.entity';
 import { DataSource, Repository } from 'typeorm';
@@ -15,6 +18,10 @@ export class MiscService {
         private waterConsumptionRepository: Repository<WaterConsumption>,
         @InjectRepository(ServiceLog)
         private serviceLogRepository: Repository<ServiceLog>,
+        @InjectRepository(Reminder)
+        private reminderRepository: Repository<Reminder>,
+        @InjectRepository(CheckList)
+        private checkListRepository: Repository<CheckList>,
     ) {}
 
 
@@ -154,8 +161,7 @@ async waterfindOne(id: number): Promise<WaterConsumption> {
 
 async updateServiceLog(body) {
     try {
-    
-     const updateServiceLog = await this.serviceLogRepository.update({id:body.id},body)
+    const updateServiceLog = await this.serviceLogRepository.update({id:body.id},body)
      return updateServiceLog
     } catch(error) {
         console.error('Error updating ServiceLog', error);
@@ -173,16 +179,124 @@ async serviceLogfindOne(id: number): Promise<ServiceLog> {
 
 
   async serviceLogfindAll(): Promise<ServiceLog[]> {
+   
     const result = await this.dataSource.query('CALL get_all_serviceLog()');
-    console.log()
+    console.log('result',result)
     return result[0];
   }
 
 
-
-  async removeServiceLog(id: number): Promise<void> {
+ async removeServiceLog(id: number): Promise<void> {
     await this.serviceLogRepository.delete(id);
   }
+
+
+
+  /////////////// reminder //////////////////
+
+
+  async createReminder(body) {
+    try {
+        console.log('body',body)
+      return  await this.reminderRepository.save(body);
+    }
+     catch(error){
+        console.error('Error saving Reminder', error);
+        throw new Error('Failed to save Reminder');
+     }
+  }
+
+
+  async updateReminder(body) {
+    try {
+    const updateReminder = await this.reminderRepository.update({id:body.id},body)
+     return updateReminder
+    } catch(error) {
+        console.error('Error updating Reminder', error);
+        throw new Error('Failed to updating Reminder');
+    }
+}
+
+
+
+
+async reminderfindOne(id: number): Promise<Reminder> {
+    return await this.reminderRepository.findOne({ where: { id } });
+  }
+
+
+
+  async reminderfindAll(): Promise<Reminder[]> {
+   
+    const result = await this.dataSource.query('CALL get_all_reminder()');
+     console.log('res',result)
+    return result[0] 
+  }
+
+
+
+ async removeReminder(id: number): Promise<void> {
+    await this.reminderRepository.delete(id);
+  }
+
+
+
+
+
+//////////////checkList ////////////////////
+
+
+
+
+async createCheckList(body) {
+    try {
+       
+      return  await this.checkListRepository.save(body);
+    }
+     catch(error){
+        console.error('Error saving CheckList', error);
+        throw new Error('Failed to save CheckList');
+     }
+  }
+
+
+  async updateCheckList(body) {
+    try {
+    const updateCheckList = await this.checkListRepository.update({id:body.id},body)
+     return updateCheckList
+    } catch(error) {
+        console.error('Error updating CheckList', error);
+        throw new Error('Failed to updating CheckList');
+    }
+}
+
+
+
+
+async checkListfindOne(id: number): Promise<CheckList> {
+    return await this.checkListRepository.findOne({ where: { id } });
+  }
+
+
+
+  async checkListfindAll(): Promise<CheckList[]> {
+   const result = await this.dataSource.query('CALL get_all_checkList()');
+     console.log('res',result)
+    return result[0] 
+  }
+
+
+
+
+
+
+
+
+ async removeCheckList(id: number): Promise<void> {
+    await this.checkListRepository.delete(id);
+  }
+
+
     
 }
 

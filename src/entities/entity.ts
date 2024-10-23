@@ -6,6 +6,8 @@ import { User } from "./User.entity";
 import { ElectricityConsumption } from "./electricityConsumption.entity";
 import { WaterConsumption } from "./waterConsumption.entity";
 import { ServiceLog } from "./servicelog.entity";
+import { Reminder } from "./reminder.entity";
+import { CheckList } from "./checkList.entity";
 
 
 
@@ -17,7 +19,9 @@ const entities = [
   Staff,
   ElectricityConsumption,
   WaterConsumption,
-  ServiceLog
+  ServiceLog,
+  Reminder,
+  CheckList
  
 ];
 
