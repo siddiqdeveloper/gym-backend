@@ -132,4 +132,256 @@ export class MiscController {
         }, HttpStatus.BAD_REQUEST);
       }
     }
+
+
+
+    // water consumption
+
+
+
+    @Post('water/add')
+    async createWater(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+            const check = await this.mis.createWater(reqdata);
+            return {
+                status: true,
+                message: 'Water Consumption created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to Water Consumption',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+      
+    
+    }
+
+
+
+
+
+
+    // update 
+
+    @Post('water/update')
+    async updateWater(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updateWater(body);
+        return {
+            status: true,
+            message: 'Water Consumption Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to Water Consumption',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+    @Get('water/:id') 
+    async waterfindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.waterfindOne(id);
+        return {
+          status: true,
+          message: 'Water Consumption retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to retrieve Water Consumption with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    @Get('water/all')
+    async waterfindAll() {
+      try {
+        const data = await this.mis.waterfindAll();
+        return {
+          status: true,
+          message: 'Water Consumption retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve Water Consumption',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('Waterdelete/:id')
+    async removeWater(@Param('id') id: number) {
+      try {
+        await this.mis.removeWater(id);
+        return {
+          status: true,
+          message: 'Water Consumption deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete Water Consumption with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    ////////////// Service Log //////////////////////////
+
+
+    @Post('service/log/add')
+    async createServiceLog(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+            const check = await this.mis.createServiceLog(reqdata);
+            return {
+                status: true,
+                message: 'ServiceLog created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to ServiceLog',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+      
+    
+    }
+
+
+
+
+
+
+    // update 
+
+    @Post('service/log/update')
+    async updateServiceLog(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updateServiceLog(body);
+        return {
+            status: true,
+            message: 'Service Log Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to Service Log',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+    @Get('service/log/:id') 
+    async serviceLogfindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.serviceLogfindOne(id);
+        return {
+          status: true,
+          message: 'ServiceLog retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to retrieve ServiceLog with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    @Get('service/log/all')
+    async serviceLogfindAll() {
+      try {
+        const data = await this.mis.serviceLogfindAll();
+        return {
+          status: true,
+          message: 'ServiceLog retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve ServiceLog',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('service/log/delete/:id')
+    async removeServiceLog(@Param('id') id: number) {
+      try {
+        await this.mis.removeServiceLog(id);
+        return {
+          status: true,
+          message: 'ServiceLog deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete ServiceLog with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
 }

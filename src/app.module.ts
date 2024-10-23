@@ -27,6 +27,8 @@ import { FellowLeadService } from './fellow-leads/fellow-lead.service';
 import { MiscController } from './misc/misc.controller';
 import { MiscService } from './misc/misc.service';
 import { ElectricityConsumption } from './entities/electricityConsumption.entity';
+import { WaterConsumption } from './entities/waterConsumption.entity';
+import { ServiceLog } from './entities/servicelog.entity';
 
 
 
@@ -60,7 +62,7 @@ import { ElectricityConsumption } from './entities/electricityConsumption.entity
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff,ElectricityConsumption]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,ElectricityConsumption,WaterConsumption,ServiceLog]),
     MasterModule,
     UserModule,
 

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ElectricityConsumption } from 'src/entities/electricityConsumption.entity';
+import { ServiceLog } from 'src/entities/servicelog.entity';
+import { WaterConsumption } from 'src/entities/waterConsumption.entity';
 import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
@@ -9,6 +11,10 @@ export class MiscService {
         private dataSource: DataSource,
         @InjectRepository(ElectricityConsumption)
         private electricityConsumptionRepository: Repository<ElectricityConsumption>,
+        @InjectRepository(WaterConsumption)
+        private waterConsumptionRepository: Repository<WaterConsumption>,
+        @InjectRepository(ServiceLog)
+        private serviceLogRepository: Repository<ServiceLog>,
     ) {}
 
 
@@ -66,6 +72,117 @@ async removeMeter(id: number): Promise<void> {
     await this.electricityConsumptionRepository.delete(id);
   }
 
+
+
+
+//   water  Consumption
+
+
+async createWater(body) {
+    try {
+
+        if(body.data){
+            body.data = new Date(body.data).toISOString().slice(0, 10);
+        }
+        await this.waterConsumptionRepository.save(body);
+        return body;
+
+    } catch(error){
+        console.error('Error saving Water consumption', error);
+        throw new Error('Failed to save Water consumption');
+    }
+}
+
+
+
+async updateWater(body) {
+    try {
+        console.log('jsjs',body)
+     const updateWater = await this.waterConsumptionRepository.update({id:body.id},body)
+     return updateWater
+    } catch(error) {
+        console.error('Error updating Water consumption', error);
+        throw new Error('Failed to updating Water consumption');
+    }
+}
+
+
+async waterfindOne(id: number): Promise<WaterConsumption> {
+    return await this.waterConsumptionRepository.findOne({ where: { id } });
+  }
+
+
+
+  async waterfindAll(): Promise<WaterConsumption[]> {
+    const result = await this.dataSource.query('CALL get_all_waterConsumption()');
+    console.log()
+    return result[0];
+  }
+
+
+
+  async removeWater(id: number): Promise<void> {
+    await this.waterConsumptionRepository.delete(id);
+  }
+
+
+
+  /////////////// service Log 
+
+  async createServiceLog(body) {
+    try {
+
+        if(body.datePosted){
+            body.datePosted = new Date(body.datePosted).toISOString().slice(0, 10);
+        }
+        if(body.estimatedDate){
+            body.estimatedDate = new Date(body.estimatedDate).toISOString().slice(0, 10);
+        }
+        if(body.actualRepairedOn){
+            body.actualRepairedOn = new Date(body.actualRepairedOn).toISOString().slice(0, 10);
+        }
+        await this.serviceLogRepository.save(body);
+        return body;
+
+    } catch(error){
+        console.error('Error saving ServiceLog', error);
+        throw new Error('Failed to save ServiceLog');
+    }
+}
+
+
+
+async updateServiceLog(body) {
+    try {
+    
+     const updateServiceLog = await this.serviceLogRepository.update({id:body.id},body)
+     return updateServiceLog
+    } catch(error) {
+        console.error('Error updating ServiceLog', error);
+        throw new Error('Failed to updating ServiceLog');
+    }
+}
+
+
+
+
+async serviceLogfindOne(id: number): Promise<ServiceLog> {
+    return await this.serviceLogRepository.findOne({ where: { id } });
+  }
+
+
+
+  async serviceLogfindAll(): Promise<ServiceLog[]> {
+    const result = await this.dataSource.query('CALL get_all_serviceLog()');
+    console.log()
+    return result[0];
+  }
+
+
+
+  async removeServiceLog(id: number): Promise<void> {
+    await this.serviceLogRepository.delete(id);
+  }
     
 }
 
