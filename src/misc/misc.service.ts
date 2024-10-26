@@ -48,7 +48,7 @@ export class MiscService {
 
     async updateMeter(body) {
         try {
-            console.log('jsjs',body)
+           
          const updatemeter = await this.electricityConsumptionRepository.update({id:body.id},body)
          return updatemeter
         } catch(error) {
@@ -68,7 +68,7 @@ export class MiscService {
     
   async meterReadingfindAll(): Promise<ElectricityConsumption[]> {
     const result = await this.dataSource.query('CALL get_all_electricityConsumption()');
-    console.log()
+   
     return result[0];
   }
 
@@ -79,6 +79,20 @@ async removeMeter(id: number): Promise<void> {
     await this.electricityConsumptionRepository.delete(id);
   }
 
+
+  // status 
+
+  async updateStatus(id: any, isActive: boolean) {
+    console.log(id)
+    let meter:any = await this.electricityConsumptionRepository.findOne({where:{id:id}});
+    if (!meter) {
+      throw new Error('meter not found');
+    }
+   
+    meter.isActive = isActive?1:0;
+   
+    return this.electricityConsumptionRepository.save(meter);
+  }
 
 
 
@@ -104,7 +118,7 @@ async createWater(body) {
 
 async updateWater(body) {
     try {
-        console.log('jsjs',body)
+       
      const updateWater = await this.waterConsumptionRepository.update({id:body.id},body)
      return updateWater
     } catch(error) {
@@ -122,14 +136,28 @@ async waterfindOne(id: number): Promise<WaterConsumption> {
 
   async waterfindAll(): Promise<WaterConsumption[]> {
     const result = await this.dataSource.query('CALL get_all_waterConsumption()');
-    console.log()
-    return result[0];
+   return result[0];
   }
 
 
 
   async removeWater(id: number): Promise<void> {
     await this.waterConsumptionRepository.delete(id);
+  }
+
+
+  // status 
+
+  async updateWaterStatus(id: any, isActive: boolean) {
+    console.log(id)
+    let water:any = await this.waterConsumptionRepository.findOne({where:{id:id}});
+    if (!water) {
+      throw new Error('meter not found');
+    }
+   
+    water.isActive = isActive?1:0;
+   
+    return this.waterConsumptionRepository.save(water);
   }
 
 
@@ -181,8 +209,7 @@ async serviceLogfindOne(id: number): Promise<ServiceLog> {
   async serviceLogfindAll(): Promise<ServiceLog[]> {
    
     const result = await this.dataSource.query('CALL get_all_serviceLog()');
-    console.log('result',result)
-    return result[0];
+   return result[0];
   }
 
 
@@ -191,13 +218,27 @@ async serviceLogfindOne(id: number): Promise<ServiceLog> {
   }
 
 
+  // service 
+
+  async updateservicestatus(id: any, isActive: boolean) {
+    console.log(id)
+    let service:any = await this.serviceLogRepository.findOne({where:{id:id}});
+    if (!service) {
+      throw new Error('service not found');
+    }
+   
+    service.isActive = isActive?1:0;
+   
+    return this.serviceLogRepository.save(service);
+  }
+
 
   /////////////// reminder //////////////////
 
 
   async createReminder(body) {
     try {
-        console.log('body',body)
+       
       return  await this.reminderRepository.save(body);
     }
      catch(error){
@@ -229,7 +270,6 @@ async reminderfindOne(id: number): Promise<Reminder> {
   async reminderfindAll(): Promise<Reminder[]> {
    
     const result = await this.dataSource.query('CALL get_all_reminder()');
-     console.log('res',result)
     return result[0] 
   }
 
@@ -239,6 +279,24 @@ async reminderfindOne(id: number): Promise<Reminder> {
     await this.reminderRepository.delete(id);
   }
 
+
+  // status 
+
+  
+  async updatereminderstatus(id: any, isActive: boolean) {
+    console.log(id)
+    let reminder:any = await this.reminderRepository.findOne({where:{id:id}});
+    if (!reminder) {
+      throw new Error('reminder not found');
+    }
+   
+    reminder.isActive = isActive?1:0;
+   
+    return this.reminderRepository.save(reminder);
+  }
+
+
+  
 
 
 
@@ -281,9 +339,11 @@ async checkListfindOne(id: number): Promise<CheckList> {
 
   async checkListfindAll(): Promise<CheckList[]> {
    const result = await this.dataSource.query('CALL get_all_checkList()');
-     console.log('res',result)
+     
     return result[0] 
+  
   }
+
 
 
 

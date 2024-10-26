@@ -35,6 +35,10 @@ export class ServiceLog {
   @Column({ type: 'varchar', length: 100 })
   followUpResult: string;
 
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
+ 
+
 
  
 
