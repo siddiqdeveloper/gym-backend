@@ -3,6 +3,11 @@ import { Member } from "./Member.entity";
 import { Package } from "./Package.entity";
 import { Staff } from "./staff.entity";
 import { User } from "./User.entity";
+import { ElectricityConsumption } from "./electricityConsumption.entity";
+import { WaterConsumption } from "./waterConsumption.entity";
+import { ServiceLog } from "./servicelog.entity";
+import { Reminder } from "./reminder.entity";
+import { CheckList } from "./checkList.entity";
 
 
 
@@ -11,7 +16,12 @@ const entities = [
   Lead,
   Member,
   Package,
-  Staff
+  Staff,
+  ElectricityConsumption,
+  WaterConsumption,
+  ServiceLog,
+  Reminder,
+  CheckList
  
 ];
 

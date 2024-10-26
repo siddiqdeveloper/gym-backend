@@ -24,6 +24,15 @@ import { StaffService } from './staff.service';
 import { Staff } from './entities/staff.entity';
 import { FellowLeadController } from './fellow-leads/fellow-lead.controller';
 import { FellowLeadService } from './fellow-leads/fellow-lead.service';
+import { MiscController } from './misc/misc.controller';
+import { MiscService } from './misc/misc.service';
+import { ElectricityConsumption } from './entities/electricityConsumption.entity';
+import { WaterConsumption } from './entities/waterConsumption.entity';
+import { ServiceLog } from './entities/servicelog.entity';
+import { Reminder } from './entities/reminder.entity';
+import { CheckList } from './entities/checkList.entity';
+
+
 
 
 @Module({
@@ -55,12 +64,12 @@ import { FellowLeadService } from './fellow-leads/fellow-lead.service';
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList]),
     MasterModule,
     UserModule,
 
   ],
-  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController],
+  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController, MiscController],
   providers: [
     AppService,
     MemberService,
@@ -72,6 +81,7 @@ import { FellowLeadService } from './fellow-leads/fellow-lead.service';
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
+    MiscService,
   ],
 })
 export class AppModule {}
