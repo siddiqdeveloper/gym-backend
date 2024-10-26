@@ -28,6 +28,15 @@ import { FellowLead } from './entities/fellow-lead.entity';
 import { Payment } from './entities/Payment';
 import { PaymentController } from './PaymentController';
 import { PaymentService } from './payment.service';
+import { MiscController } from './misc/misc.controller';
+import { MiscService } from './misc/misc.service';
+import { ElectricityConsumption } from './entities/electricityConsumption.entity';
+import { WaterConsumption } from './entities/waterConsumption.entity';
+import { ServiceLog } from './entities/servicelog.entity';
+import { Reminder } from './entities/reminder.entity';
+import { CheckList } from './entities/checkList.entity';
+
+
 
 
 @Module({
@@ -59,12 +68,12 @@ import { PaymentService } from './payment.service';
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList]),
     MasterModule,
     UserModule,
 
   ],
-  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController,PaymentController],
+  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController,PaymentController,MiscController],
   providers: [
     AppService,
     MemberService,
@@ -77,6 +86,7 @@ import { PaymentService } from './payment.service';
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
+    MiscService,
   ],
 })
 export class AppModule {}
