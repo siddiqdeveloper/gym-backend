@@ -1,9 +1,10 @@
+import { FellowLead } from "./fellow-lead.entity";
 import { Lead } from "./Lead.entity";
 import { Member } from "./Member.entity";
 import { Package } from "./Package.entity";
+import { Payment } from "./Payment";
 import { Staff } from "./staff.entity";
 import { User } from "./User.entity";
-
 
 
 const entities = [
@@ -11,7 +12,8 @@ const entities = [
   Lead,
   Member,
   Package,
-  Staff
+  Staff,
+  Payment
  
 ];
 

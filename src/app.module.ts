@@ -24,6 +24,10 @@ import { StaffService } from './staff.service';
 import { Staff } from './entities/staff.entity';
 import { FellowLeadController } from './fellow-leads/fellow-lead.controller';
 import { FellowLeadService } from './fellow-leads/fellow-lead.service';
+import { FellowLead } from './entities/fellow-lead.entity';
+import { Payment } from './entities/Payment';
+import { PaymentController } from './PaymentController';
+import { PaymentService } from './payment.service';
 
 
 @Module({
@@ -55,12 +59,12 @@ import { FellowLeadService } from './fellow-leads/fellow-lead.service';
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead]),
     MasterModule,
     UserModule,
 
   ],
-  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController],
+  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController,PaymentController],
   providers: [
     AppService,
     MemberService,
@@ -68,6 +72,7 @@ import { FellowLeadService } from './fellow-leads/fellow-lead.service';
     LeadService,
     StaffService,
     FellowLeadService,
+    PaymentService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,

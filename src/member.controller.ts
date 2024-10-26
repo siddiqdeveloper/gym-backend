@@ -16,6 +16,7 @@ export class MemberController {
         data: data,
       };
     } catch (error) {
+      console.log(error)
       throw new HttpException({
         status: false,
         message: 'Failed to create member',

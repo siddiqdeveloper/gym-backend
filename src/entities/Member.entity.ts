@@ -20,6 +20,10 @@ export class Member {
   @Column({ type: 'int', nullable: true })
   age: number;  // Age
 
+
+  @Column({ type: 'int', nullable: true })
+  packagePrice: number;  
+
   @Column({ length: 10, nullable: true })
   gender: string;  // Gender
 

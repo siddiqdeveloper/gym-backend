@@ -1,16 +1,29 @@
-import { Controller, Get, Query, Post,HttpException, HttpStatus,Request } from '@nestjs/common';
+import { Controller, Get, Query, Post,HttpException, HttpStatus,Request, } from '@nestjs/common';
 import { FellowLeadService } from './fellow-lead.service';
-import { FellowLead } from './fellow-lead.entity';
+
 
 @Controller('fellow-leads')
 export class FellowLeadController {
-  constructor(private readonly fellowLeadService: FellowLeadService) {}
+  constructor(
+    
+    private readonly fellowLeadService: FellowLeadService
+  ) {}
 
   // Fetch fellow leads by a specific date
 
   @Post('update')
   async updateFellowLeadsByDate(@Request() req:any){
-    console.log(req.body);
+    
+      
+
+      try{
+         await this.fellowLeadService.updateLeads(req.body);
+      }
+      catch(e){
+        console.log(e.message)
+
+      }
+
 
     return {
       status: true,
@@ -22,14 +35,35 @@ export class FellowLeadController {
 
   @Get('by-date')
   async getFellowLeadsByDate(@Query('date') date: string) {
-    const searchDate = new Date(date);
-    
-    if (isNaN(searchDate.getTime())) {
-      throw new HttpException('Invalid date format', HttpStatus.BAD_REQUEST); // Improved error handling
-    }
-
+ 
+   
     try {
-      const leads = await this.fellowLeadService.findByDate(searchDate);
+      const leads = await this.fellowLeadService.findByDate(date);
+      return {
+        status: true,
+        message: 'Leads retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('inactiveLeads')
+  async getInActiveLeads() {
+ 
+   
+    try {
+      const leads = await this.fellowLeadService.getInActiveLeads();
       return {
         status: true,
         message: 'Leads retrieved successfully',
