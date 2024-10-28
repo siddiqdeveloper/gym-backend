@@ -22,6 +22,11 @@ export class WaterConsumption {
   amount: string;
 
 
+  
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
+
+
  
 
   
