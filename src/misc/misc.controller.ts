@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Res, Req, HttpException, HttpStatus, Get, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Res, Req, HttpException, HttpStatus, Get, Param, Delete, Put } from '@nestjs/common';
 import { MiscService } from './misc.service';
 import { get } from 'http';
 
@@ -70,7 +70,7 @@ export class MiscController {
     // @Get('meter/:id') 
 
   
-    @Get('meter/:id') 
+    @Get('meter/get/:id') 
     async meterfindOne(@Param('id') id: number) {
       try {
         const data = await this.mis.meterfindOne(id);
@@ -128,6 +128,28 @@ export class MiscController {
         throw new HttpException({
           status: false,
           message: `Failed to delete Electricity Consumption with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('meterstatus/:id')
+    async updateMeterStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updateStatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'Meter status updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update Meter status',
           error: error.message,
         }, HttpStatus.BAD_REQUEST);
       }
@@ -200,7 +222,7 @@ export class MiscController {
 
 
 
-    @Get('water/:id') 
+    @Get('water/get/:id') 
     async waterfindOne(@Param('id') id: number) {
       try {
         const data = await this.mis.waterfindOne(id);
@@ -254,6 +276,28 @@ export class MiscController {
         throw new HttpException({
           status: false,
           message: `Failed to delete Water Consumption with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('waterstatus/:id')
+    async updateWaterStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updateWaterStatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'Water status updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update Water status',
           error: error.message,
         }, HttpStatus.BAD_REQUEST);
       }
@@ -325,7 +369,7 @@ export class MiscController {
 
 
 
-    @Get('service/log/:id') 
+    @Get('service/log/get/:id') 
     async serviceLogfindOne(@Param('id') id: number) {
       try {
         const data = await this.mis.serviceLogfindOne(id);
@@ -379,6 +423,27 @@ export class MiscController {
         throw new HttpException({
           status: false,
           message: `Failed to delete ServiceLog with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    @Put('servicestatus/:id')
+    async updateservicestatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updateservicestatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'Service status updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update Service status',
           error: error.message,
         }, HttpStatus.BAD_REQUEST);
       }
@@ -443,7 +508,7 @@ export class MiscController {
 
 
 
-    @Get('reminder/:id') 
+    @Get('reminder/get/:id') 
     async reminderfindOne(@Param('id') id: number) {
       try {
         const data = await this.mis.reminderfindOne(id);
@@ -499,6 +564,26 @@ export class MiscController {
         throw new HttpException({
           status: false,
           message: `Failed to delete Reminder with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    @Put('reminderstatus/:id')
+    async updatereminderstatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updatereminderstatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'Reminder status updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update Reminder status',
           error: error.message,
         }, HttpStatus.BAD_REQUEST);
       }
@@ -568,7 +653,7 @@ export class MiscController {
 
 
 
-    @Get('checkList/:id') 
+    @Get('checkList/get/:id') 
     async checkListfindOne(@Param('id') id: number) {
       try {
         const data = await this.mis.checkListfindOne(id);
@@ -592,7 +677,7 @@ export class MiscController {
     async checkListfindAll() {
       try {
         const data = await this.mis.checkListfindAll();
-        console.log('hshshs',data)
+       
         return {
           status: true,
           message: 'CheckList retrieved successfully',
@@ -607,6 +692,9 @@ export class MiscController {
         }, HttpStatus.BAD_REQUEST);
       }
     }
+
+
+   
 
 
     // delete 

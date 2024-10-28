@@ -25,7 +25,8 @@ export class Reminder {
   @Column({ type: 'varchar', length: 100 })
   reminderResult: string;
  
- 
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
 
   
 }

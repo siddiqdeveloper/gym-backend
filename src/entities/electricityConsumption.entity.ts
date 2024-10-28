@@ -26,6 +26,9 @@ export class ElectricityConsumption {
 
   @Column({ type: 'varchar', length: 100 })
   branchName: string;
+
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
  
 
   
