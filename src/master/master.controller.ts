@@ -33,7 +33,7 @@ export class MasterController {
   async fetchCode(@Req() req:any) {
     try {
       console.log(req.query);
-      const data = await this.ms.fetchCode('');
+      const data = await this.ms.fetchCode(req.query);
       return {
         status: true,
         message: 'Member code generated successfully',

@@ -20,10 +20,13 @@ export class MasterService {
   
   ) {}
 
-  async fetchCode(prefix): Promise<string> {
+  async fetchCode(query): Promise<string> {
 
-      const lastMember:any =  await this.dataSource.query('select * from members limit 1 ');
-      console.log(lastMember)
+      let lastMember:any =  await this.dataSource.query('select * from '+query.t+' limit 1 ');
+      if(lastMember){
+        lastMember = lastMember[0];
+      }
+      const prefix = query.prefix;
 
     let newCode: string;
 
