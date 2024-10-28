@@ -226,7 +226,7 @@ async reminderfindOne(id: number): Promise<Reminder> {
 
 
 
-  async reminderfindAll(): Promise<Reminder[]> {
+  async reminderfindAll() {
    
     const result = await this.dataSource.query('CALL get_all_reminder()');
      console.log('res',result)

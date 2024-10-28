@@ -443,7 +443,7 @@ export class MiscController {
 
 
 
-    @Get('reminder/:id') 
+    @Get('reminder/get/:id') 
     async reminderfindOne(@Param('id') id: number) {
       try {
         const data = await this.mis.reminderfindOne(id);
