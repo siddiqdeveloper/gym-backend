@@ -45,6 +45,7 @@ export class LeadController {
   @Get('get/:id')
   async findOne(@Param('id') id: number) {
     try {
+      console.log('id',id)
       const data = await this.leadService.findOne(id);
       return {
         status: true,
@@ -94,4 +95,29 @@ export class LeadController {
       }, HttpStatus.BAD_REQUEST);
     }
   }
+
+
+
+  @Put('leadstatus/:id')
+  async updateLeadStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+    try {
+      const data = await this.leadService.updateLeadStatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Lead status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error updating lead status:', error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to update Lead status',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+
+
+
 }

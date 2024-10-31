@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Member } from './entities/Member.entity';
+import { DataSource } from 'typeorm';
 
 
 @Injectable()
 export class MemberService {
   constructor(
+    private dataSource: DataSource,
     @InjectRepository(Member)
     private memberRepository: Repository<Member>,
   ) {}
@@ -22,9 +24,27 @@ export class MemberService {
   }
 
   // Get a single member by ID
-  findOne(id: number) {
-    return this.memberRepository.findOneBy({ id });
+ 
+
+  // async findOne(id: any) {
+   
+  //   const member = await this.memberRepository.findOne({ where: { id } });
+  //   return member; 
+  // }
+
+  
+  async findOne(id) {
+    const result = await this.dataSource.query(
+        'Call getMembersData(' + id + ')',
+        [],
+    );
+    if (result) {
+      return result[0][0];
+    }
   }
+
+
+
 
   // Update a member
   async update(id: any, member) {

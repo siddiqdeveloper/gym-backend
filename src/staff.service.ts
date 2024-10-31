@@ -29,4 +29,23 @@ export class StaffService {
 
     return await this.staffRepository.save(staff);
   }
+
+
+
+  async updateStatus(id: any, isActive: boolean) {
+    console.log(id)
+    let status:any = await this.staffRepository.findOne({where:{id:id}});
+    if (!status) {
+      throw new Error('status not found');
+    }
+   
+    status.isActive = isActive?1:0;
+    console.log(status)
+    return this.staffRepository.save(status);
+  }
+
+
+  findAll() {
+    return this.staffRepository.find();
+  }
 }

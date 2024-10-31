@@ -71,4 +71,8 @@ export class Staff {
 
   @Column('simple-array', { nullable: true })
   otherDocuments: string[];
+
+
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
 }

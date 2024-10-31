@@ -4,6 +4,12 @@ import {
     Body,
     UploadedFiles,
     UseInterceptors,
+    Put,
+    Delete,
+    HttpStatus,
+    HttpException,
+    Param,
+    Get
   } from '@nestjs/common';
   import { StaffService } from './staff.service';
   import { FileFieldsInterceptor } from '@nestjs/platform-express';
@@ -40,6 +46,46 @@ import {
       @UploadedFiles() files: any,
     ) {
       return this.staffService.createStaff(createStaffDto, files);
+    }
+
+
+
+    @Put('status/:id')
+    async updateStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.staffService.updateStatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'Member status updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update member status',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    @Get('all')
+    async findAll() {
+      try {
+        const data = await this.staffService.findAll();
+        return {
+          status: true,
+          message: 'Staff retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve Staff',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
     }
   }
   
