@@ -358,5 +358,18 @@ async checkListfindOne(id: number): Promise<CheckList> {
 
 
     
+
+  async updatecheckListStatus(id: any, isActive: boolean) {
+   
+    let checkList:any = await this.checkListRepository.findOne({where:{id:id}});
+    if (!checkList) {
+      throw new Error('checkList not found');
+    }
+   
+    checkList.isActive = isActive?1:0;
+   
+    return this.checkListRepository.save(checkList);
+  }
+
 }
 

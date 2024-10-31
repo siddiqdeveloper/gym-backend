@@ -717,6 +717,23 @@ export class MiscController {
       }
     }
 
-
+    @Put('checkListStatus/:id')
+    async updatecheckListStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updatecheckListStatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'CheckList status updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update CheckList status',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
 
 }

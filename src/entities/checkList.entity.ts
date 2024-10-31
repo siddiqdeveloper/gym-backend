@@ -61,4 +61,7 @@ export class CheckList {
 
   @Column({ type: 'enum', enum: ['true', 'false'], nullable: true, collation: 'latin1_swedish_ci' })
   continuousAbsenteesCalls: string;
+
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
 }
