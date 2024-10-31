@@ -123,4 +123,25 @@ async findAllActive() {
     }, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
+
+
+@Put('packagestatus/:id')
+async updatePackageStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+  try {
+    const data = await this.packageService.updatePackageStatus(id, body.isActive);
+
+    return {
+      status: true,
+      message: 'Package status updated successfully',
+      data: data,
+    };
+  } catch (error) {
+    console.log(error)
+    throw new HttpException({
+      status: false,
+      message: 'Failed to update member status',
+      error: error.message,
+    }, HttpStatus.BAD_REQUEST);
+  }
+}
 }

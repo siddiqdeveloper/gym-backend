@@ -60,4 +60,9 @@ export class Lead {
 
   @Column({ length: 100, nullable: true })
   staffName: string;  // Staff member's name
+
+
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
 }
+

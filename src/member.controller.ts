@@ -25,7 +25,36 @@ export class MemberController {
     }
   }
 
-  // Get all members
+
+ 
+
+  // Get a member by ID
+  @Get('get/:id')
+  async findOne(@Param('id') id: number) {
+  
+    try {
+      const data = await this.memberService.findOne(id);
+      console.log('data',data)
+      return {
+        status: true,
+        message: 'Member retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving member:', error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to retrieve member',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+
+
+
+   // Get all members
+
   @Get('all')
   async findAll() {
     try {
@@ -44,30 +73,9 @@ export class MemberController {
     }
   }
 
-  // Get a member by ID
-  @Get('get/:id')
-  async findOne(@Param('id') id: string) {
-    try {
-      const data = await this.memberService.findOne(+id);
-      if (!data) {
-        throw new HttpException({
-          status: false,
-          message: 'Member not found',
-        }, HttpStatus.NOT_FOUND);
-      }
-      return {
-        status: true,
-        message: 'Member retrieved successfully',
-        data: data,
-      };
-    } catch (error) {
-      throw new HttpException({
-        status: false,
-        message: 'Failed to retrieve member',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
-    }
-  }
+
+
+
 
   // Update a member by ID
   @Put('update/:id')

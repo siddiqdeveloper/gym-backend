@@ -74,4 +74,8 @@ export class Payment {
 
   @CreateDateColumn()
   createdAt: Date;
+
+
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
 }

@@ -23,9 +23,20 @@ export class LeadService {
     return result[0];
   }
 
-  async findOne(id: number): Promise<Lead> {
-    return await this.leadRepository.findOne({ where: { id } });
+ 
+
+  async findOne(id) {
+    const result = await this.dataSource.query(
+        'Call getLeadsData(' + id + ')',
+        [],
+    );
+    if (result) {
+      return result[0][0];
+    }
   }
+
+
+
 
   async update(id: number, leadData: Partial<Lead>): Promise<Lead> {
     await this.leadRepository.update(id, leadData);
@@ -35,4 +46,20 @@ export class LeadService {
   async remove(id: number): Promise<void> {
     await this.leadRepository.delete(id);
   }
+
+
+  async updateLeadStatus(id: any, isActive: boolean) {
+    console.log(id)
+    let lead:any = await this.leadRepository.findOne({where:{id:id}});
+    console.log('Lead from DB:', lead);
+    if (!lead) {
+      throw new Error('lead not found');
+    }
+
+   
+  lead.isActive = isActive?1:0;
+    console.log(lead)
+    return this.leadRepository.save(lead);
+  }
+
 }
