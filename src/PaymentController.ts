@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, HttpStatus,Get } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus,Get, Put, Param, Delete } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 
 @Controller('payments')
@@ -42,4 +42,42 @@ export class PaymentController {
       }, HttpStatus.BAD_REQUEST);
     }
   }
+
+
+  @Put('status/:id')
+  async updateStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+    try {
+      const data = await this.paymentService.updateStatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Payment status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error)
+      throw new HttpException({
+        status: false,
+        message: 'Failed to update Payment status',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Delete('delete/:id')
+  async remove(@Param('id') id: string) {
+    try {
+      await this.paymentService.remove(+id);
+      return {
+        status: true,
+        message: 'Payments deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException({
+        status: false,
+        message: 'Failed to delete Payments',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
 }

@@ -56,7 +56,7 @@ import {
         const data = await this.staffService.updateStatus(id, body.isActive);
         return {
           status: true,
-          message: 'Member status updated successfully',
+          message: 'Staff status updated successfully',
           data: data,
         };
       } catch (error) {
@@ -87,5 +87,47 @@ import {
         }, HttpStatus.BAD_REQUEST);
       }
     }
+
+
+    @Get('get/:id')
+    async findOne(@Param('id') id: number) {
+    
+      try {
+        const data = await this.staffService.findOne(id);
+        console.log('data',data)
+        return {
+          status: true,
+          message: 'Staff retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.error('Error retrieving member:', error);
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve member',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    @Delete('delete/:id')
+    async remove(@Param('id') id: string) {
+      try {
+        await this.staffService.remove(+id);
+        return {
+          status: true,
+          message: 'Staff deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: 'Failed to delete Staff',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
   }
   

@@ -17,9 +17,27 @@ export class PaymentService {
   }
 
   async findAll() {
-    const result = await this.dataSource.query('CALL getAllPayments()');
-    console.log()
-    return result[0];
+    // const result = await this.dataSource.query('CALL getAllPayments()');
+    // console.log()
+    // return result[0];
+    return this.paymentRepository.find();
+  }
+
+
+
+  async updateStatus(id: any, isActive: boolean) {
+    console.log(id)
+    let payment:any = await this.paymentRepository.findOne({where:{id:id}});
+    if (!payment) {
+      throw new Error('payment not found');
+    }
+   
+    payment.isActive = isActive?1:0;
+    console.log(payment)
+    return this.paymentRepository.save(payment);
+  }
+  async remove(id: any) {
+    await this.paymentRepository.softDelete(id);
   }
 
 }
