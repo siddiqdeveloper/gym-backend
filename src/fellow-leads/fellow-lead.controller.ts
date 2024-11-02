@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Post,HttpException, HttpStatus,Request, } from '@nestjs/common';
+import { Controller, Get, Query, Post,HttpException, HttpStatus,Request, Put, Param, Body, } from '@nestjs/common';
 import { FellowLeadService } from './fellow-lead.service';
 
 
@@ -80,6 +80,27 @@ export class FellowLeadController {
         },
         HttpStatus.BAD_REQUEST,
       );
+    }
+  }
+
+
+
+  @Put('status/:id')
+  async updateStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+    try {
+      const data = await this.fellowLeadService.updateStatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Fellow Lead status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error)
+      throw new HttpException({
+        status: false,
+        message: 'Failed to update Fellow Lead status',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
     }
   }
 }
