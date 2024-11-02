@@ -87,6 +87,7 @@ export class MemberController {
         message: 'Member updated successfully',
         data: data,
       };
+      
     } catch (error) {
       throw new HttpException({
         status: false,
@@ -95,6 +96,7 @@ export class MemberController {
       }, HttpStatus.BAD_REQUEST);
     }
   }
+
 
   // Delete a member by ID
   @Delete('delete/:id')

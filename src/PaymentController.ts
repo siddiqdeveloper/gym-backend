@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, HttpStatus,Get, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus,Get, Put, Param, Delete, Res, Req } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 
 @Controller('payments')
@@ -79,5 +79,60 @@ export class PaymentController {
       }, HttpStatus.BAD_REQUEST);
     }
   }
+
+
+  // update 
+
+  @Post('update/payment')
+  async updatePayments(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.paymentService.updatePayments(body);
+      return {
+          status: true,
+          message: 'Payment Updated successfully',
+          data: check,
+      };
+      
+    } catch (error) {
+      console.log(error)  
+      throw new HttpException({
+          status: false,
+          message: 'Failed to Payment',
+          error: error.message,
+      }, HttpStatus.BAD_REQUEST)
+
+     
+    }
+  }
+
+
+
+
+  @Get('get/:id')
+  async findOne(@Param('id') id: number) {
+  
+    try {
+      const data = await this.paymentService.findOne(id);
+      console.log('data',data)
+      return {
+        status: true,
+        message: 'Payment retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving Payment:', error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to retrieve Payment',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+
 
 }
