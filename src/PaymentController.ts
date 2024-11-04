@@ -114,25 +114,25 @@ export class PaymentController {
 
   @Get('get/:id')
   async findOne(@Param('id') id: number) {
-  
-    try {
-      const data = await this.paymentService.findOne(id);
-      console.log('data',data)
-      return {
-        status: true,
-        message: 'Payment retrieved successfully',
-        data: data,
-      };
-    } catch (error) {
-      console.error('Error retrieving Payment:', error);
-      throw new HttpException({
-        status: false,
-        message: 'Failed to retrieve Payment',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
-    }
+      console.log('Received ID:', id); // Log the ID
+      try {
+          const data = await this.paymentService.findOne(id);
+          console.log('Data Retrieved:', data); // Log the retrieved data
+          return {
+              status: true,
+              message: 'Payment retrieved successfully',
+              data: data,
+          };
+      } catch (error) {
+          console.error('Error retrieving Payment:', error);
+          throw new HttpException({
+              status: false,
+              message: 'Failed to retrieve Payment',
+              error: error.message,
+          }, HttpStatus.BAD_REQUEST);
+      }
   }
-
+  
 
 
 }

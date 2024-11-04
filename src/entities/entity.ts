@@ -10,6 +10,8 @@ import { WaterConsumption } from "./waterConsumption.entity";
 import { ServiceLog } from "./servicelog.entity";
 import { Reminder } from "./reminder.entity";
 import { CheckList } from "./checkList.entity";
+import { WorkOutType } from "./workOutType.entity";
+import { Exercise } from "./exercise.entity";
 
 
 const entities = [
@@ -23,7 +25,9 @@ const entities = [
   WaterConsumption,
   ServiceLog,
   Reminder,
-  CheckList
+  CheckList,
+  WorkOutType,
+  Exercise
  
 ];
 

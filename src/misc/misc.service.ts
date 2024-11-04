@@ -3,9 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CheckList } from 'src/entities/checkList.entity';
 
 import { ElectricityConsumption } from 'src/entities/electricityConsumption.entity';
+import { Exercise } from 'src/entities/exercise.entity';
 import { Reminder } from 'src/entities/reminder.entity';
 import { ServiceLog } from 'src/entities/servicelog.entity';
 import { WaterConsumption } from 'src/entities/waterConsumption.entity';
+import { WorkOutType } from 'src/entities/workOutType.entity';
 import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
@@ -22,6 +24,10 @@ export class MiscService {
         private reminderRepository: Repository<Reminder>,
         @InjectRepository(CheckList)
         private checkListRepository: Repository<CheckList>,
+        @InjectRepository(WorkOutType)
+        private workOutTypeRepository: Repository<WorkOutType>,
+        @InjectRepository(Exercise)
+        private exerciseRepository: Repository<Exercise>,
     ) {}
 
 
@@ -370,6 +376,145 @@ async checkListfindOne(id: number): Promise<CheckList> {
    
     return this.checkListRepository.save(checkList);
   }
+
+
+
+
+
+  // workOutType 
+
+
+  async createWorkOutType(body) {
+    try {
+
+       
+        await this.workOutTypeRepository.save(body);
+        return body;
+
+    } catch(error){
+        console.error('Error saving WorkOutType', error);
+        throw new Error('Failed to save WorkOutType');
+    }
+}
+
+
+
+async updateWorkoutType(body) {
+    try {
+       
+     const updateWorkOutType = await this.workOutTypeRepository.update({id:body.id},body)
+     return updateWorkOutType
+    } catch(error) {
+        console.error('Error updating WorkOutType', error);
+        throw new Error('Failed to updating WorkOutType');
+    }
+}
+
+
+async WorkoutTypefindOne(id: number): Promise<WorkOutType> {
+    return await this.workOutTypeRepository.findOne({ where: { id } });
+  }
+
+
+
+  async workoutTypefindAll(): Promise<WorkOutType[]> {
+    const result = await this.dataSource.query('CALL getWorkOutTypeData()');
+   return result[0];
+  }
+
+
+
+  async removeWorkoutType(id: number): Promise<void> {
+    await this.workOutTypeRepository.delete(id);
+  }
+
+
+  // status 
+
+  async updateWorkOutType(id: any, isActive: boolean) {
+    console.log(id)
+    let workOutType:any = await this.workOutTypeRepository.findOne({where:{id:id}});
+    if (!workOutType) {
+      throw new Error('workOutType not found');
+    }
+   
+    workOutType.isActive = isActive?1:0;
+   
+    return this.workOutTypeRepository.save(workOutType);
+  }
+
+
+
+
+
+  // exercise 
+
+
+
+  
+
+
+   async createExercise(body) {
+    try {
+
+       
+        await this.exerciseRepository.save(body);
+        return body;
+
+    } catch(error){
+        console.error('Error saving Exercise', error);
+        throw new Error('Failed to save Exercise');
+    }
+}
+
+
+
+async updateExercise(body) {
+    try {
+       
+     const updateExercise = await this.exerciseRepository.update({id:body.id},body)
+     return updateExercise
+    } catch(error) {
+        console.error('Error updating Exercise', error);
+        throw new Error('Failed to updating Exercise');
+    }
+}
+
+
+async exercisefindOne(id: number): Promise<Exercise> {
+    return await this.exerciseRepository.findOne({ where: { id } });
+  }
+
+
+
+  async exercisefindAll(): Promise<Exercise[]> {
+    const result = await this.dataSource.query('CALL getAllExerciseData()');
+   return result[0];
+  }
+
+
+
+  async removeExercise(id: number): Promise<void> {
+    await this.exerciseRepository.delete(id);
+  }
+
+
+  // status 
+
+  async updateExercisestatus(id: any, isActive: boolean) {
+    console.log(id)
+    let exerciseType:any = await this.exerciseRepository.findOne({where:{id:id}});
+    if (!exerciseType) {
+      throw new Error('exerciseType not found');
+    }
+   
+    exerciseType.isActive = isActive?1:0;
+   
+    return this.exerciseRepository.save(exerciseType);
+  }
+
+
+
 
 }
 
