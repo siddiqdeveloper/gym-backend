@@ -10,7 +10,8 @@ import { ServiceLog } from 'src/entities/servicelog.entity';
 import { WaterConsumption } from 'src/entities/waterConsumption.entity';
 import { WorkOutType } from 'src/entities/workOutType.entity';
 import { DataSource, Repository } from 'typeorm';
-import Twig from 'twig';
+import * as twig from 'twig';
+import * as path from 'path';
 
 @Injectable()
 export class MiscService {
@@ -554,59 +555,89 @@ async exercisefindOne(id: number): Promise<Exercise> {
 
 
 
-  async pup(request, data, res, type, headerFile, marginTop) {
-    if (data.remarks) {
-      data.remarks = data.remarks.split("\n");
-      data.remarks = data.remarks.join("<br>");
+  // async pup(request, data, res, type, headerFile, marginTop) {
+  //   if (data.remarks) {
+  //     data.remarks = data.remarks.split("\n");
+  //     data.remarks = data.remarks.join("<br>");
+  //   }
+  //   if (data.delivery_address_text) {
+  //     data.delivery_address_text = data.delivery_address_text.split("\n");
+  //     data.delivery_address_text = data.delivery_address_text.join("<br>");
+  //   }
+  //   if (data.notes) {
+  //     data.notes = data.notes.split("\n");
+  //     data.notes = data.notes.join("<br>");
+  //   }
+  
+  //   const browser = await puppeteer.launch();
+  //   const page = await browser.newPage();
+  //   return new Promise((success) => {
+  //     twig.renderFile(
+  //       request.view_path,  // Path to the Twig template (from the request)
+  //       {
+  //         details: data      // The data to be rendered in the template
+  //       },
+  
+  //       async (err, html) => {
+  //         const fs = require("fs");
+  //         fs.writeFileSync("sample.html", html);  // Optionally save the rendered HTML
+  
+  //         await page.setContent(html);  // Set the rendered HTML in Puppeteer
+  
+  //         const buffer: any = await page.pdf({
+  //           format: "a3",  // Set PDF format
+  //           margin: {
+  //             top: "0.5in",
+  //             bottom: "0.5in",
+  //             left: "0.5in",
+  //             right: "0.5in"
+  //           },
+  //           printBackground: true,
+  //           omitBackground: false,
+  //           displayHeaderFooter: true,  // Optional: You can add headers/footers if needed
+  //         });
+  
+  //         success(buffer);  // Resolve the promise with the generated PDF buffer
+  //       }
+  //     );
+  //   });
+  // }
+  
+ 
+
+ 
+  async generatePdf(templateData: any, viewPath: string, filename: string) {
+    const absoluteViewPath = path.join(__dirname, '../../', viewPath);
+  
+    try {
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+  
+      const html = await new Promise<string>((resolve, reject) => {
+        twig.renderFile(absoluteViewPath, { details: templateData }, (err, html) => {
+          if (err) reject(err);
+          else resolve(html);
+        });
+      });
+  
+      await page.setContent(html);
+      const pdfBuffer = await page.pdf({
+        format: "A3",
+        margin: { top: "0.5in", bottom: "0.5in", left: "0.5in", right: "0.5in" },
+        printBackground: true,
+      });
+  
+      await browser.close();
+      return pdfBuffer;
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      throw new Error('Failed to generate PDF');
     }
-    if (data.delivery_address_text) {
-      data.delivery_address_text = data.delivery_address_text.split("\n");
-      data.delivery_address_text = data.delivery_address_text.join("<br>");
-    }
-    if (data.notes) {
-      data.notes = data.notes.split("\n");
-      data.notes = data.notes.join("<br>");
-    }
-  
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    return new Promise((success) => {
-      Twig.renderFile(
-        request.view_path,  // Path to the Twig template (from the request)
-        {
-          details: data      // The data to be rendered in the template
-        },
-  
-        async (err, html) => {
-          const fs = require("fs");
-          fs.writeFileSync("sample.html", html);  // Optionally save the rendered HTML
-  
-          await page.setContent(html);  // Set the rendered HTML in Puppeteer
-  
-          const buffer: any = await page.pdf({
-            format: "a3",  // Set PDF format
-            margin: {
-              top: "0.5in",
-              bottom: "0.5in",
-              left: "0.5in",
-              right: "0.5in"
-            },
-            printBackground: true,
-            omitBackground: false,
-            displayHeaderFooter: true,  // Optional: You can add headers/footers if needed
-          });
-  
-          success(buffer);  // Resolve the promise with the generated PDF buffer
-        }
-      );
-    });
   }
   
 
-
-
+  
 }
-
 
 
 

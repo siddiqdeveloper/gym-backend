@@ -1,6 +1,10 @@
 import { Controller, Post, Body, Res, Req, HttpException, HttpStatus, Get, Param, Delete, Put } from '@nestjs/common';
 import { MiscService } from './misc.service';
 import { get } from 'http';
+import { Response } from 'express';
+import puppeteer from 'puppeteer';
+import * as twig from 'twig';
+import * as path from 'path';
 
 @Controller('misc')
 export class MiscController {
@@ -1125,6 +1129,64 @@ export class MiscController {
 
 
     ///// pdf ////
+
+  //   @Post('generate')
+  // async generatePdf(@Body() body: any, @Res() res: Response) {
+
+  //   const templateData = { body }; 
+
+  
+  //   const html = twig.renderFile('src/document/workoutchart-pdf.twig', templateData);
+
+  
+  //   const browser = await puppeteer.launch();
+  //   const page = await browser.newPage();
+    
+  
+  //   await page.setContent(html);
+    
+    
+    
+  //   const pdfBuffer = await page.pdf({
+  //     format: 'A4', 
+  //     printBackground: true,
+  //   });
+
+  //   await browser.close();
+
+    
+  //   res.setHeader('Content-Type', 'application/pdf');
+  //   res.setHeader('Content-Disposition', 'attachment; filename="generated.pdf"');
+  //   res.end(pdfBuffer);
+  // }
+
+
+  @Post('generatepdf')
+  async generatePdf(@Body() body: any, @Res() res: Response) {
+    const templateData = {
+      member: body.Member,
+      workouts: body.WorkOut,
+      exercises: body.Exercise,
+    };
+
+    try {
+      const pdfBuffer = await this.mis.generatePdf(
+        templateData,
+        'src/document/workoutchart-pdf.twig',
+        'workoutchart'
+      );
+      
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="workoutchart.pdf"');
+      res.end(pdfBuffer);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      res.status(500).json({ message: 'Failed to generate PDF. Please try again.' });
+    }
+  }
+
+
 
    
 }
