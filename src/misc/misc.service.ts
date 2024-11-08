@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import puppeteer from 'puppeteer';
 import { CheckList } from 'src/entities/checkList.entity';
 
 import { ElectricityConsumption } from 'src/entities/electricityConsumption.entity';
@@ -9,6 +10,7 @@ import { ServiceLog } from 'src/entities/servicelog.entity';
 import { WaterConsumption } from 'src/entities/waterConsumption.entity';
 import { WorkOutType } from 'src/entities/workOutType.entity';
 import { DataSource, Repository } from 'typeorm';
+import Twig from 'twig';
 
 @Injectable()
 export class MiscService {
@@ -469,6 +471,10 @@ async WorkoutTypefindOne(id: number): Promise<WorkOutType> {
 
 
 
+
+
+
+
 async updateExercise(body) {
     try {
        
@@ -479,6 +485,11 @@ async updateExercise(body) {
         throw new Error('Failed to updating Exercise');
     }
 }
+
+
+
+
+
 
 
 async exercisefindOne(id: number): Promise<Exercise> {
@@ -516,5 +527,87 @@ async exercisefindOne(id: number): Promise<Exercise> {
 
 
 
+  ///////////// workOut chart ///////////////////
+
+
+  async getmemberList() {
+    const result = await this.dataSource.query('CALL getmemberList()');
+   return result[0];
+  }
+
+
+  async getWorkOutList() {
+    const result = await this.dataSource.query('CALL getWorkOutList()');
+   return result[0];
+  }
+
+
+  async getExerciseList() {
+    const result = await this.dataSource.query('CALL getExerciseList()');
+   return result[0];
+  }
+
+
+
+
+  ///// pupter ////
+
+
+
+  async pup(request, data, res, type, headerFile, marginTop) {
+    if (data.remarks) {
+      data.remarks = data.remarks.split("\n");
+      data.remarks = data.remarks.join("<br>");
+    }
+    if (data.delivery_address_text) {
+      data.delivery_address_text = data.delivery_address_text.split("\n");
+      data.delivery_address_text = data.delivery_address_text.join("<br>");
+    }
+    if (data.notes) {
+      data.notes = data.notes.split("\n");
+      data.notes = data.notes.join("<br>");
+    }
+  
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    return new Promise((success) => {
+      Twig.renderFile(
+        request.view_path,  // Path to the Twig template (from the request)
+        {
+          details: data      // The data to be rendered in the template
+        },
+  
+        async (err, html) => {
+          const fs = require("fs");
+          fs.writeFileSync("sample.html", html);  // Optionally save the rendered HTML
+  
+          await page.setContent(html);  // Set the rendered HTML in Puppeteer
+  
+          const buffer: any = await page.pdf({
+            format: "a3",  // Set PDF format
+            margin: {
+              top: "0.5in",
+              bottom: "0.5in",
+              left: "0.5in",
+              right: "0.5in"
+            },
+            printBackground: true,
+            omitBackground: false,
+            displayHeaderFooter: true,  // Optional: You can add headers/footers if needed
+          });
+  
+          success(buffer);  // Resolve the promise with the generated PDF buffer
+        }
+      );
+    });
+  }
+  
+
+
+
 }
+
+
+
+
 

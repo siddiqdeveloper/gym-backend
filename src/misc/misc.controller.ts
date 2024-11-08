@@ -961,6 +961,22 @@ export class MiscController {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
     @Get('exercise/get/:id') 
     async exercisefindOne(@Param('id') id: number) {
       try {
@@ -1042,4 +1058,74 @@ export class MiscController {
       }
     }
 
+
+
+    //////////////////// WorkOut Chart ////////////////////////
+
+
+
+    @Get('getmemberList/all')
+    async getmemberList() {
+      try {
+        const data = await this.mis.getmemberList();
+        return {
+          status: true,
+          message: 'MemberList retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve MemberList',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    @Get('getWorkOutList/all')
+    async getWorkOutList() {
+      try {
+        const data = await this.mis.getWorkOutList();
+        return {
+          status: true,
+          message: 'WorkOutList retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve WorkOutList',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+    @Get('getExercise/all')
+    async getExerciseList() {
+      try {
+        const data = await this.mis.getExerciseList();
+        return {
+          status: true,
+          message: 'Exercise retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve Exercise',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    ///// pdf ////
+
+   
 }
+
