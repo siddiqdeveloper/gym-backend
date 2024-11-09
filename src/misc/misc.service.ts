@@ -615,18 +615,19 @@ async exercisefindOne(id: number): Promise<Exercise> {
   
       const html = await new Promise<string>((resolve, reject) => {
         twig.renderFile(absoluteViewPath, { details: templateData }, (err, html) => {
+       
           if (err) reject(err);
           else resolve(html);
         });
       });
-  
+
       await page.setContent(html);
       const pdfBuffer = await page.pdf({
         format: "A3",
         margin: { top: "0.5in", bottom: "0.5in", left: "0.5in", right: "0.5in" },
         printBackground: true,
       });
-  
+      console.log(pdfBuffer)
       await browser.close();
       return pdfBuffer;
     } catch (error) {

@@ -1130,39 +1130,12 @@ export class MiscController {
 
     ///// pdf ////
 
-  //   @Post('generate')
-  // async generatePdf(@Body() body: any, @Res() res: Response) {
-
-  //   const templateData = { body }; 
-
   
-  //   const html = twig.renderFile('src/document/workoutchart-pdf.twig', templateData);
-
-  
-  //   const browser = await puppeteer.launch();
-  //   const page = await browser.newPage();
-    
-  
-  //   await page.setContent(html);
-    
-    
-    
-  //   const pdfBuffer = await page.pdf({
-  //     format: 'A4', 
-  //     printBackground: true,
-  //   });
-
-  //   await browser.close();
-
-    
-  //   res.setHeader('Content-Type', 'application/pdf');
-  //   res.setHeader('Content-Disposition', 'attachment; filename="generated.pdf"');
-  //   res.end(pdfBuffer);
-  // }
 
 
   @Post('generatepdf')
   async generatePdf(@Body() body: any, @Res() res: Response) {
+    console.log(body)
     const templateData = {
       member: body.Member,
       workouts: body.WorkOut,
@@ -1179,7 +1152,7 @@ export class MiscController {
 
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', 'attachment; filename="workoutchart.pdf"');
-      res.end(pdfBuffer);
+      res.send(pdfBuffer);
     } catch (error) {
       console.error('Error generating PDF:', error);
       res.status(500).json({ message: 'Failed to generate PDF. Please try again.' });
