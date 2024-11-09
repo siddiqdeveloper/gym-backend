@@ -91,4 +91,14 @@ export class MemberService {
     console.log(member)
     return this.memberRepository.save(member);
   }
+
+
+  async getinterstedIn(id: number) {
+    const result = await this.dataSource.query(
+      'Call getPackageDurations(?)', [id] 
+    );
+    console.log('result',result)
+    return result[0][0]; 
+     
+  }
 }

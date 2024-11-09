@@ -89,6 +89,9 @@ export class Member {
   @Column({ type: 'date', nullable: true })
   billDate: Date;  // Bill date
 
+  @Column({ type: 'date', nullable: true })
+  endDate: Date;  
+
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt: Date;
 

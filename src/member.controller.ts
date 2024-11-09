@@ -153,4 +153,31 @@ async updateStatus(@Param('id') id: string, @Body() body: { isActive: boolean })
     }, HttpStatus.BAD_REQUEST);
   }
 }
+
+
+
+
+// member InterestedIn
+
+@Get('getinterstedIn/:id')
+async getinterstedIn(@Param('id') id: number) {
+  try {
+    const data = await this.memberService.getinterstedIn(id);
+    console.log('data:', data); 
+    return {
+      status: true,
+      message: 'InterstedIn successfully',
+      data: data, 
+    };
+  } catch (error) {
+    console.error('Error retrieving InterstedIn:', error);
+    throw new HttpException({
+      status: false,
+      message: 'Failed to retrieve InterstedIn',
+      error: error.message,
+    }, HttpStatus.BAD_REQUEST);
+  }
+}
+
+
 }
