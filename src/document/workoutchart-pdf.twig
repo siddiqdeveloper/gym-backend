@@ -3,7 +3,7 @@
 <head>
     <style>
         table {
-            font-family: arial, sans-serif;
+            font-family: Arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
         }
@@ -26,13 +26,21 @@
     <table>
         <tr>
             <th>Member</th>
-            <th>WorkOut</th>
-            <th>Exercise</th>
+            <th>Workouts</th>
+            <th>Exercises</th>
         </tr>
         <tr>
-            <td>{{ member.name }}</td>
-            <td>{{ workouts }}</td>
-            <td>{{ exercises }}</td>
+            <td>{{ member }}</td> <!-- Displays Member -->
+            <td>
+                {% for workout in workouts %}
+                    {{ workout }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                {% for exercise in exercises %}
+                    {{ exercise }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
         </tr>
     </table>
 
