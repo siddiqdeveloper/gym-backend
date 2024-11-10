@@ -612,38 +612,7 @@ async exercisefindOne(id: number): Promise<Exercise> {
 
 
 
-  // async generatePdf(templateData: any, viewPath: string, filename: string): Promise<Buffer> {
-  //   const absoluteViewPath = path.join(__dirname, '../../', viewPath);
 
-  //   try {
-  //     const browser = await puppeteer.launch();
-  //     const page = await browser.newPage();
-
-  //     // Render the HTML using Twig
-  //     const html = await new Promise<string>((resolve, reject) => {
-  //       twig.renderFile(absoluteViewPath, { details: templateData }, (err, html) => {
-  //         if (err) reject(err);
-  //         else resolve(html);
-  //       });
-  //     });
-
-  //     // Set HTML content in Puppeteer and generate PDF
-  //     await page.setContent(html, { waitUntil: 'networkidle0' });
-  //     const pdfBuffer = await page.pdf({
-  //       format: "A4",
-  //       margin: { top: "0.5in", bottom: "0.5in", left: "0.5in", right: "0.5in" },
-  //       printBackground: true,
-  //     });
-
-  //     await browser.close();
-
-  //     // Convert the Uint8Array to Buffer
-  //     return Buffer.from(pdfBuffer);
-  //   } catch (error) {
-  //     console.error('Error generating PDF:', error);
-  //     throw new Error('Failed to generate PDF');
-  //   }
-  // }
   
 
   async generatePdf(templateData: any, viewPath: string, filename: string): Promise<Buffer> {
@@ -653,7 +622,7 @@ async exercisefindOne(id: number): Promise<Exercise> {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
 
-      // Render the HTML using Twig and provided data
+      
       const html = await new Promise<string>((resolve, reject) => {
         twig.renderFile(absoluteViewPath, templateData, (err, html) => {
           if (err) reject(err);
@@ -661,7 +630,7 @@ async exercisefindOne(id: number): Promise<Exercise> {
         });
       });
 
-      // Set HTML content and generate PDF
+      
       await page.setContent(html, { waitUntil: 'networkidle0' });
       const pdfBuffer = await page.pdf({
         format: 'A4',
