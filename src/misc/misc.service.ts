@@ -606,38 +606,65 @@ async exercisefindOne(id: number): Promise<Exercise> {
  
 
  
-  async generatePdf(templateData: any, viewPath: string, filename: string) {
-    const absoluteViewPath = path.join(__dirname, '../../', viewPath);
+
+
+
+
+
+
+
   
+
+  async generatePdf(templateData: any, viewPath: string, filename: string): Promise<Buffer> {
+    const absoluteViewPath = path.join(__dirname, '../../', viewPath);
+
     try {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
-  
+
+      
       const html = await new Promise<string>((resolve, reject) => {
-        twig.renderFile(absoluteViewPath, { details: templateData }, (err, html) => {
-       
+        twig.renderFile(absoluteViewPath, templateData, (err, html) => {
           if (err) reject(err);
           else resolve(html);
         });
       });
 
-      await page.setContent(html);
+      
+      await page.setContent(html, { waitUntil: 'networkidle0' });
       const pdfBuffer = await page.pdf({
-        format: "A3",
-        margin: { top: "0.5in", bottom: "0.5in", left: "0.5in", right: "0.5in" },
+        format: 'A4',
+        margin: { top: '0.5in', bottom: '0.5in', left: '0.5in', right: '0.5in' },
         printBackground: true,
       });
-      console.log(pdfBuffer)
+
       await browser.close();
-      return pdfBuffer;
+
+      return Buffer.from(pdfBuffer);
     } catch (error) {
       console.error('Error generating PDF:', error);
       throw new Error('Failed to generate PDF');
     }
   }
-  
 
-  
+
+
+// freeze
+
+
+
+
+
+
+
+
+async getMemberListInFreeze() {
+  const result = await this.dataSource.query('CALL getMemberListInFreeze()');
+ return result[0];
+}
+
+
+
 }
 
 
