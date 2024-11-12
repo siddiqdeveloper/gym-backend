@@ -1160,6 +1160,33 @@ export class MiscController {
   }
 
 
+// freeze 
+
+@Get('getmemberListInFreeze/all')
+    async getMemberListInFreeze() {
+        try {
+            
+          
+            const data = await this.mis.getMemberListInFreeze(); 
+            return {
+                status: true,
+                message: 'MemberList retrieved successfully',
+                data: data,
+            };
+        } catch (error) {
+            console.error('Error retrieving member list:', error);
+            throw new HttpException({
+                status: false,
+                message: 'Failed to retrieve MemberList',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
+
+
 
    
 }

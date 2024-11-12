@@ -649,6 +649,21 @@ async exercisefindOne(id: number): Promise<Exercise> {
 
 
 
+// freeze
+
+
+
+
+
+
+
+
+async getMemberListInFreeze() {
+  const result = await this.dataSource.query('CALL getMemberListInFreeze()');
+ return result[0];
+}
+
+
 
 }
 
