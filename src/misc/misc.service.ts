@@ -9,9 +9,12 @@ import { Reminder } from 'src/entities/reminder.entity';
 import { ServiceLog } from 'src/entities/servicelog.entity';
 import { WaterConsumption } from 'src/entities/waterConsumption.entity';
 import { WorkOutType } from 'src/entities/workOutType.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import * as twig from 'twig';
 import * as path from 'path';
+import { Freeze } from 'src/entities/freeze.entity';
+import { Member } from 'src/entities/Member.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MiscService {
@@ -31,6 +34,10 @@ export class MiscService {
         private workOutTypeRepository: Repository<WorkOutType>,
         @InjectRepository(Exercise)
         private exerciseRepository: Repository<Exercise>,
+        @InjectRepository(Freeze)
+        private freezeRepository: Repository<Freeze>,
+        @InjectRepository(Member)
+        private memberRepository: Repository<Member>,
     ) {}
 
 
@@ -655,13 +662,103 @@ async exercisefindOne(id: number): Promise<Exercise> {
 
 
 
-
+// freeze
 
 
 async getMemberListInFreeze() {
   const result = await this.dataSource.query('CALL getMemberListInFreeze()');
  return result[0];
 }
+
+
+
+async createfreeze(body) {
+  console.log('aaaabody', body);
+  console.log('kaa', body.Member);
+
+  try {
+    
+      // const member: any = await this.memberRepository.findOne({
+      //   where: { id: body.Member },
+      // });
+
+     
+
+
+      // console.log('member', member);
+
+      // member.endDate = body.endDate;
+      // member.freezeStatus = 1;
+      // await this.memberRepository.save(member);
+   
+      await this.freezeRepository.save(body);
+    
+
+    return body;
+    }catch (error) {
+    console.error('Error saving Freeze', error);
+    throw new Error('Failed to save Freeze');
+  }
+}
+
+
+
+
+
+
+
+
+
+
+async updateFreeze(body) {
+  try {
+     
+   const updateFreeze = await this.freezeRepository.update({id:body.id},body)
+   return updateFreeze
+  } catch(error) {
+      console.error('Error updating Freeze', error);
+      throw new Error('Failed to updating Freeze');
+  }
+}
+
+
+
+
+
+
+
+async freezefindOne(id: number): Promise<Freeze> {
+  return await this.freezeRepository.findOne({ where: { id } });
+}
+
+
+
+async freezefindAll(): Promise<Freeze[]> {
+  const result = await this.dataSource.query('CALL getAllFreezeData()');
+ return result[0];
+}
+
+
+
+async removefreeze(id: number): Promise<void> {
+  await this.freezeRepository.delete(id);
+}
+
+
+// status 
+
+async updatefreezestatus(id: any, isActive: boolean) {
+  console.log(id)
+  let freezeType:any = await this.freezeRepository.findOne({where:{id:id}});
+  if (!freezeType) {
+    throw new Error('freezeType not found');
+  }
+ 
+  freezeType.isActive = isActive?1:0;
+ 
+  return this.freezeRepository.save(freezeType);
+}
+
 
 
 

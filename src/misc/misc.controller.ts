@@ -1165,8 +1165,6 @@ export class MiscController {
 @Get('getmemberListInFreeze/all')
     async getMemberListInFreeze() {
         try {
-            
-          
             const data = await this.mis.getMemberListInFreeze(); 
             return {
                 status: true,
@@ -1182,6 +1180,173 @@ export class MiscController {
             }, HttpStatus.BAD_REQUEST);
         }
     }
+
+
+
+//  freeze 
+
+@Post('freeze/add')
+    async createfreeze(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+            console.log('reqdata',reqdata)
+            const check = await this.mis.createfreeze(reqdata);
+            console.log('check',check)
+            return {
+                status: true,
+                message: 'Freeze created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to Freeze',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+        
+      
+    
+    }
+
+
+
+
+
+    // update 
+
+    @Post('freeze/update')
+    async updateFreeze(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updateFreeze(body);
+        return {
+            status: true,
+            message: 'Freeze Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to Freeze',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+    @Get('freeze/get/:id') 
+    async freezefindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.freezefindOne(id);
+        return {
+          status: true,
+          message: 'Freeze retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to retrieve Freeze with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    @Get('freeze/all')
+    async freezefindAll() {
+      try {
+        const data = await this.mis.freezefindAll();
+        return {
+          status: true,
+          message: 'freeze retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve freeze',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('freezedelete/:id')
+    async removefreeze(@Param('id') id: number) {
+      try {
+        await this.mis.removefreeze(id);
+        return {
+          status: true,
+          message: 'freeze deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete freeze with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('freezestatus/:id')
+    async updatefreezestatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updatefreezestatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'freeze  updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update freeze',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
 
 
 

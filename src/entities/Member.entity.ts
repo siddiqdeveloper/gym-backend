@@ -100,5 +100,8 @@ export class Member {
 
   @Column({ type: 'int', nullable: true })
   interestedIn: number;  
+
+  @Column({ type: 'tinyint', default: 0 })
+  freezeStatus: number;  
  
 }

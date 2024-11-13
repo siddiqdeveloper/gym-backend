@@ -12,6 +12,7 @@ import { Reminder } from "./reminder.entity";
 import { CheckList } from "./checkList.entity";
 import { WorkOutType } from "./workOutType.entity";
 import { Exercise } from "./exercise.entity";
+import { Freeze } from "./freeze.entity";
 
 
 const entities = [
@@ -27,7 +28,8 @@ const entities = [
   Reminder,
   CheckList,
   WorkOutType,
-  Exercise
+  Exercise,
+  Freeze
  
 ];
 
