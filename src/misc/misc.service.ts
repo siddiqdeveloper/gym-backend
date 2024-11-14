@@ -678,10 +678,12 @@ async createfreeze(body) {
 
   try {
     
-      // const member: any = await this.memberRepository.findOne({
-      //   where: { id: body.Member },
-      // });
 
+    
+    // const member = await this.memberRepository.findOne({
+    //   where: { id: body.id },
+    // });
+   
      
 
 
@@ -691,7 +693,7 @@ async createfreeze(body) {
       // member.freezeStatus = 1;
       // await this.memberRepository.save(member);
    
-      await this.freezeRepository.save(body);
+       await this.freezeRepository.save(body);
     
 
     return body;
@@ -722,14 +724,12 @@ async updateFreeze(body) {
 }
 
 
-
-
-
-
-
-async freezefindOne(id: number): Promise<Freeze> {
-  return await this.freezeRepository.findOne({ where: { id } });
+async freezefindOne(id: number) {
+  const result = await this.dataSource.query('Call getFreezeData(?)', [id]);
+  console.log('result', result);
+  return result[0][0]; 
 }
+
 
 
 

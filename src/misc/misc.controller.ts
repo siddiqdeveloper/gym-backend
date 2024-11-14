@@ -1264,23 +1264,46 @@ export class MiscController {
 
 
 
-    @Get('freeze/get/:id') 
+    // @Get('freeze/get/:id') 
+    // async freezefindOne(@Param('id') id: number) {
+    //   try {
+    //     const data = await this.mis.freezefindOne(id);
+    //     return {
+    //       status: true,
+    //       message: 'Freeze retrieved successfully',
+    //       data: data,
+    //     };
+    //   } catch (error) {
+    //     throw new HttpException({
+    //       status: false,
+    //       message: `Failed to retrieve Freeze with ID ${id}`,
+    //       error: error.message,
+    //     }, HttpStatus.BAD_REQUEST);
+    //   }
+    // }
+
+
+    
+    @Get('freezeCode/get/:id') 
     async freezefindOne(@Param('id') id: number) {
       try {
         const data = await this.mis.freezefindOne(id);
+        console.log('data:', data); 
         return {
           status: true,
-          message: 'Freeze retrieved successfully',
-          data: data,
+          message: 'Freeze successfully',
+          data: data, 
         };
       } catch (error) {
+        console.error('Error retrieving Freeze:', error);
         throw new HttpException({
           status: false,
-          message: `Failed to retrieve Freeze with ID ${id}`,
+          message: 'Failed to retrieve Freeze',
           error: error.message,
         }, HttpStatus.BAD_REQUEST);
       }
     }
+    
 
 
 
