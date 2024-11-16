@@ -144,4 +144,30 @@ async updatePackageStatus(@Param('id') id: string, @Body() body: { isActive: boo
     }, HttpStatus.BAD_REQUEST);
   }
 }
+
+
+
+
+// inactivePackage 
+
+@Get('inactive/package/all')
+    async getInPackage() {
+        try {
+            const data = await this.packageService.getInPackage(); 
+            return {
+                status: true,
+                message: 'Package retrieved successfully',
+                data: data,
+            };
+        } catch (error) {
+            console.error('Error retrieving Package:', error);
+            throw new HttpException({
+                status: false,
+                message: 'Failed to retrieve Package',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+
 }

@@ -1192,9 +1192,7 @@ export class MiscController {
     ) {
         try{
             const reqdata: any = body;
-            console.log('reqdata',reqdata)
-            const check = await this.mis.createfreeze(reqdata);
-            console.log('check',check)
+           const check = await this.mis.createfreeze(reqdata);
             return {
                 status: true,
                 message: 'Freeze created successfully',
@@ -1264,23 +1262,7 @@ export class MiscController {
 
 
 
-    // @Get('freeze/get/:id') 
-    // async freezefindOne(@Param('id') id: number) {
-    //   try {
-    //     const data = await this.mis.freezefindOne(id);
-    //     return {
-    //       status: true,
-    //       message: 'Freeze retrieved successfully',
-    //       data: data,
-    //     };
-    //   } catch (error) {
-    //     throw new HttpException({
-    //       status: false,
-    //       message: `Failed to retrieve Freeze with ID ${id}`,
-    //       error: error.message,
-    //     }, HttpStatus.BAD_REQUEST);
-    //   }
-    // }
+
 
 
     

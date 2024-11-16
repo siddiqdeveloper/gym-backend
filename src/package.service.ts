@@ -64,5 +64,14 @@ export class PackageService {
     console.log(packageStatus)
     return this.packageRepository.save(packageStatus);
   }
+
+
+
+  async getInPackage() {
+    const result = await this.dataSource.query('CALL getInActivePackageList()');
+   return result[0];
+  }
+  
+  
   
 }
