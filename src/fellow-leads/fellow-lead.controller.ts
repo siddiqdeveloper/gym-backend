@@ -58,6 +58,57 @@ export class FellowLeadController {
     }
   }
 
+  @Get('by-dobdate')
+  async getFellowLeadsByDateDOB(@Query('date') date: string) {
+ 
+   
+    try {
+      const leads = await this.fellowLeadService.findByDateDOB(date);
+      return {
+        status: true,
+        message: 'Leads retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('package-expiry')
+  async getPackageExpiry(@Query('count') count: string) {
+ 
+   
+    try {
+      const leads = await this.fellowLeadService.getPackageExpiry(count);
+      return {
+        status: true,
+        message: 'Data retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
   @Get('inactiveLeads')
   async getInActiveLeads() {
  

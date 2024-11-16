@@ -20,6 +20,10 @@ export class Member {
   @Column({ type: 'int', nullable: true })
   age: number;  // Age
 
+  
+  @Column({ type: 'int', nullable: true })
+  interestedIn: number;  // interestedIn
+
 
   @Column({ type: 'int', nullable: true })
   packagePrice: number;  
@@ -88,6 +92,12 @@ export class Member {
 
   @Column({ type: 'date', nullable: true })
   billDate: Date;  // Bill date
+
+
+  @Column({ type: 'date', nullable: true })
+  dob: Date;  // dob date
+
+  
 
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt: Date;
