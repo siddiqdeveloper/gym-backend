@@ -35,6 +35,11 @@ import { WaterConsumption } from './entities/waterConsumption.entity';
 import { ServiceLog } from './entities/servicelog.entity';
 import { Reminder } from './entities/reminder.entity';
 import { CheckList } from './entities/checkList.entity';
+import { WorkOutType } from './entities/workOutType.entity';
+import { Exercise } from './entities/exercise.entity';
+import { Freeze } from './entities/freeze.entity';
+import { MiscModule } from './misc/misc.module';
+
 
 
 
@@ -68,9 +73,10 @@ import { CheckList } from './entities/checkList.entity';
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze]),
     MasterModule,
     UserModule,
+    MiscModule
 
   ],
   controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController,PaymentController,MiscController],

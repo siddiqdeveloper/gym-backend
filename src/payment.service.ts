@@ -40,4 +40,31 @@ export class PaymentService {
     await this.paymentRepository.softDelete(id);
   }
 
+
+  async updatePayments(body) {
+    try {
+    const updatePayments = await this.paymentRepository.update({id:body.id},body)
+     return updatePayments
+    } catch(error) {
+        console.error('Error updating updatePayments', error);
+        throw new Error('Failed to  updatePayments');
+    }
+}
+
+
+
+async findOne(id) {
+  const result = await this.dataSource.query(
+      'CALL getPaymentData(?)', // Use parameterized query
+      [id],
+  );
+  if (result && result[0] && result[0][0]) {
+      return result[0][0];
+  } else {
+      throw new Error('No data found for this ID'); // Handle no data case
+  }
+}
+
+
+
 }

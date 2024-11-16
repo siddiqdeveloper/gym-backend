@@ -19,4 +19,7 @@ export class FellowLead {
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
+
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
 }

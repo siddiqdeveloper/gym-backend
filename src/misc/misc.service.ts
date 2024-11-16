@@ -1,12 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import puppeteer from 'puppeteer';
 import { CheckList } from 'src/entities/checkList.entity';
 
 import { ElectricityConsumption } from 'src/entities/electricityConsumption.entity';
+import { Exercise } from 'src/entities/exercise.entity';
 import { Reminder } from 'src/entities/reminder.entity';
 import { ServiceLog } from 'src/entities/servicelog.entity';
 import { WaterConsumption } from 'src/entities/waterConsumption.entity';
-import { DataSource, Repository } from 'typeorm';
+import { WorkOutType } from 'src/entities/workOutType.entity';
+import { DataSource } from 'typeorm';
+import * as twig from 'twig';
+import * as path from 'path';
+import { Freeze } from 'src/entities/freeze.entity';
+import { Member } from 'src/entities/Member.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MiscService {
@@ -22,6 +30,14 @@ export class MiscService {
         private reminderRepository: Repository<Reminder>,
         @InjectRepository(CheckList)
         private checkListRepository: Repository<CheckList>,
+        @InjectRepository(WorkOutType)
+        private workOutTypeRepository: Repository<WorkOutType>,
+        @InjectRepository(Exercise)
+        private exerciseRepository: Repository<Exercise>,
+        @InjectRepository(Freeze)
+        private freezeRepository: Repository<Freeze>,
+        @InjectRepository(Member)
+        private memberRepository: Repository<Member>,
     ) {}
 
 
@@ -371,5 +387,383 @@ async checkListfindOne(id: number): Promise<CheckList> {
     return this.checkListRepository.save(checkList);
   }
 
+
+
+
+
+  // workOutType 
+
+
+  async createWorkOutType(body) {
+    try {
+
+       
+        await this.workOutTypeRepository.save(body);
+        return body;
+
+    } catch(error){
+        console.error('Error saving WorkOutType', error);
+        throw new Error('Failed to save WorkOutType');
+    }
 }
+
+
+
+async updateWorkoutType(body) {
+    try {
+       
+     const updateWorkOutType = await this.workOutTypeRepository.update({id:body.id},body)
+     return updateWorkOutType
+    } catch(error) {
+        console.error('Error updating WorkOutType', error);
+        throw new Error('Failed to updating WorkOutType');
+    }
+}
+
+
+async WorkoutTypefindOne(id: number): Promise<WorkOutType> {
+    return await this.workOutTypeRepository.findOne({ where: { id } });
+  }
+
+
+
+  async workoutTypefindAll(): Promise<WorkOutType[]> {
+    const result = await this.dataSource.query('CALL getWorkOutTypeData()');
+   return result[0];
+  }
+
+
+
+  async removeWorkoutType(id: number): Promise<void> {
+    await this.workOutTypeRepository.delete(id);
+  }
+
+
+  // status 
+
+  async updateWorkOutType(id: any, isActive: boolean) {
+    console.log(id)
+    let workOutType:any = await this.workOutTypeRepository.findOne({where:{id:id}});
+    if (!workOutType) {
+      throw new Error('workOutType not found');
+    }
+   
+    workOutType.isActive = isActive?1:0;
+   
+    return this.workOutTypeRepository.save(workOutType);
+  }
+
+
+
+
+
+  // exercise 
+
+
+
+  
+
+
+   async createExercise(body) {
+    try {
+
+       
+        await this.exerciseRepository.save(body);
+        return body;
+
+    } catch(error){
+        console.error('Error saving Exercise', error);
+        throw new Error('Failed to save Exercise');
+    }
+}
+
+
+
+
+
+
+
+async updateExercise(body) {
+    try {
+       
+     const updateExercise = await this.exerciseRepository.update({id:body.id},body)
+     return updateExercise
+    } catch(error) {
+        console.error('Error updating Exercise', error);
+        throw new Error('Failed to updating Exercise');
+    }
+}
+
+
+
+
+
+
+
+async exercisefindOne(id: number): Promise<Exercise> {
+    return await this.exerciseRepository.findOne({ where: { id } });
+  }
+
+
+
+  async exercisefindAll(): Promise<Exercise[]> {
+    const result = await this.dataSource.query('CALL getAllExerciseData()');
+   return result[0];
+  }
+
+
+
+  async removeExercise(id: number): Promise<void> {
+    await this.exerciseRepository.delete(id);
+  }
+
+
+  // status 
+
+  async updateExercisestatus(id: any, isActive: boolean) {
+    console.log(id)
+    let exerciseType:any = await this.exerciseRepository.findOne({where:{id:id}});
+    if (!exerciseType) {
+      throw new Error('exerciseType not found');
+    }
+   
+    exerciseType.isActive = isActive?1:0;
+   
+    return this.exerciseRepository.save(exerciseType);
+  }
+
+
+
+
+  ///////////// workOut chart ///////////////////
+
+
+  async getmemberList() {
+    const result = await this.dataSource.query('CALL getmemberList()');
+   return result[0];
+  }
+
+
+  async getWorkOutList() {
+    const result = await this.dataSource.query('CALL getWorkOutList()');
+   return result[0];
+  }
+
+
+  async getExerciseList() {
+    const result = await this.dataSource.query('CALL getExerciseList()');
+   return result[0];
+  }
+
+
+
+
+  ///// pupter ////
+
+
+
+  // async pup(request, data, res, type, headerFile, marginTop) {
+  //   if (data.remarks) {
+  //     data.remarks = data.remarks.split("\n");
+  //     data.remarks = data.remarks.join("<br>");
+  //   }
+  //   if (data.delivery_address_text) {
+  //     data.delivery_address_text = data.delivery_address_text.split("\n");
+  //     data.delivery_address_text = data.delivery_address_text.join("<br>");
+  //   }
+  //   if (data.notes) {
+  //     data.notes = data.notes.split("\n");
+  //     data.notes = data.notes.join("<br>");
+  //   }
+  
+  //   const browser = await puppeteer.launch();
+  //   const page = await browser.newPage();
+  //   return new Promise((success) => {
+  //     twig.renderFile(
+  //       request.view_path,  // Path to the Twig template (from the request)
+  //       {
+  //         details: data      // The data to be rendered in the template
+  //       },
+  
+  //       async (err, html) => {
+  //         const fs = require("fs");
+  //         fs.writeFileSync("sample.html", html);  // Optionally save the rendered HTML
+  
+  //         await page.setContent(html);  // Set the rendered HTML in Puppeteer
+  
+  //         const buffer: any = await page.pdf({
+  //           format: "a3",  // Set PDF format
+  //           margin: {
+  //             top: "0.5in",
+  //             bottom: "0.5in",
+  //             left: "0.5in",
+  //             right: "0.5in"
+  //           },
+  //           printBackground: true,
+  //           omitBackground: false,
+  //           displayHeaderFooter: true,  // Optional: You can add headers/footers if needed
+  //         });
+  
+  //         success(buffer);  // Resolve the promise with the generated PDF buffer
+  //       }
+  //     );
+  //   });
+  // }
+  
+ 
+
+ 
+
+
+
+
+
+
+
+  
+
+  async generatePdf(templateData: any, viewPath: string, filename: string): Promise<Buffer> {
+    const absoluteViewPath = path.join(__dirname, '../../', viewPath);
+
+    try {
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+
+      
+      const html = await new Promise<string>((resolve, reject) => {
+        twig.renderFile(absoluteViewPath, templateData, (err, html) => {
+          if (err) reject(err);
+          else resolve(html);
+        });
+      });
+
+      
+      await page.setContent(html, { waitUntil: 'networkidle0' });
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        margin: { top: '0.5in', bottom: '0.5in', left: '0.5in', right: '0.5in' },
+        printBackground: true,
+      });
+
+      await browser.close();
+
+      return Buffer.from(pdfBuffer);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      throw new Error('Failed to generate PDF');
+    }
+  }
+
+
+
+// freeze
+
+
+
+
+
+// freeze
+
+
+async getMemberListInFreeze() {
+  const result = await this.dataSource.query('CALL getMemberListInFreeze()');
+ return result[0];
+}
+
+
+
+async createfreeze(body) {
+  console.log('aaaabody', body);
+  console.log('kaa', body.Member);
+
+  try {
+    
+
+    
+    // const member = await this.memberRepository.findOne({
+    //   where: { id: body.id },
+    // });
+   
+     
+
+
+      // console.log('member', member);
+
+      // member.endDate = body.endDate;
+      // member.freezeStatus = 1;
+      // await this.memberRepository.save(member);
+   
+       await this.freezeRepository.save(body);
+    
+
+    return body;
+    }catch (error) {
+    console.error('Error saving Freeze', error);
+    throw new Error('Failed to save Freeze');
+  }
+}
+
+
+
+
+
+
+
+
+
+
+async updateFreeze(body) {
+  try {
+     
+   const updateFreeze = await this.freezeRepository.update({id:body.id},body)
+   return updateFreeze
+  } catch(error) {
+      console.error('Error updating Freeze', error);
+      throw new Error('Failed to updating Freeze');
+  }
+}
+
+
+async freezefindOne(id: number) {
+  const result = await this.dataSource.query('Call getFreezeData(?)', [id]);
+  console.log('result', result);
+  return result[0][0]; 
+}
+
+
+
+
+async freezefindAll(): Promise<Freeze[]> {
+  const result = await this.dataSource.query('CALL getAllFreezeData()');
+ return result[0];
+}
+
+
+
+async removefreeze(id: number): Promise<void> {
+  await this.freezeRepository.delete(id);
+}
+
+
+// status 
+
+async updatefreezestatus(id: any, isActive: boolean) {
+  console.log(id)
+  let freezeType:any = await this.freezeRepository.findOne({where:{id:id}});
+  if (!freezeType) {
+    throw new Error('freezeType not found');
+  }
+ 
+  freezeType.isActive = isActive?1:0;
+ 
+  return this.freezeRepository.save(freezeType);
+}
+
+
+
+
+}
+
+
+
 

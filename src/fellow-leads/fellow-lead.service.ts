@@ -67,5 +67,15 @@ export class FellowLeadService {
 
   }
 
- 
+  async updateStatus(id: any, isActive: boolean) {
+    console.log(id)
+    let fellow:any = await this.fellowLeadRep.findOne({where:{id:id}});
+    if (!fellow) {
+      throw new Error('fellow not found');
+    }
+   
+    fellow.isActive = isActive?1:0;
+    console.log(fellow)
+    return this.fellowLeadRep.save(fellow);
+  }
 }

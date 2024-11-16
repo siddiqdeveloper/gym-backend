@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Workout Chart</h2>
+
+    <table>
+        <tr>
+            <th>Member</th>
+            <th>Workouts</th>
+            <th>Exercises</th>
+        </tr>
+        <tr>
+            <td>{{ member.name }}</td> <!-- Displays Member -->
+            <td>
+                {% for workout in workouts %}
+                    {{ workout.name }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                {% for exercise in exercises %}
+                    {{ exercise.name }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

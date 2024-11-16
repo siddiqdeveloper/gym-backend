@@ -1,6 +1,10 @@
 import { Controller, Post, Body, Res, Req, HttpException, HttpStatus, Get, Param, Delete, Put } from '@nestjs/common';
 import { MiscService } from './misc.service';
 import { get } from 'http';
+import { Response } from 'express';
+import puppeteer from 'puppeteer';
+import * as twig from 'twig';
+import * as path from 'path';
 
 @Controller('misc')
 export class MiscController {
@@ -634,7 +638,7 @@ export class MiscController {
         const check = await this.mis.updateCheckList(body);
         return {
             status: true,
-            message: 'Reminder Updated successfully',
+            message: 'CheckList Updated successfully',
             data: check,
         };
         
@@ -642,7 +646,7 @@ export class MiscController {
         console.log(error)  
         throw new HttpException({
             status: false,
-            message: 'Failed to Reminder',
+            message: 'Failed to CheckList',
             error: error.message,
         }, HttpStatus.BAD_REQUEST)
   
@@ -736,4 +740,642 @@ export class MiscController {
       }
     }
 
+
+
+
+
+    // workOutType 
+
+    @Post('workoutType/add')
+    async createWorkOutType(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+            const check = await this.mis.createWorkOutType(reqdata);
+            return {
+                status: true,
+                message: 'WorkOutType created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to WorkOutType',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+
+      
+    
+    }
+
+
+
+
+
+
+    // update 
+
+    @Post('workoutType/update')
+    async updateWorkoutType(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updateWorkoutType(body);
+        return {
+            status: true,
+            message: 'WorkOutType Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to WorkOutType',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+    @Get('workoutType/get/:id') 
+    async WorkoutTypefindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.WorkoutTypefindOne(id);
+        return {
+          status: true,
+          message: 'WorkOutType retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to retrieve WorkOutType with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    @Get('workoutType/all')
+    async workoutTypefindAll() {
+      try {
+        const data = await this.mis.workoutTypefindAll();
+        return {
+          status: true,
+          message: 'WorkOutType retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve WorkOutType',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('workOutTypedelete/:id')
+    async removeWorkoutType(@Param('id') id: number) {
+      try {
+        await this.mis.removeWorkoutType(id);
+        return {
+          status: true,
+          message: 'WorkOutType deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete WorkOutType with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('workOutTypestatus/:id')
+    async updateWorkOutType(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updateWorkOutType(id, body.isActive);
+        return {
+          status: true,
+          message: 'WorkOutType  updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update WorkOutType',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    // exercise 
+
+
+    @Post('exercise/add')
+    async createExercise(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+            const check = await this.mis.createExercise(reqdata);
+            return {
+                status: true,
+                message: 'Exercise created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to Exercise',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+        
+      
+    
+    }
+
+
+
+
+
+
+    // update 
+
+    @Post('exercise/update')
+    async updateExercise(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updateExercise(body);
+        return {
+            status: true,
+            message: 'Exercise Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to Exercise',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+    @Get('exercise/get/:id') 
+    async exercisefindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.exercisefindOne(id);
+        return {
+          status: true,
+          message: 'Exercise retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to retrieve Exercise with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    @Get('exercise/all')
+    async exercisefindAll() {
+      try {
+        const data = await this.mis.exercisefindAll();
+        return {
+          status: true,
+          message: 'WorkOutType retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve WorkOutType',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('exercisedelete/:id')
+    async removeExercise(@Param('id') id: number) {
+      try {
+        await this.mis.removeExercise(id);
+        return {
+          status: true,
+          message: 'Exercise deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete Exercise with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('exercisestatus/:id')
+    async updateExercisestatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updateExercisestatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'Exercise  updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update Exercise',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    //////////////////// WorkOut Chart ////////////////////////
+
+
+
+    @Get('getmemberList/all')
+    async getmemberList() {
+      try {
+        const data = await this.mis.getmemberList();
+        return {
+          status: true,
+          message: 'MemberList retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve MemberList',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    @Get('getWorkOutList/all')
+    async getWorkOutList() {
+      try {
+        const data = await this.mis.getWorkOutList();
+        return {
+          status: true,
+          message: 'WorkOutList retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve WorkOutList',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+    @Get('getExercise/all')
+    async getExerciseList() {
+      try {
+        const data = await this.mis.getExerciseList();
+        return {
+          status: true,
+          message: 'Exercise retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve Exercise',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    ///// pdf ////
+
+  
+
+
+  @Post('generatepdf')
+  async generatePdf(@Body() body: any, @Res() res: Response) {
+    console.log(body)
+    const templateData = {
+      member: body.Member,
+      workouts: body.WorkOut,
+      exercises: body.Exercise,
+    };
+
+    try {
+      const pdfBuffer = await this.mis.generatePdf(
+        templateData,
+        'src/document/workoutchart-pdf.twig',
+        'workoutchart'
+      );
+      
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="workoutchart.pdf"');
+      res.send(pdfBuffer);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      res.status(500).json({ message: 'Failed to generate PDF. Please try again.' });
+    }
+  }
+
+
+// freeze 
+
+@Get('getmemberListInFreeze/all')
+    async getMemberListInFreeze() {
+        try {
+            const data = await this.mis.getMemberListInFreeze(); 
+            return {
+                status: true,
+                message: 'MemberList retrieved successfully',
+                data: data,
+            };
+        } catch (error) {
+            console.error('Error retrieving member list:', error);
+            throw new HttpException({
+                status: false,
+                message: 'Failed to retrieve MemberList',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
+//  freeze 
+
+@Post('freeze/add')
+    async createfreeze(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+            console.log('reqdata',reqdata)
+            const check = await this.mis.createfreeze(reqdata);
+            console.log('check',check)
+            return {
+                status: true,
+                message: 'Freeze created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to Freeze',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+        
+      
+    
+    }
+
+
+
+
+
+    // update 
+
+    @Post('freeze/update')
+    async updateFreeze(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updateFreeze(body);
+        return {
+            status: true,
+            message: 'Freeze Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to Freeze',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+    // @Get('freeze/get/:id') 
+    // async freezefindOne(@Param('id') id: number) {
+    //   try {
+    //     const data = await this.mis.freezefindOne(id);
+    //     return {
+    //       status: true,
+    //       message: 'Freeze retrieved successfully',
+    //       data: data,
+    //     };
+    //   } catch (error) {
+    //     throw new HttpException({
+    //       status: false,
+    //       message: `Failed to retrieve Freeze with ID ${id}`,
+    //       error: error.message,
+    //     }, HttpStatus.BAD_REQUEST);
+    //   }
+    // }
+
+
+    
+    @Get('freezeCode/get/:id') 
+    async freezefindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.freezefindOne(id);
+        console.log('data:', data); 
+        return {
+          status: true,
+          message: 'Freeze successfully',
+          data: data, 
+        };
+      } catch (error) {
+        console.error('Error retrieving Freeze:', error);
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve Freeze',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+    
+
+
+
+    @Get('freeze/all')
+    async freezefindAll() {
+      try {
+        const data = await this.mis.freezefindAll();
+        return {
+          status: true,
+          message: 'freeze retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve freeze',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('freezedelete/:id')
+    async removefreeze(@Param('id') id: number) {
+      try {
+        await this.mis.removefreeze(id);
+        return {
+          status: true,
+          message: 'freeze deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete freeze with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('freezestatus/:id')
+    async updatefreezestatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updatefreezestatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'freeze  updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update freeze',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+
+
+
+
+
+
+   
 }
+

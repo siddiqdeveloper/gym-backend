@@ -98,10 +98,19 @@ export class Member {
   dob: Date;  // dob date
 
   
+  @Column({ type: 'date', nullable: true })
+  endDate: Date;  
 
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt: Date;
 
   @Column({ type:'tinyint', default: 1 })
   isActive: number;
+
+  @Column({ type: 'int', nullable: true })
+  interestedIn: number;  
+
+  @Column({ type: 'tinyint', default: 0 })
+  freezeStatus: number;  
+ 
 }
