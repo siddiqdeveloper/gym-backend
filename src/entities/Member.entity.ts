@@ -107,8 +107,6 @@ export class Member {
   @Column({ type:'tinyint', default: 1 })
   isActive: number;
 
-  @Column({ type: 'int', nullable: true })
-  interestedIn: number;  
 
   @Column({ type: 'tinyint', default: 0 })
   freezeStatus: number;  
