@@ -20,6 +20,10 @@ export class Member {
   @Column({ type: 'int', nullable: true })
   age: number;  // Age
 
+  
+  @Column({ type: 'int', nullable: true })
+  interestedIn: number;  // interestedIn
+
 
   @Column({ type: 'int', nullable: true })
   packagePrice: number;  
@@ -89,11 +93,18 @@ export class Member {
   @Column({ type: 'date', nullable: true })
   billDate: Date;  // Bill date
 
-  // @Column({ type: 'date', nullable: true })
-  // endDate: Date;  
+
 
   @Column({ type: 'varchar', length: 255, nullable: true })
 endDate: string;
+
+
+
+  @Column({ type: 'date', nullable: true })
+  dob: Date;  // dob date
+
+  
+  @Column({ type: 'date', nullable: true })
 
 
   @DeleteDateColumn({ type: 'timestamp' })
@@ -102,8 +113,6 @@ endDate: string;
   @Column({ type:'tinyint', default: 1 })
   isActive: number;
 
-  @Column({ type: 'int', nullable: true })
-  interestedIn: number;  
 
   @Column({ type: 'tinyint', default: 0 })
   freezeStatus: number;  
