@@ -101,4 +101,23 @@ export class MemberService {
     return result[0][0]; 
      
   }
+
+
+
+  async getInActiveMember(endDate) {
+   endDate = "'" + endDate + "'";
+  const result = await this.dataSource.query(
+      'Call getInActiveMember(' + endDate + ')',
+
+      [],
+    );
+    if (result) {
+      const data = result[0];
+      return data;
+    }
+  }
+
+
+
+  
 }

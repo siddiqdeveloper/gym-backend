@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, HttpStatus, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, HttpStatus, HttpException, Req, Res } from '@nestjs/common';
 import { MemberService } from './member.service';
+import { Response } from 'express';
 
 @Controller('members')
 export class MemberController {
@@ -178,6 +179,28 @@ async getinterstedIn(@Param('id') id: number) {
     }, HttpStatus.BAD_REQUEST);
   }
 }
+
+
+
+// inactive member 
+
+
+@Post('getInActiveMember')
+async getInActiveMember(
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
+) {
+  
+    const data = await this.memberService.getInActiveMember(
+      body.params.endDate,
+       
+    );
+   
+    res.send(data);
+}
+
+
 
 
 }
