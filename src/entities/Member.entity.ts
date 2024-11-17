@@ -89,8 +89,12 @@ export class Member {
   @Column({ type: 'date', nullable: true })
   billDate: Date;  // Bill date
 
-  @Column({ type: 'date', nullable: true })
-  endDate: Date;  
+  // @Column({ type: 'date', nullable: true })
+  // endDate: Date;  
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+endDate: string;
+
 
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt: Date;
