@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Member } from './entities/Member.entity';
 import { DataSource } from 'typeorm';
+import { InActiveMember } from './entities/inActiveMember.entity';
+import { log } from 'console';
 
 
 @Injectable()
@@ -11,6 +13,8 @@ export class MemberService {
     private dataSource: DataSource,
     @InjectRepository(Member)
     private memberRepository: Repository<Member>,
+    @InjectRepository(InActiveMember)
+    private inActiveMemberRepository: Repository<InActiveMember>,
   ) {}
 
   // Create a new member
@@ -118,6 +122,36 @@ export class MemberService {
   }
 
 
+  // inActive member 
+
+  createInActiveMember(body) {
+  
+    
+    const mappedMembers = body.inactiveMembers.map(member => ({
+      id: member.id,
+      name: member.name,
+      mobile: member.mobile,
+      reason: member.reason,
+      remark: member.remark,
+      callBackDate: member.callBackDate,
+    }));
+
+
+    console.log('mappedMembers',mappedMembers);
+    for(let i=0;i<mappedMembers.length;i++){
+      console.log(mappedMembers[i])
+      const data = {
+        member_id : mappedMembers[i].id,
+        reason : mappedMembers[i].reason,
+        remark : mappedMembers[i].remark,
+        callBackDate : mappedMembers[i].callbackdate,
+      }
+      
+      return this.inActiveMemberRepository.save(data);
+    }
+   
+   
+  }
 
   
 }
