@@ -39,7 +39,7 @@ import { WorkOutType } from './entities/workOutType.entity';
 import { Exercise } from './entities/exercise.entity';
 import { Freeze } from './entities/freeze.entity';
 import { MiscModule } from './misc/misc.module';
-
+import { InActiveMember } from './entities/inActiveMember.entity';
 
 
 
@@ -73,12 +73,13 @@ import { MiscModule } from './misc/misc.module';
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember]),
     MasterModule,
     UserModule,
     MiscModule
 
   ],
+  
   controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController,PaymentController,MiscController],
   providers: [
     AppService,

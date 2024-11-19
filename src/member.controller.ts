@@ -201,6 +201,27 @@ async getInActiveMember(
 }
 
 
+// inactive Member as save 
 
+
+
+@Post('inActiveMemberSave')
+  async createInActiveMember(@Body() member) {
+    try {
+      const data = await this.memberService.createInActiveMember(member);
+      return {
+        status: true,
+        message: 'InActive Member created successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error)
+      throw new HttpException({
+        status: false,
+        message: 'Failed to InActive Member',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
 
 }
