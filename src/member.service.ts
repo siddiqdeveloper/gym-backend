@@ -133,7 +133,11 @@ export class MemberService {
       mobile: member.mobile,
       reason: member.reason,
       remark: member.remark,
-      callBackDate: member.callBackDate,
+      callBackDate: new Date(member.callBackDate),
+      endDate: new Date(member.endDate),
+      gender: member.gender,
+      age: member.age,
+      email:member.email,
     }));
 
 
@@ -144,9 +148,13 @@ export class MemberService {
         member_id : mappedMembers[i].id,
         reason : mappedMembers[i].reason,
         remark : mappedMembers[i].remark,
-        callBackDate : mappedMembers[i].callbackdate,
+        callBackDate: mappedMembers[i].callBackDate,
+        endDate: mappedMembers[i].endDate,
+        gender: mappedMembers[i].gender,
+        age: mappedMembers[i].age,
+        email:mappedMembers[i].email,
       }
-      
+
       return this.inActiveMemberRepository.save(data);
     }
    

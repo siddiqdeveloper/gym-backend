@@ -36,4 +36,36 @@ export class InActiveMember {
     collation: 'latin1_swedish_ci',
   })
   callBackDate: string;
+
+  @Column({
+    type: 'varchar',
+    length: 50,
+    default: '0',
+    collation: 'latin1_swedish_ci',
+  })
+  endDate: string;
+  @Column({
+    type: 'varchar',
+    length: 50,
+    default: '0',
+    collation: 'latin1_swedish_ci',
+  })
+  gender: string;
+
+
+  @Column({
+    type: 'varchar',
+    length: 50,
+    default: '0',
+    collation: 'latin1_swedish_ci',
+  })
+  age: string;
+
+  @Column({
+    type: 'varchar',
+    length: 50,
+    default: '0',
+    collation: 'latin1_swedish_ci',
+  })
+  email: string;
 }
