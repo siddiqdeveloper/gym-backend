@@ -1133,31 +1133,66 @@ export class MiscController {
   
 
 
-  @Post('generatepdf')
-  async generatePdf(@Body() body: any, @Res() res: Response) {
-    console.log(body)
-    const templateData = {
-      member: body.Member,
-      workouts: body.WorkOut,
-      exercises: body.Exercise,
-    };
+  // @Post('generatepdf')
+  // async generatePdf(@Body() body: any, @Res() res: Response) {
+  //   console.log(body)
+  //   const templateData = {
+  //     member: body.Member,
+  //     workouts: body.WorkOut,
+  //     exercises: body.Exercise,
+  //     rows: body.Rows,
+  //   };
 
-    try {
-      const pdfBuffer = await this.mis.generatePdf(
-        templateData,
-        'src/document/workoutchart-pdf.twig',
-        'workoutchart'
-      );
+  //   console.log(templateData)
+  //   try {
+  //     const pdfBuffer = await this.mis.generatePdf(
+  //       templateData,
+  //       'src/document/workoutchart-pdf.twig',
+  //       'workoutchart'
+  //     );
       
 
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename="workoutchart.pdf"');
-      res.send(pdfBuffer);
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-      res.status(500).json({ message: 'Failed to generate PDF. Please try again.' });
-    }
+  //     res.setHeader('Content-Type', 'application/pdf');
+  //     res.setHeader('Content-Disposition', 'attachment; filename="workoutchart.pdf"');
+  //     res.send(pdfBuffer);
+  //   } catch (error) {
+  //     console.error('Error generating PDF:', error);
+  //     res.status(500).json({ message: 'Failed to generate PDF. Please try again.' });
+  //   }
+  // }
+
+
+
+  @Post('generatepdf')
+async generatePdf(@Body() body: any, @Res() res: Response) {
+  const templateData = {
+    member: body.Member,
+    workouts: body.WorkOut,
+    exercises: body.Exercise,
+    rows: body.Rows,  // Ensure Rows are passed correctly
+  };
+
+  console.log('Template Data:', templateData);
+
+  try {
+    const pdfBuffer = await this.mis.generatePdf(
+      templateData,
+      'src/document/workoutchart-pdf.twig',
+      'workoutchart'
+    );
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename="workoutchart.pdf"'
+    );
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    res.status(500).json({ message: 'Failed to generate PDF. Please try again.' });
   }
+}
+
 
 
 // freeze 
