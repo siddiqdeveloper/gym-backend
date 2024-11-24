@@ -65,6 +65,17 @@ async findOne(id) {
   }
 }
 
+async getupdatePayments(body: any) {
+  console.log('body', body);
+  const details: any = await this.paymentRepository.findOne({
+    where: { memberId: body.memberid },
+  });
+  console.log('details', details);
+  details.pendingAmount = body.pendingAmount;
+   details.paidAmount = body.paidAmount ;
+  await this.paymentRepository.save(body)
+
+}
 
 
 }

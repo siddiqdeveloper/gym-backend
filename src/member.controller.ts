@@ -4,7 +4,7 @@ import { Response } from 'express';
 
 @Controller('members')
 export class MemberController {
-  constructor(private readonly memberService: MemberService) {}
+  constructor(private readonly memberService: MemberService) { }
 
   // Create a new member
   @Post()
@@ -27,15 +27,15 @@ export class MemberController {
   }
 
 
- 
+
 
   // Get a member by ID
   @Get('get/:id')
   async findOne(@Param('id') id: number) {
-  
+
     try {
       const data = await this.memberService.findOne(id);
-      console.log('data',data)
+      console.log('data', data)
       return {
         status: true,
         message: 'Member retrieved successfully',
@@ -54,7 +54,7 @@ export class MemberController {
 
 
 
-   // Get all members
+  // Get all members
 
   @Get('all')
   async findAll() {
@@ -88,7 +88,7 @@ export class MemberController {
         message: 'Member updated successfully',
         data: data,
       };
-      
+
     } catch (error) {
       throw new HttpException({
         status: false,
@@ -127,7 +127,7 @@ export class MemberController {
         data: data,
       };
     } catch (error) {
-        console.log(error)
+      console.log(error)
       throw new HttpException({
         status: false,
         message: 'Failed to generate member code',
@@ -137,75 +137,75 @@ export class MemberController {
   }
 
   @Put('status/:id')
-async updateStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
-  try {
-    const data = await this.memberService.updateStatus(id, body.isActive);
-    return {
-      status: true,
-      message: 'Member status updated successfully',
-      data: data,
-    };
-  } catch (error) {
-    console.log(error)
-    throw new HttpException({
-      status: false,
-      message: 'Failed to update member status',
-      error: error.message,
-    }, HttpStatus.BAD_REQUEST);
+  async updateStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+    try {
+      const data = await this.memberService.updateStatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Member status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error)
+      throw new HttpException({
+        status: false,
+        message: 'Failed to update member status',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
   }
-}
 
 
 
 
-// member InterestedIn
+  // member InterestedIn
 
-@Get('getinterstedIn/:id')
-async getinterstedIn(@Param('id') id: number) {
-  try {
-    const data = await this.memberService.getinterstedIn(id);
-    console.log('data:', data); 
-    return {
-      status: true,
-      message: 'InterstedIn successfully',
-      data: data, 
-    };
-  } catch (error) {
-    console.error('Error retrieving InterstedIn:', error);
-    throw new HttpException({
-      status: false,
-      message: 'Failed to retrieve InterstedIn',
-      error: error.message,
-    }, HttpStatus.BAD_REQUEST);
+  @Get('getinterstedIn/:id')
+  async getinterstedIn(@Param('id') id: number) {
+    try {
+      const data = await this.memberService.getinterstedIn(id);
+      console.log('data:', data);
+      return {
+        status: true,
+        message: 'InterstedIn successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving InterstedIn:', error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to retrieve InterstedIn',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
   }
-}
 
 
 
-// inactive member 
+  // inactive member 
 
 
-@Post('getInActiveMember')
-async getInActiveMember(
+  @Post('getInActiveMember')
+  async getInActiveMember(
     @Body() body,
     @Req() request: Request,
     @Res() res: Response,
-) {
-  
+  ) {
+
     const data = await this.memberService.getInActiveMember(
       body.params.endDate,
-       
+
     );
-   
+
     res.send(data);
-}
+  }
 
 
-// inactive Member as save 
+  // inactive Member as save 
 
 
 
-@Post('inActiveMemberSave')
+  @Post('inActiveMemberSave')
   async createInActiveMember(@Body() member) {
     try {
       const data = await this.memberService.createInActiveMember(member);
@@ -228,69 +228,58 @@ async getInActiveMember(
 
 
 
-  // @Get('getMemberPaymentDetails')
-  // async getMemberPaymentDetails() {
-  //   try {
-  //     const data = await this.memberService.getMemberPaymentDetails();
-  //     return {
-  //       status: true,
-  //       message: 'Members retrieved successfully',
-  //       data: data,
-  //     };
-  //   } catch (error) {
-  //     throw new HttpException({
-  //       status: false,
-  //       message: 'Failed to retrieve members',
-  //       error: error.message,
-  //     }, HttpStatus.BAD_REQUEST);
-  //   }
-  // }
+
 
 
 
 
 
   @Get('getMemberPaymentDetails')
-async getMemberPaymentDetails(@Query('id') id: number) {
-  try {
-   
-    const data = await this.memberService.getMemberPaymentDetails(id);
-    console.log('data:', data); 
-    return {
-      status: true,
-      message: 'Member successfully',
-      data: data, 
-    };
-  } catch (error) {
-    console.error('Error retrieving Member:', error);
-    throw new HttpException({
-      status: false,
-      message: 'Failed to retrieve Member',
-      error: error.message,
-    }, HttpStatus.BAD_REQUEST);
+  async getMemberPaymentDetails(@Query('id') id: number) {
+    try {
+
+      const data = await this.memberService.getMemberPaymentDetails(id);
+      console.log('data:', data);
+      return {
+        status: true,
+        message: 'Member successfully',
+        data: data,
+      };
+    }
+    catch (error) {
+      console.error('Error retrieving Member:', error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to retrieve Member',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
   }
-}
 
 
 
-// due Payment 
+
+  // due Payment 
 
 
-@Post('duePaymentList')
-async duePaymentList(
+  @Post('duePaymentList')
+  async duePaymentList(
     @Body() body,
     @Req() request: Request,
     @Res() res: Response,
-) {
-  
+  ) {
+
     const data = await this.memberService.duePaymentList(
       body.params.memberId,
-       
+
     );
-   
+
     res.send(data);
-}
+  }
 
 
- 
+
+  
+
+
 }

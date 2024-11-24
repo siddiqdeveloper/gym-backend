@@ -137,6 +137,34 @@ export class PaymentController {
           }, HttpStatus.BAD_REQUEST);
       }
   }
+
+
+
+
+
+
+ 
+
+  @Post('getupdatePayments')
+   async getupdatePayments(@Body() body) {
+    try {
+      const data = await this.paymentService.getupdatePayments(body);
+      return {
+        status: true,
+        message: 'Payment Updated  successfully',
+        data,
+      };
+    } catch (error) {
+      console.error(error); // Log the error for debugging
+      throw new HttpException({
+        status: false,
+        message: 'Failed to create payment',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+
   
 
 
