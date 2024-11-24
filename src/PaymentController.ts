@@ -2,11 +2,15 @@ import { Controller, Post, Body, HttpException, HttpStatus,Get, Put, Param, Dele
 import { PaymentService } from './payment.service';
 
 @Controller('payments')
+
+
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post()
-  async create(@Body() body) {
+
+
+   async create(@Body() body) {
     try {
       const data = await this.paymentService.createPayment(body);
       return {
@@ -82,6 +86,7 @@ export class PaymentController {
 
 
   // update 
+
 
   @Post('update/payment')
   async updatePayments(

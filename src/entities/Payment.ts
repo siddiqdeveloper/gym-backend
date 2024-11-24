@@ -60,6 +60,12 @@ export class Payment {
   @Column({ type: 'varchar', length: 255, nullable: true })
   pendingApprovedBy: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  paidAmount: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  totalAmount: string;
+
   @Column({ type: 'boolean', nullable: true })
   rejoinMember: boolean;
 
