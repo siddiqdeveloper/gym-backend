@@ -23,8 +23,12 @@ export class MemberService {
   }
 
   // Get all members
-  findAll() {
-    return this.memberRepository.find();
+  async findAll() {
+    // return this.memberRepository.find();
+
+    const result = await this.dataSource.query('CALL getmemberList()');
+   
+    return result[0];
   }
 
   // Get a single member by ID
@@ -122,6 +126,10 @@ export class MemberService {
   }
 
 
+
+
+
+
   // inActive member 
 
   createInActiveMember(body) {
@@ -161,5 +169,47 @@ export class MemberService {
    
   }
 
+
+
+
+
+
+  // async getMemberPaymentDetails(id: number) {
+  //   id = "'" + id + "'";
+  //   const result = await this.dataSource.query(
+  //     'Call getMemberPaymentDetails(?)', 
+  //     [id] 
+  //   );
+  //   if (result) {
+  //     return result[0][0];  
+  //   return null; 
+  // }
   
+  // }
+
+  async getMemberPaymentDetails(id) {
+    id = "'" + id + "'";
+    const result = await this.dataSource.query(
+      'Call getMemberPaymentDetails(' + id + ')',
+      [],
+    );
+    return result[0][0];
+  }
+
+  
+
+
+  async duePaymentList(memberId) {
+    memberId = "'" + memberId + "'";
+   const result = await this.dataSource.query(
+       'Call duePaymentList(' + memberId + ')',
+ 
+       [],
+     );
+     if (result) {
+       const data = result[0];
+       return data;
+     }
+   }
+
 }

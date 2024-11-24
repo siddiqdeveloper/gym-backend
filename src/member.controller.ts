@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, HttpStatus, HttpException, Req, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, HttpStatus, HttpException, Req, Res, Query } from '@nestjs/common';
 import { MemberService } from './member.service';
 import { Response } from 'express';
 
@@ -224,4 +224,73 @@ async getInActiveMember(
     }
   }
 
+
+
+
+
+  // @Get('getMemberPaymentDetails')
+  // async getMemberPaymentDetails() {
+  //   try {
+  //     const data = await this.memberService.getMemberPaymentDetails();
+  //     return {
+  //       status: true,
+  //       message: 'Members retrieved successfully',
+  //       data: data,
+  //     };
+  //   } catch (error) {
+  //     throw new HttpException({
+  //       status: false,
+  //       message: 'Failed to retrieve members',
+  //       error: error.message,
+  //     }, HttpStatus.BAD_REQUEST);
+  //   }
+  // }
+
+
+
+
+
+  @Get('getMemberPaymentDetails')
+async getMemberPaymentDetails(@Query('id') id: number) {
+  try {
+   
+    const data = await this.memberService.getMemberPaymentDetails(id);
+    console.log('data:', data); 
+    return {
+      status: true,
+      message: 'Member successfully',
+      data: data, 
+    };
+  } catch (error) {
+    console.error('Error retrieving Member:', error);
+    throw new HttpException({
+      status: false,
+      message: 'Failed to retrieve Member',
+      error: error.message,
+    }, HttpStatus.BAD_REQUEST);
+  }
+}
+
+
+
+// due Payment 
+
+
+@Post('duePaymentList')
+async duePaymentList(
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
+) {
+  
+    const data = await this.memberService.duePaymentList(
+      body.params.memberId,
+       
+    );
+   
+    res.send(data);
+}
+
+
+ 
 }

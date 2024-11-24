@@ -12,8 +12,8 @@ export class PaymentService {
   ) {}
 
   async createPayment(createPaymentDto) {
-    const payment = this.paymentRepository.create(createPaymentDto);  // Create an instance of the Payment entity
-    return this.paymentRepository.save(payment);  // Save the payment record to the database
+    const payment = this.paymentRepository.create(createPaymentDto);  
+    return this.paymentRepository.save(payment);  
   }
 
   async findAll() {
