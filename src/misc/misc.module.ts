@@ -11,6 +11,9 @@ import { CheckList } from 'src/entities/checkList.entity';
 import { WorkOutType } from 'src/entities/workOutType.entity';
 import { Exercise } from 'src/entities/exercise.entity';
 import { Freeze } from 'src/entities/freeze.entity';
+import { Gst } from 'src/entities/gst.entity';
+import { PettyCash } from 'src/entities/pettyCash.entity';
+import { BankDetails } from 'src/entities/bankDetails.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Member,ElectricityConsumption,WaterConsumption,
@@ -19,7 +22,10 @@ import { Freeze } from 'src/entities/freeze.entity';
     CheckList,
     WorkOutType,
     Exercise,
-    Freeze
+    Freeze,
+    Gst,
+    PettyCash,
+    BankDetails
   ])],
   providers: [MiscService],
   controllers: [MiscController],

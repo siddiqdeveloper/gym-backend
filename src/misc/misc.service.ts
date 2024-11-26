@@ -15,6 +15,8 @@ import * as path from 'path';
 import { Freeze } from 'src/entities/freeze.entity';
 import { Member } from 'src/entities/Member.entity';
 import { Repository } from 'typeorm';
+import { Gst } from 'src/entities/gst.entity';
+import { PettyCash } from 'src/entities/pettyCash.entity';
 
 @Injectable()
 export class MiscService {
@@ -38,6 +40,10 @@ export class MiscService {
         private freezeRepository: Repository<Freeze>,
         @InjectRepository(Member)
         private memberRepository: Repository<Member>,
+        @InjectRepository(Gst)
+        private gstRepository: Repository<Gst>,
+        @InjectRepository(PettyCash)
+        private pettyCashRepository: Repository<PettyCash>,
     ) {}
 
 
@@ -654,14 +660,6 @@ async createfreeze(body) {
 }
 
 
-
-
-
-
-
-
-
-
 async updateFreeze(body) {
   try {
      
@@ -711,7 +709,128 @@ async updatefreezestatus(id: any, isActive: boolean) {
 
 
 
+//  gst Service 
 
+
+
+async createGst(body) {
+
+  try {
+    await this.gstRepository.save(body);
+    return body;
+    }catch (error) {
+    console.error('Error saving GST', error);
+    throw new Error('Failed to save GST');
+  }
+}
+
+
+
+
+async updateGst(body) {
+  try {
+     
+   const updateGst = await this.gstRepository.update({id:body.id},body)
+   return updateGst
+  } catch(error) {
+      console.error('Error updating GST', error);
+      throw new Error('Failed to updating GST');
+  }
+}
+
+
+async gstfindOne(id: number) {
+  const result = await this.dataSource.query('Call getGstData(?)', [id]);
+  console.log('result', result);
+  return result[0][0]; 
+}
+
+
+async gstfindAll(): Promise<Gst[]> {
+  const result = await this.dataSource.query('CALL getAllGstData()');
+ return result[0];
+}
+
+
+async removeGst(id: number): Promise<void> {
+  await this.freezeRepository.delete(id);
+}
+
+
+async updategststatus(id: any, isActive: boolean) {
+  console.log(id)
+  let gstType:any = await this.gstRepository.findOne({where:{id:id}});
+  if (!gstType) {
+    throw new Error('=gstType not found');
+  }
+ 
+  gstType.isActive = isActive?1:0;
+ 
+  return this.gstRepository.save(gstType);
+}
+
+
+
+
+
+
+
+
+async createpettycash(body) {
+
+  try {
+    await this.pettyCashRepository.save(body);
+    return body;
+    }catch (error) {
+    console.error('Error saving pettycashST', error);
+    throw new Error('Failed to save pettycash');
+  }
+}
+
+
+
+
+async updatepettycash(body) {
+  try {
+     
+   const updatepettycash = await this.pettyCashRepository.update({id:body.id},body)
+   return updatepettycash
+  } catch(error) {
+      console.error('Error updating pettyCash', error);
+      throw new Error('Failed to updating pettyCash');
+  }
+}
+
+
+async pettycashfindOne(id: number) {
+  const result = await this.dataSource.query('Call getPettyCashData(?)', [id]);
+  console.log('result', result);
+  return result[0][0]; 
+}
+
+
+async pettycashfindAll(): Promise<Freeze[]> {
+  const result = await this.dataSource.query('CALL getAllDataPettyCash()');
+ return result[0];
+}
+
+
+async removepettycash(id: number): Promise<void> {
+  await this.pettyCashRepository.delete(id);
+}
+
+
+async updatepettycashstatus(id: any, isActive: boolean) {
+  console.log(id)
+  let gstType:any = await this.pettyCashRepository.findOne({where:{id:id}});
+  if (!gstType) {
+    throw new Error('=gstType not found');
+  }
+ 
+  gstType.isActive = isActive?1:0;
+ 
+  return this.pettyCashRepository.save(gstType);
+}
 }
 
 

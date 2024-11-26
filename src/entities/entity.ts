@@ -14,6 +14,9 @@ import { WorkOutType } from "./workOutType.entity";
 import { Exercise } from "./exercise.entity";
 import { Freeze } from "./freeze.entity";
 import { InActiveMember } from "./inActiveMember.entity";
+import { Gst } from "./gst.entity";
+import { PettyCash } from "./pettyCash.entity";
+import { BankDetails } from "./bankDetails.entity";
 
 
 const entities = [
@@ -31,7 +34,10 @@ const entities = [
   WorkOutType,
   Exercise,
   Freeze,
-  InActiveMember
+  InActiveMember,
+  Gst,
+  PettyCash,
+  BankDetails
  
 ];
 
