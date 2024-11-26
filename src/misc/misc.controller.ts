@@ -1389,8 +1389,305 @@ async generatePdf(@Body() body: any, @Res() res: Response) {
 
 
 
+//  gst save 
 
 
+@Post('gst/add')
+    async createGst(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+           const check = await this.mis.createGst(reqdata);
+          
+            return {
+                status: true,
+                message: 'GST created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to GST',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+        
+  }
+
+
+
+
+
+    // update 
+
+    @Post('gst/update')
+    async updateGst(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updateGst(body);
+        return {
+            status: true,
+            message: 'GST Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to Freeze',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+    @Get('gstCode/get/:id') 
+    async gstfindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.gstfindOne(id);
+        console.log('data:', data); 
+        return {
+          status: true,
+          message: 'Gst successfully',
+          data: data, 
+        };
+      } catch (error) {
+        console.error('Error retrieving Gst:', error);
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve Gst',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+    
+
+
+
+    @Get('gst/all')
+    async gstfindAll() {
+      try {
+        const data = await this.mis.gstfindAll();
+        return {
+          status: true,
+          message: 'Gst retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve Gst',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('gstdelete/:id')
+    async removeGst(@Param('id') id: number) {
+      try {
+        await this.mis.removeGst(id);
+        return {
+          status: true,
+          message: 'GST deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete GST with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('gststatus/:id')
+    async updategststatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updategststatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'GST  updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update GST',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+
+
+// petty Cash 
+
+
+
+
+@Post('pettycash/add')
+    async createpettycash(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+           const check = await this.mis.createpettycash(reqdata);
+          
+            return {
+                status: true,
+                message: 'Pettycash created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to Pettycash',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+        
+  }
+
+
+
+
+
+    // update 
+
+    @Post('pettycash/update')
+    async updatepettycash(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updatepettycash(body);
+        return {
+            status: true,
+            message: 'Pettycash Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to Pettycash',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+    @Get('pettycash/get/:id') 
+    async pettycashfindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.pettycashfindOne(id);
+        console.log('data:', data); 
+        return {
+          status: true,
+          message: 'Pettycash successfully',
+          data: data, 
+        };
+      } catch (error) {
+        console.error('Error retrieving pettycash:', error);
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve pettycash',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+    
+
+
+
+    @Get('pettycash/all')
+    async pettycashfindAll() {
+      try {
+        const data = await this.mis.pettycashfindAll();
+        return {
+          status: true,
+          message: 'Pettycash retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve Pettycash',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('pettycashdelete/:id')
+    async removepettycash(@Param('id') id: number) {
+      try {
+        await this.mis.removepettycash(id);
+        return {
+          status: true,
+          message: 'Pettycash deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete pettycash with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('pettycashstatus/:id')
+    async updatepettycashstatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updatepettycashstatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'Pettycash  updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update Pettycash',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
 
 
    

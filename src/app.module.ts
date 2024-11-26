@@ -40,6 +40,9 @@ import { Exercise } from './entities/exercise.entity';
 import { Freeze } from './entities/freeze.entity';
 import { MiscModule } from './misc/misc.module';
 import { InActiveMember } from './entities/inActiveMember.entity';
+import { Gst } from './entities/gst.entity';
+import { PettyCash } from './entities/pettyCash.entity';
+import { BankDetails } from './entities/bankDetails.entity';
 
 
 
@@ -73,7 +76,7 @@ import { InActiveMember } from './entities/inActiveMember.entity';
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails]),
     MasterModule,
     UserModule,
     MiscModule
