@@ -17,6 +17,7 @@ import { InActiveMember } from "./inActiveMember.entity";
 import { Gst } from "./gst.entity";
 import { PettyCash } from "./pettyCash.entity";
 import { BankDetails } from "./bankDetails.entity";
+import { BranchDetails } from "./branchDetails.entity";
 
 
 const entities = [
@@ -37,7 +38,8 @@ const entities = [
   InActiveMember,
   Gst,
   PettyCash,
-  BankDetails
+  BankDetails,
+  BranchDetails
  
 ];
 

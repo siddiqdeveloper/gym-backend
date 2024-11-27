@@ -14,6 +14,7 @@ import { Freeze } from 'src/entities/freeze.entity';
 import { Gst } from 'src/entities/gst.entity';
 import { PettyCash } from 'src/entities/pettyCash.entity';
 import { BankDetails } from 'src/entities/bankDetails.entity';
+import { BranchDetails } from 'src/entities/branchDetails.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Member,ElectricityConsumption,WaterConsumption,
@@ -25,7 +26,8 @@ import { BankDetails } from 'src/entities/bankDetails.entity';
     Freeze,
     Gst,
     PettyCash,
-    BankDetails
+    BankDetails,
+    BranchDetails
   ])],
   providers: [MiscService],
   controllers: [MiscController],

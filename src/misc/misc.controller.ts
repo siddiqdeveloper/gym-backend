@@ -1690,6 +1690,307 @@ async generatePdf(@Body() body: any, @Res() res: Response) {
     }
 
 
-   
+  //  bank details 
+
+
+
+
+  @Post('bank/add')
+    async createbank(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+           const check = await this.mis.createbank(reqdata);
+          
+            return {
+                status: true,
+                message: 'bank created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to bank',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+        
+  }
+
+
+
+
+
+    // update 
+
+    @Post('bank/update')
+    async updatebank(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updatebank(body);
+        return {
+            status: true,
+            message: 'bank Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to bank',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+    @Get('bank/get/:id') 
+    async bankfindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.bankfindOne(id);
+        console.log('data:', data); 
+        return {
+          status: true,
+          message: 'bank successfully',
+          data: data, 
+        };
+      } catch (error) {
+        console.error('Error retrieving bank:', error);
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve bank',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+    
+
+
+
+    @Get('bank/all')
+    async bankfindAll() {
+      try {
+        const data = await this.mis.bankfindAll();
+        return {
+          status: true,
+          message: 'bank retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve bank',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // delete 
+
+    @Delete('bankdelete/:id')
+    async removebank(@Param('id') id: number) {
+      try {
+        await this.mis.removebank(id);
+        return {
+          status: true,
+          message: 'bank deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete bank with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('bankstatus/:id')
+    async updatebankstatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updatebankstatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'bank  updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update bank',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+
+    // branch 
+
+
+
+
+    @Post('branch/add')
+    async createbranch(
+      @Body() body,
+     
+    ) {
+        try{
+            const reqdata: any = body;
+           const check = await this.mis.createbranch(reqdata);
+          
+            return {
+                status: true,
+                message: 'branch created successfully',
+                data: check,
+            };
+        } catch (error) {
+            console.log(error)  
+            throw new HttpException({
+                status: false,
+                message: 'Failed to branch',
+                error: error.message,
+            }, HttpStatus.BAD_REQUEST)
+        }
+        
+  }
+
+
+
+
+
+    // update 
+
+    @Post('branch/update')
+    async updatebranch(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+    ) {
+      try {
+        const check = await this.mis.updatebranch(body);
+        return {
+            status: true,
+            message: 'branch Updated successfully',
+            data: check,
+        };
+        
+      } catch (error) {
+        console.log(error)  
+        throw new HttpException({
+            status: false,
+            message: 'Failed to branch',
+            error: error.message,
+        }, HttpStatus.BAD_REQUEST)
+  
+       
+      }
+    }
+
+
+
+
+    @Get('branch/get/:id') 
+    async branchfindOne(@Param('id') id: number) {
+      try {
+        const data = await this.mis.branchfindOne(id);
+        console.log('data:', data); 
+        return {
+          status: true,
+          message: 'branch successfully',
+          data: data, 
+        };
+      } catch (error) {
+        console.error('Error retrieving branch:', error);
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve branch',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+    
+
+
+
+    @Get('branch/all')
+    async branchfindAll() {
+      try {
+        const data = await this.mis.branchfindAll();
+        return {
+          status: true,
+          message: 'branch retrieved successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to retrieve branch',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+    
+
+
+    // delete 
+
+    @Delete('branchdelete/:id')
+    async removebranch(@Param('id') id: number) {
+      try {
+        await this.mis.removebranch(id);
+        return {
+          status: true,
+          message: 'branch deleted successfully',
+        };
+      } catch (error) {
+        throw new HttpException({
+          status: false,
+          message: `Failed to delete branch with ID ${id}`,
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+
+    // status 
+
+    @Put('branchstatus/:id')
+    async updatebranchstatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+      try {
+        const data = await this.mis.updatebranchstatus(id, body.isActive);
+        return {
+          status: true,
+          message: 'branch  updated successfully',
+          data: data,
+        };
+      } catch (error) {
+        console.log(error)
+        throw new HttpException({
+          status: false,
+          message: 'Failed to update branch',
+          error: error.message,
+        }, HttpStatus.BAD_REQUEST);
+      }
+    }
 }
+
 
