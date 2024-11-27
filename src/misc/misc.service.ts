@@ -17,6 +17,8 @@ import { Member } from 'src/entities/Member.entity';
 import { Repository } from 'typeorm';
 import { Gst } from 'src/entities/gst.entity';
 import { PettyCash } from 'src/entities/pettyCash.entity';
+import { BankDetails } from 'src/entities/bankDetails.entity';
+import { BranchDetails } from 'src/entities/branchDetails.entity';
 
 @Injectable()
 export class MiscService {
@@ -44,6 +46,10 @@ export class MiscService {
         private gstRepository: Repository<Gst>,
         @InjectRepository(PettyCash)
         private pettyCashRepository: Repository<PettyCash>,
+        @InjectRepository(BankDetails)
+        private bankDetailsRepository: Repository<BankDetails>,
+        @InjectRepository(BranchDetails)
+        private branchDetailsRepository: Repository<BranchDetails>,
     ) {}
 
 
@@ -782,7 +788,7 @@ async createpettycash(body) {
     await this.pettyCashRepository.save(body);
     return body;
     }catch (error) {
-    console.error('Error saving pettycashST', error);
+    console.error('Error saving BankDetails', error);
     throw new Error('Failed to save pettycash');
   }
 }
@@ -831,6 +837,132 @@ async updatepettycashstatus(id: any, isActive: boolean) {
  
   return this.pettyCashRepository.save(gstType);
 }
+
+
+
+
+
+async createbank(body) {
+
+  try {
+    await this.bankDetailsRepository.save(body);
+    return body;
+    }catch (error) {
+    console.error('Error saving BankDetails', error);
+    throw new Error('Failed to save BankDetails');
+  }
+}
+
+
+
+
+async updatebank(body) {
+  try {
+     
+   const updatebank = await this.bankDetailsRepository.update({id:body.id},body)
+   return updatebank
+  } catch(error) {
+      console.error('Error updating BankDetails', error);
+      throw new Error('Failed to updating BankDetails');
+  }
+}
+
+
+async bankfindOne(id: number) {
+  const result = await this.dataSource.query('Call getBankDetails(?)', [id]);
+  console.log('result', result);
+  return result[0][0]; 
+}
+
+
+async bankfindAll(): Promise<BankDetails[]> {
+  const result = await this.dataSource.query('CALL getAllBankDetails()');
+ return result[0];
+}
+
+
+async removebank(id: number): Promise<void> {
+  await this.bankDetailsRepository.delete(id);
+}
+
+
+async updatebankstatus(id: any, isActive: boolean) {
+  console.log(id)
+  let bankType:any = await this.bankDetailsRepository.findOne({where:{id:id}});
+  if (!bankType) {
+    throw new Error('=bankType not found');
+  }
+ 
+  bankType.isActive = isActive?1:0;
+ 
+  return this.bankDetailsRepository.save(bankType);
+}
+
+
+
+// branch 
+
+
+
+async createbranch(body) {
+
+  try {
+    await this.branchDetailsRepository.save(body);
+    return body;
+    }catch (error) {
+    console.error('Error saving BankDetails', error);
+    throw new Error('Failed to save BankDetails');
+  }
+}
+
+
+
+
+async updatebranch(body) {
+  try {
+     
+   const updatebranch = await this.branchDetailsRepository.update({id:body.id},body)
+   return updatebranch
+  } catch(error) {
+      console.error('Error updating updatebranch', error);
+      throw new Error('Failed to updating updatebranch');
+  }
+}
+
+
+async branchfindOne(id: number) {
+  const result = await this.dataSource.query('Call getBranchDetails(?)', [id]);
+  console.log('result', result);
+  return result[0][0]; 
+}
+
+
+async branchfindAll(): Promise<Freeze[]> {
+  const result = await this.dataSource.query('CALL getAllBranchDetails()');
+ return result[0];
+}
+
+
+async removebranch(id: number): Promise<void> {
+  await this.branchDetailsRepository.delete(id);
+}
+
+
+async updatebranchstatus(id: any, isActive: boolean) {
+  console.log(id)
+  let branchtype:any = await this.branchDetailsRepository.findOne({where:{id:id}});
+  if (!branchtype) {
+    throw new Error('branchtype not found');
+  }
+ 
+  branchtype.isActive = isActive?1:0;
+ 
+  return this.branchDetailsRepository.save(branchtype);
+}
+
+
+
+
 }
 
 
