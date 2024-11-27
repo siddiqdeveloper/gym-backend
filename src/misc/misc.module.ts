@@ -15,6 +15,8 @@ import { Gst } from 'src/entities/gst.entity';
 import { PettyCash } from 'src/entities/pettyCash.entity';
 import { BankDetails } from 'src/entities/bankDetails.entity';
 import { BranchDetails } from 'src/entities/branchDetails.entity';
+import {Expense} from "../entities/expense.entity";
+import {ReceivePayment} from "../entities/receive_payment,entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Member,ElectricityConsumption,WaterConsumption,
@@ -27,7 +29,9 @@ import { BranchDetails } from 'src/entities/branchDetails.entity';
     Gst,
     PettyCash,
     BankDetails,
-    BranchDetails
+    BranchDetails,
+    Expense,
+    ReceivePayment
   ])],
   providers: [MiscService],
   controllers: [MiscController],

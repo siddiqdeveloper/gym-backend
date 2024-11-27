@@ -44,8 +44,8 @@ import { Gst } from './entities/gst.entity';
 import { PettyCash } from './entities/pettyCash.entity';
 import { BankDetails } from './entities/bankDetails.entity';
 import { BranchDetails } from './entities/branchDetails.entity';
-
-
+import {Expense} from "./entities/expense.entity";
+import {ReceivePayment} from "./entities/receive_payment,entity";
 
 
 @Module({
@@ -77,7 +77,7 @@ import { BranchDetails } from './entities/branchDetails.entity';
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment]),
     MasterModule,
     UserModule,
     MiscModule

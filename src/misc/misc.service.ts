@@ -19,6 +19,7 @@ import { Gst } from 'src/entities/gst.entity';
 import { PettyCash } from 'src/entities/pettyCash.entity';
 import { BankDetails } from 'src/entities/bankDetails.entity';
 import { BranchDetails } from 'src/entities/branchDetails.entity';
+import {Expense} from "../entities/expense.entity";
 
 @Injectable()
 export class MiscService {
@@ -50,6 +51,8 @@ export class MiscService {
         private bankDetailsRepository: Repository<BankDetails>,
         @InjectRepository(BranchDetails)
         private branchDetailsRepository: Repository<BranchDetails>,
+        @InjectRepository(Expense)
+        private expenseRepository: Repository<Expense>
     ) {}
 
 
@@ -961,6 +964,126 @@ async updatebranchstatus(id: any, isActive: boolean) {
 }
 
 
+
+// expense
+
+
+    async createexpense(body) {
+
+        try {
+            await this.expenseRepository.save(body);
+            return body;
+        }catch (error) {
+            console.error('Error saving expense', error);
+            throw new Error('Failed to save expense');
+        }
+    }
+
+
+
+
+    async updateexpense(body) {
+        try {
+
+            const updateexpense = await this.expenseRepository.update({id:body.id},body)
+            return updateexpense
+        } catch(error) {
+            console.error('Error updating updateexpense', error);
+            throw new Error('Failed to updating updateexpense');
+        }
+    }
+
+
+    async expensefindOne(id: number) {
+        const result = await this.dataSource.query('Call getExpenseData(?)', [id]);
+        console.log('result', result);
+        return result[0][0];
+    }
+
+
+    async expensefindAll(): Promise<Freeze[]> {
+        const result = await this.dataSource.query('CALL getAllExpenseData()');
+        return result[0];
+    }
+
+
+    async removeexpense(id: number): Promise<void> {
+        await this.expenseRepository.delete(id);
+    }
+
+
+    async updateexpensestatus(id: any, isActive: boolean) {
+
+        let expense:any = await this.expenseRepository.findOne({where:{id:id}});
+        if (!expense) {
+            throw new Error('branchtype not found');
+        }
+
+        expense.isActive = isActive?1:0;
+
+        return this.expenseRepository.save(expense);
+    }
+
+
+
+
+
+
+    async receivepayments(body) {
+
+        try {
+            await this.expenseRepository.save(body);
+            return body;
+        }catch (error) {
+            console.error('Error saving receivepayments', error);
+            throw new Error('Failed to save receivepayments');
+        }
+    }
+
+
+
+
+    async updateReceivepayments(body) {
+        try {
+
+            const updateReceivepayments = await this.expenseRepository.update({id:body.id},body)
+            return updateReceivepayments
+        } catch(error) {
+            console.error('Error updating updateReceivepayments', error);
+            throw new Error('Failed to updating updateReceivepayments');
+        }
+    }
+
+
+    async receivepaymentsfindOne(id: number) {
+        const result = await this.dataSource.query('Call getReceivePayment(?)', [id]);
+        console.log('result', result);
+        return result[0][0];
+    }
+
+
+    async ReceivepaymentsfindAll(): Promise<Freeze[]> {
+        const result = await this.dataSource.query('CALL getAllReceivePayment()');
+        return result[0];
+    }
+
+
+    async removeReceivepayments(id: number): Promise<void> {
+        await this.expenseRepository.delete(id);
+    }
+
+
+    async updateReceivepaymentsstatus(id: any, isActive: boolean) {
+
+        let expense:any = await this.expenseRepository.findOne({where:{id:id}});
+        if (!expense) {
+            throw new Error('branchtype not found');
+        }
+
+        expense.isActive = isActive?1:0;
+
+        return this.expenseRepository.save(expense);
+    }
 
 
 }

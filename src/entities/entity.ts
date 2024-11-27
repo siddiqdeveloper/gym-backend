@@ -18,6 +18,8 @@ import { Gst } from "./gst.entity";
 import { PettyCash } from "./pettyCash.entity";
 import { BankDetails } from "./bankDetails.entity";
 import { BranchDetails } from "./branchDetails.entity";
+import {Expense} from "./expense.entity";
+import {ReceivePayment} from "./receive_payment,entity";
 
 
 const entities = [
@@ -39,7 +41,9 @@ const entities = [
   Gst,
   PettyCash,
   BankDetails,
-  BranchDetails
+  BranchDetails,
+  Expense,
+  ReceivePayment
  
 ];
 
