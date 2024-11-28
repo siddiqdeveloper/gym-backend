@@ -1086,6 +1086,15 @@ async updatebranchstatus(id: any, isActive: boolean) {
     }
 
 
+//     due payments
+
+
+    async fetchDuePayments(){
+        const result = await this.dataSource.query('CALL getDuePendingPayments()');
+        return result[0];
+    }
+
+
 }
 
 

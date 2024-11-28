@@ -2221,4 +2221,28 @@ export class MiscController {
       );
     }
   }
+
+//   due payments
+
+  @Get('fetchDuePayments')
+  async fetchDuePayments() {
+    try {
+      const data = await this.mis.fetchDuePayments();
+      return {
+        status: true,
+        message: 'fetchDuePayments retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve fetchDuePayments',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
