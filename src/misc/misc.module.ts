@@ -17,6 +17,8 @@ import { BankDetails } from 'src/entities/bankDetails.entity';
 import { BranchDetails } from 'src/entities/branchDetails.entity';
 import {Expense} from "../entities/expense.entity";
 import {ReceivePayment} from "../entities/receive_payment,entity";
+import {Withdraw} from "../entities/withDraw.entity";
+import {Topup} from "../entities/topup.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Member,ElectricityConsumption,WaterConsumption,
@@ -31,7 +33,9 @@ import {ReceivePayment} from "../entities/receive_payment,entity";
     BankDetails,
     BranchDetails,
     Expense,
-    ReceivePayment
+    ReceivePayment,
+    Withdraw,
+    Topup
   ])],
   providers: [MiscService],
   controllers: [MiscController],

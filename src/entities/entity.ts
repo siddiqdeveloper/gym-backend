@@ -21,7 +21,8 @@ import { BranchDetails } from "./branchDetails.entity";
 import {Expense} from "./expense.entity";
 import {ReceivePayment} from "./receive_payment,entity";
 import {DuePaidPayment} from "./duePaidPayment.entity";
-
+import {Withdraw} from "./withDraw.entity";
+import {Topup} from "./topup.entity";
 
 const entities = [
   User,
@@ -45,7 +46,9 @@ const entities = [
   BranchDetails,
   Expense,
   ReceivePayment,
-  DuePaidPayment
+  DuePaidPayment,
+  Withdraw,
+  Topup
  
 ];
 

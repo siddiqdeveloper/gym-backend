@@ -21,6 +21,8 @@ import { BankDetails } from 'src/entities/bankDetails.entity';
 import { BranchDetails } from 'src/entities/branchDetails.entity';
 import { Expense } from '../entities/expense.entity';
 import {ReceivePayment} from "../entities/receive_payment,entity";
+import {Withdraw} from "../entities/withDraw.entity";
+import {Topup} from "../entities/topup.entity";
 
 @Injectable()
 export class MiscService {
@@ -56,6 +58,11 @@ export class MiscService {
     private expenseRepository: Repository<Expense>,
     @InjectRepository(ReceivePayment)
     private receivePaymentRepository: Repository<ReceivePayment>,
+    @InjectRepository(Withdraw)
+    private withdrawRepository: Repository<Withdraw>,
+    @InjectRepository(Topup)
+    private topupRepository: Repository<Topup>,
+
   ) {}
 
   // electricity Consumption
@@ -941,4 +948,123 @@ export class MiscService {
     const result = await this.dataSource.query('CALL getBankDetailsList()');
     return result[0];
   }
+
+
+
+//   withDraw
+
+
+  async createwithDraw(body) {
+    try {
+      await this.withdrawRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving ', error);
+      throw new Error('Failed to save ');
+    }
+  }
+
+  async updatewithDraw(body) {
+    try {
+      const updatewithDraw = await this.withdrawRepository.update(
+          { id: body.id },
+          body,
+      );
+      return updatewithDraw;
+    } catch (error) {
+      console.error('Error updating updateexpense', error);
+      throw new Error('Failed to updating updateexpense');
+    }
+  }
+
+  async withDrawfindOne(id: number) {
+    const result = await this.dataSource.query('Call getWithDrawData(?)', [id]);
+    console.log('result', result);
+    return result[0][0];
+  }
+
+  async withDrawfindAll(): Promise<Freeze[]> {
+    const result = await this.dataSource.query('CALL getAllWithDrawData()');
+    return result[0];
+  }
+
+  async removewithDraw(id: number): Promise<void> {
+    await this.withdrawRepository.delete(id);
+  }
+
+  async updatewithDrawstatus(id: any, isActive: boolean) {
+    const updatewithDrawstatus: any = await this.withdrawRepository.findOne({
+      where: { id: id },
+    });
+    if (!updatewithDrawstatus) {
+      throw new Error('branchtype not found');
+    }
+
+    updatewithDrawstatus.isActive = isActive ? 1 : 0;
+
+    return this.withdrawRepository.save(updatewithDrawstatus);
+  }
+
+
+
+
+
+
+
+
+
+
+
+  async createtopup(body) {
+    try {
+      await this.topupRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving ', error);
+      throw new Error('Failed to save ');
+    }
+  }
+
+  async updatetopup(body) {
+    try {
+      const updatetopup = await this.topupRepository.update(
+          { id: body.id },
+          body,
+      );
+      return updatetopup;
+    } catch (error) {
+      console.error('Error updating updatetopup', error);
+      throw new Error('Failed to updating updatetopup');
+    }
+  }
+
+  async topupfindOne(id: number) {
+    const result = await this.dataSource.query('Call getTopupList(?)', [id]);
+    console.log('result', result);
+    return result[0][0];
+  }
+
+  async topupfindAll(): Promise<Freeze[]> {
+    const result = await this.dataSource.query('CALL getAllTopupList()');
+    return result[0];
+  }
+
+  async removetopup(id: number): Promise<void> {
+    await this.topupRepository.delete(id);
+  }
+
+  async updatetopupstatus(id: any, isActive: boolean) {
+    const updatetopupstatus: any = await this.topupRepository.findOne({
+      where: { id: id },
+    });
+    if (!updatetopupstatus) {
+      throw new Error('branchtype not found');
+    }
+
+    updatetopupstatus.isActive = isActive ? 1 : 0;
+
+    return this.topupRepository.save(updatetopupstatus);
+  }
+
+
 }

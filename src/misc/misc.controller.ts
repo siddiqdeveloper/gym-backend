@@ -1188,9 +1188,6 @@ export class MiscController {
     }
   }
 
-
-
-
   //  freeze
 
   @Post('freeze/add')
@@ -2225,7 +2222,7 @@ export class MiscController {
     }
   }
 
-//   due payments
+  //   due payments
 
   @Get('fetchDuePayments')
   async fetchDuePayments() {
@@ -2239,16 +2236,15 @@ export class MiscController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve fetchDuePayments',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve fetchDuePayments',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('duepaidPayment/get/:id')
   async duepaidPaymentfindOne(@Param('id') id: number) {
@@ -2263,19 +2259,15 @@ export class MiscController {
     } catch (error) {
       console.error('Error retrieving DuePaidPayment:', error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve DuePaidPayment',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve DuePaidPayment',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
-
-
 
   @Get('getBankDetails/all')
   async getBankDetails() {
@@ -2289,9 +2281,307 @@ export class MiscController {
     } catch (error) {
       console.error('Error retrieving member list:', error);
       throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve BankDetails',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  //    withDraw
+
+  @Post('withDraw/add')
+  async createwithDraw(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createwithDraw(reqdata);
+
+      return {
+        status: true,
+        message: 'withDraw  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to withDraw',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('withDraw/update')
+  async updatewithDraw(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updatewithDraw(body);
+      return {
+        status: true,
+        message: 'withDraw Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to withDraw',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('withDraw/get/:id')
+  async withDrawfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.withDrawfindOne(id);
+      console.log('data:', data);
+      return {
+        status: true,
+        message: 'withDraw successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving withDraw:', error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve withDraw',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('withDraw/all')
+  async withDrawfindAll() {
+    try {
+      const data = await this.mis.withDrawfindAll();
+      return {
+        status: true,
+        message: 'withDraw retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve withDraw',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('withDrawdelete/:id')
+  async removewithDraw(@Param('id') id: number) {
+    try {
+      await this.mis.removewithDraw(id);
+      return {
+        status: true,
+        message: 'withDraw deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete withDraw with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('withDrawstatus/:id')
+  async updatewithDrawstatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.updatewithDrawstatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'withDraw  updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update Receive withDraw',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+//   topup
+
+
+  @Post('topup/add')
+  async createtopup(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createtopup(reqdata);
+
+      return {
+        status: true,
+        message: 'topup  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
           {
             status: false,
-            message: 'Failed to retrieve BankDetails',
+            message: 'Failed to topup',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('topup/update')
+  async updatetopup(
+      @Body() body,
+      @Res() res: Response,
+      @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updatetopup(body);
+      return {
+        status: true,
+        message: 'topup Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to topup',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('topup/get/:id')
+  async topupfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.topupfindOne(id);
+      console.log('data:', data);
+      return {
+        status: true,
+        message: 'topup successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving topup:', error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve topup',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('topup/all')
+  async topupfindAll() {
+    try {
+      const data = await this.mis.topupfindAll();
+      return {
+        status: true,
+        message: 'topup retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve topup',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('topupdelete/:id')
+  async removetopup(@Param('id') id: number) {
+    try {
+      await this.mis.removetopup(id);
+      return {
+        status: true,
+        message: 'topup deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+          {
+            status: false,
+            message: `Failed to delete topup with ID ${id}`,
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('topupstatus/:id')
+  async updatetopupstatus(
+      @Param('id') id: string,
+      @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.updatetopupstatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'topup  updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to update Receive topup',
             error: error.message,
           },
           HttpStatus.BAD_REQUEST,
