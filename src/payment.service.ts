@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Payment } from './entities/Payment';
+import {DuePaidPayment} from "./entities/duePaidPayment.entity";
 
 @Injectable()
 export class PaymentService {
@@ -9,11 +10,13 @@ export class PaymentService {
     private dataSource: DataSource,
     @InjectRepository(Payment)
     private readonly paymentRepository: Repository<Payment>,
+    @InjectRepository(DuePaidPayment)
+    private readonly duePaidPaymentRepository: Repository<DuePaidPayment>,
   ) {}
 
   async createPayment(createPaymentDto) {
-    const payment = this.paymentRepository.create(createPaymentDto);  
-    return this.paymentRepository.save(payment);  
+    const payment = this.paymentRepository.create(createPaymentDto);
+    return this.paymentRepository.save(payment);
   }
 
   async findAll() {
@@ -23,17 +26,17 @@ export class PaymentService {
     return this.paymentRepository.find();
   }
 
-
-
   async updateStatus(id: any, isActive: boolean) {
-    console.log(id)
-    let payment:any = await this.paymentRepository.findOne({where:{id:id}});
+    console.log(id);
+    const payment: any = await this.paymentRepository.findOne({
+      where: { id: id },
+    });
     if (!payment) {
       throw new Error('payment not found');
     }
-   
-    payment.isActive = isActive?1:0;
-    console.log(payment)
+
+    payment.isActive = isActive ? 1 : 0;
+    console.log(payment);
     return this.paymentRepository.save(payment);
   }
   async remove(id: any) {
@@ -41,41 +44,86 @@ export class PaymentService {
   }
 
 
-  async updatePayments(body) {
+
+  async updatepayments(body) {
     try {
-    const updatePayments = await this.paymentRepository.update({id:body.id},body)
-     return updatePayments
-    } catch(error) {
-        console.error('Error updating updatePayments', error);
-        throw new Error('Failed to  updatePayments');
+      const updatePayments = await this.paymentRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updatePayments;
+    } catch (error) {
+      console.error('Error updating updateReceivepayments', error);
+      throw new Error('Failed to updating updateReceivepayments');
     }
-}
+  }
 
-
-
-async findOne(id) {
-  const result = await this.dataSource.query(
+  async findOne(id) {
+    const result = await this.dataSource.query(
       'CALL getPaymentData(?)', // Use parameterized query
       [id],
-  );
-  if (result && result[0] && result[0][0]) {
+    );
+    if (result && result[0] && result[0][0]) {
       return result[0][0];
-  } else {
+    } else {
       throw new Error('No data found for this ID'); // Handle no data case
+    }
   }
-}
 
-async getupdatePayments(body: any) {
-  console.log('body', body);
-  const details: any = await this.paymentRepository.findOne({
-    where: { memberId: body.memberid },
-  });
-  console.log('details', details);
-  details.pendingAmount = body.pendingAmount;
-   details.paidAmount = body.paidAmount ;
-  await this.paymentRepository.save(body)
+  async getupdatePayments(body: any) {
+    console.log('body', body);
+    const details: any = await this.paymentRepository.findOne({
+      where: { memberId: body.memberid },
+    });
+    console.log('details', details);
+    details.pendingAmount = body.pendingAmount;
+    details.paidAmount = body.paidAmount;
+    await this.paymentRepository.save(body);
+  }
 
-}
 
+//   due paidPayment Save
+
+
+
+
+
+
+  async createduePaidPayment(body) {
+    console.log('Body to save:', body);
+    try {
+      const details = await this.duePaidPaymentRepository.save(body);
+      const paymentData = await this.paymentRepository.findOne({
+        where: { id: details.paymentId },
+      });
+
+      if (paymentData) {
+        console.log('paymentData:', paymentData);
+
+
+        const paidAmount = parseFloat(paymentData.paidAmount) || 0;
+        const pendingAmount = parseFloat(details.pendingAmount) || 0;
+        const totalAmount = parseFloat(paymentData.totalAmount) || 0;
+
+
+        paymentData.paidAmount = (paidAmount + pendingAmount).toString();
+
+        if (paidAmount + pendingAmount >= totalAmount) {
+          paymentData.pendingAmount = 0;
+        } else {
+          paymentData.pendingAmount = totalAmount - (paidAmount + pendingAmount);
+        }
+
+
+        await this.paymentRepository.save(paymentData);
+        return body;
+      } else {
+        throw new Error('Payment not found.');
+      }
+    } catch (error) {
+      console.error('Error saving duePaidPayment:', error.message);
+      throw new Error(`Failed to save duePaidPayment: ${error.message}`);
+    }
+  }
 
 }

@@ -20,6 +20,7 @@ import { BankDetails } from "./bankDetails.entity";
 import { BranchDetails } from "./branchDetails.entity";
 import {Expense} from "./expense.entity";
 import {ReceivePayment} from "./receive_payment,entity";
+import {DuePaidPayment} from "./duePaidPayment.entity";
 
 
 const entities = [
@@ -43,7 +44,8 @@ const entities = [
   BankDetails,
   BranchDetails,
   Expense,
-  ReceivePayment
+  ReceivePayment,
+  DuePaidPayment
  
 ];
 

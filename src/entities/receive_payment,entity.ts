@@ -8,6 +8,12 @@ export class ReceivePayment {
     @Column({ type: 'varchar', length: 50, nullable: true })
     name: string | null;
 
+    @Column({ type: 'varchar', length: 50, nullable: true })
+    amount: string | null;
+
+    @Column({ type: 'varchar', length: 50, nullable: true })
+    bankName: string | null;
+
     @Column({ type:'tinyint', default: 1 })
     isActive: number;
 }

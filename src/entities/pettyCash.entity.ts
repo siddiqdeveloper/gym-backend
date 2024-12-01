@@ -25,6 +25,8 @@ export class PettyCash {
 
   @Column({ type: 'varchar', length: 300, nullable: true })
   attachBills: string;
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  bankName: string;
 
   @Column({ type:'tinyint', default: 1 })
   isActive: number;
