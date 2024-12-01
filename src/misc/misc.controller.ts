@@ -1188,6 +1188,9 @@ export class MiscController {
     }
   }
 
+
+
+
   //  freeze
 
   @Post('freeze/add')
@@ -2239,6 +2242,56 @@ export class MiscController {
           {
             status: false,
             message: 'Failed to retrieve fetchDuePayments',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('duepaidPayment/get/:id')
+  async duepaidPaymentfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.duepaidPaymentfindOne(id);
+      console.log('data:', data);
+      return {
+        status: true,
+        message: 'DuePaidPayment successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving DuePaidPayment:', error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve DuePaidPayment',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+
+  @Get('getBankDetails/all')
+  async getBankDetails() {
+    try {
+      const data = await this.mis.getBankDetails();
+      return {
+        status: true,
+        message: 'BankDetails retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving member list:', error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve BankDetails',
             error: error.message,
           },
           HttpStatus.BAD_REQUEST,
