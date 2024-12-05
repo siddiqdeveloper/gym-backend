@@ -194,44 +194,53 @@ export class MemberService {
   async createbukupload(body) {
     console.log('body', body);
 
-    const excelUpload = body.excelData; // Extract excel data
-    delete body.excelData; // Remove the excelData from the body before processing
+    const excelUpload = body.excelData;
+    delete body.excelData;
 
-    if (excelUpload.length > 0) {
+
+    if (excelUpload && excelUpload.length > 0) {
+
       for (let i = 0; i < excelUpload.length; i++) {
         const excelRow = excelUpload[i];
         console.log('excelRow', excelRow);
 
+
         const member = {
-          id: excelRow[0],
-          memberId: excelRow[1],
-          name: excelRow[2],
-          mobile: excelRow[3],
-          email: excelRow[5],
-          age: excelRow[6],
-          freezeStatus: excelRow[7],
-          gender: excelRow[8],
-          maritalStatus: excelRow[9],
-          shoulder: excelRow[10],
-          arms: excelRow[11],
-          chest: excelRow[12],
-          abdomenUpper: excelRow[13],
-          waist: excelRow[14],
-          abdomenLower: excelRow[15],
-          glute: excelRow[16],
-          thigh: excelRow[17],
-          calf: excelRow[18],
-          height: excelRow[19],
-          weight: excelRow[20],
-          smoking: excelRow[21],
-          alcohol: excelRow[22],
-          foodPreference: excelRow[23],
-          fitnessGoal: excelRow[24],
-          workoutType: excelRow[25],
-          billDate: excelRow[26],
+          memberID: excelRow.memberID,
+          name: excelRow.name,
+          mobile: excelRow.mobile,
+          email: excelRow['email '],
+          age: excelRow.age,
+          freezeStatus: excelRow.freezeStatus,
+          gender: excelRow.gender,
+          maritalStatus: excelRow.maritalStatus,
+          shoulders: excelRow.shoulders,
+          arms: excelRow.arms,
+          chest: excelRow.chest,
+          abdomenUpper: excelRow.abdomenUpper,
+          waist: excelRow.waist,
+          abdomenLower: excelRow.abdomenLower,
+          glute: excelRow.glute,
+          thigh: excelRow.thigh,
+          calf: excelRow.calf,
+          height: excelRow.height,
+          weight: excelRow.weight,
+          smoking: excelRow.smoking,
+          alcohol: excelRow.alcohol,
+          foodPreference: excelRow.foodPreference,
+          fitnessGoal: excelRow.fitnessGoal,
+          workoutType: excelRow.workoutType,
+          billDate: excelRow.billDate,
+          isActive: excelRow.isActive,
+          packagePrice: excelRow.packagePrice,
+          interestedIn: excelRow.interestedIn,
+          dob: excelRow.dob,
+          endDate: excelRow.endDate
         };
 
+
         try {
+
           await this.memberRepository.save(member);
           console.log('Member saved:', member);
         } catch (error) {
@@ -242,4 +251,5 @@ export class MemberService {
       console.log('No data to process.');
     }
   }
+
 }
