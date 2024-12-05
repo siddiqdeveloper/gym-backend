@@ -1,10 +1,23 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, HttpStatus, HttpException, Req, Res, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+  HttpStatus,
+  HttpException,
+  Req,
+  Res,
+  Query,
+} from '@nestjs/common';
 import { MemberService } from './member.service';
 import { Response } from 'express';
 
 @Controller('members')
 export class MemberController {
-  constructor(private readonly memberService: MemberService) { }
+  constructor(private readonly memberService: MemberService) {}
 
   // Create a new member
   @Post()
@@ -17,25 +30,24 @@ export class MemberController {
         data: data,
       };
     } catch (error) {
-      console.log(error)
-      throw new HttpException({
-        status: false,
-        message: 'Failed to create member',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create member',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
-
-
-
 
   // Get a member by ID
   @Get('get/:id')
   async findOne(@Param('id') id: number) {
-
     try {
       const data = await this.memberService.findOne(id);
-      console.log('data', data)
+      console.log('data', data);
       return {
         status: true,
         message: 'Member retrieved successfully',
@@ -43,16 +55,16 @@ export class MemberController {
       };
     } catch (error) {
       console.error('Error retrieving member:', error);
-      throw new HttpException({
-        status: false,
-        message: 'Failed to retrieve member',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve member',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
-
-
-
 
   // Get all members
 
@@ -66,17 +78,16 @@ export class MemberController {
         data: data,
       };
     } catch (error) {
-      throw new HttpException({
-        status: false,
-        message: 'Failed to retrieve members',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve members',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
-
-
-
-
 
   // Update a member by ID
   @Put('update/:id')
@@ -88,16 +99,17 @@ export class MemberController {
         message: 'Member updated successfully',
         data: data,
       };
-
     } catch (error) {
-      throw new HttpException({
-        status: false,
-        message: 'Failed to update member',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update member',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
-
 
   // Delete a member by ID
   @Delete('delete/:id')
@@ -109,11 +121,14 @@ export class MemberController {
         message: 'Member deleted successfully',
       };
     } catch (error) {
-      throw new HttpException({
-        status: false,
-        message: 'Failed to delete member',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to delete member',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -127,17 +142,23 @@ export class MemberController {
         data: data,
       };
     } catch (error) {
-      console.log(error)
-      throw new HttpException({
-        status: false,
-        message: 'Failed to generate member code',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to generate member code',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
   @Put('status/:id')
-  async updateStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+  async updateStatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
     try {
       const data = await this.memberService.updateStatus(id, body.isActive);
       return {
@@ -146,17 +167,17 @@ export class MemberController {
         data: data,
       };
     } catch (error) {
-      console.log(error)
-      throw new HttpException({
-        status: false,
-        message: 'Failed to update member status',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update member status',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
-
-
-
 
   // member InterestedIn
 
@@ -172,18 +193,18 @@ export class MemberController {
       };
     } catch (error) {
       console.error('Error retrieving InterstedIn:', error);
-      throw new HttpException({
-        status: false,
-        message: 'Failed to retrieve InterstedIn',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve InterstedIn',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
-
-
-  // inactive member 
-
+  // inactive member
 
   @Post('getInActiveMember')
   async getInActiveMember(
@@ -191,19 +212,14 @@ export class MemberController {
     @Req() request: Request,
     @Res() res: Response,
   ) {
-
     const data = await this.memberService.getInActiveMember(
       body.params.endDate,
-
     );
 
     res.send(data);
   }
 
-
-  // inactive Member as save 
-
-
+  // inactive Member as save
 
   @Post('inActiveMemberSave')
   async createInActiveMember(@Body() member) {
@@ -215,29 +231,21 @@ export class MemberController {
         data: data,
       };
     } catch (error) {
-      console.log(error)
-      throw new HttpException({
-        status: false,
-        message: 'Failed to InActive Member',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to InActive Member',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
-
-
-
-
-
-
-
-
-
-
 
   @Get('getMemberPaymentDetails')
   async getMemberPaymentDetails(@Query('id') id: number) {
     try {
-
       const data = await this.memberService.getMemberPaymentDetails(id);
       console.log('data:', data);
       return {
@@ -245,22 +253,20 @@ export class MemberController {
         message: 'Member successfully',
         data: data,
       };
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error retrieving Member:', error);
-      throw new HttpException({
-        status: false,
-        message: 'Failed to retrieve Member',
-        error: error.message,
-      }, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve Member',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
-
-
-
-  // due Payment 
-
+  // due Payment
 
   @Post('duePaymentList')
   async duePaymentList(
@@ -268,18 +274,34 @@ export class MemberController {
     @Req() request: Request,
     @Res() res: Response,
   ) {
-
-    const data = await this.memberService.duePaymentList(
-      body.params.memberId,
-
-    );
+    const data = await this.memberService.duePaymentList(body.params.memberId);
 
     res.send(data);
   }
 
+  // save bulk load
 
+  @Post('bukupload/add')
+  async createbukupload(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.memberService.createbukupload(reqdata);
 
-  
-
-
+      return {
+        status: true,
+        message: 'Bulk Upload  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Bulk Upload ',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }

@@ -6,7 +6,6 @@ import { DataSource } from 'typeorm';
 import { InActiveMember } from './entities/inActiveMember.entity';
 import { log } from 'console';
 
-
 @Injectable()
 export class MemberService {
   constructor(
@@ -27,32 +26,27 @@ export class MemberService {
     // return this.memberRepository.find();
 
     const result = await this.dataSource.query('CALL getmemberList()');
-   
+
     return result[0];
   }
 
   // Get a single member by ID
- 
 
   // async findOne(id: any) {
-   
+
   //   const member = await this.memberRepository.findOne({ where: { id } });
-  //   return member; 
+  //   return member;
   // }
 
-  
   async findOne(id) {
     const result = await this.dataSource.query(
-        'Call getMembersData(' + id + ')',
-        [],
+      'Call getMembersData(' + id + ')',
+      [],
     );
     if (result) {
       return result[0][0];
     }
   }
-
-
-
 
   // Update a member
   async update(id: any, member) {
@@ -67,7 +61,7 @@ export class MemberService {
 
   async generateMemberCode(): Promise<string> {
     // Find the member with the highest code
-    const lastMember:any = await this.memberRepository
+    const lastMember: any = await this.memberRepository
       .createQueryBuilder('members')
       .orderBy('members.id', 'DESC')
       .getOne();
@@ -76,8 +70,11 @@ export class MemberService {
 
     if (lastMember && lastMember.memberId) {
       // Extract the number part from the code (e.g., 'MEM001' -> 1)
-      const lastCodeNumber = parseInt(lastMember.memberId.replace('MEM', ''), 10);
-      console.log(lastCodeNumber)
+      const lastCodeNumber = parseInt(
+        lastMember.memberId.replace('MEM', ''),
+        10,
+      );
+      console.log(lastCodeNumber);
       // Increment the number by 1 and format it as 'MEM' + zero-padded number
       newCode = `MEM${(lastCodeNumber + 1).toString().padStart(3, '0')}`;
     } else {
@@ -89,32 +86,30 @@ export class MemberService {
   }
 
   async updateStatus(id: any, isActive: boolean) {
-    console.log(id)
-    let member:any = await this.memberRepository.findOne({where:{id:id}});
+    console.log(id);
+    const member: any = await this.memberRepository.findOne({
+      where: { id: id },
+    });
     if (!member) {
       throw new Error('Member not found');
     }
-   
-    member.isActive = isActive?1:0;
-    console.log(member)
+
+    member.isActive = isActive ? 1 : 0;
+    console.log(member);
     return this.memberRepository.save(member);
   }
 
-
   async getinterstedIn(id: number) {
-    const result = await this.dataSource.query(
-      'Call getPackageDurations(?)', [id] 
-    );
-    console.log('result',result)
-    return result[0][0]; 
-     
+    const result = await this.dataSource.query('Call getPackageDurations(?)', [
+      id,
+    ]);
+    console.log('result', result);
+    return result[0][0];
   }
 
-
-
   async getInActiveMember(endDate) {
-   endDate = "'" + endDate + "'";
-  const result = await this.dataSource.query(
+    endDate = "'" + endDate + "'";
+    const result = await this.dataSource.query(
       'Call getInActiveMember(' + endDate + ')',
 
       [],
@@ -125,17 +120,10 @@ export class MemberService {
     }
   }
 
-
-
-
-
-
-  // inActive member 
+  // inActive member
 
   createInActiveMember(body) {
-  
-    
-    const mappedMembers = body.inactiveMembers.map(member => ({
+    const mappedMembers = body.inactiveMembers.map((member) => ({
       id: member.id,
       name: member.name,
       mobile: member.mobile,
@@ -145,46 +133,38 @@ export class MemberService {
       endDate: new Date(member.endDate),
       gender: member.gender,
       age: member.age,
-      email:member.email,
+      email: member.email,
     }));
 
-
-    console.log('mappedMembers',mappedMembers);
-    for(let i=0;i<mappedMembers.length;i++){
-      console.log(mappedMembers[i])
+    console.log('mappedMembers', mappedMembers);
+    for (let i = 0; i < mappedMembers.length; i++) {
+      console.log(mappedMembers[i]);
       const data = {
-        member_id : mappedMembers[i].id,
-        reason : mappedMembers[i].reason,
-        remark : mappedMembers[i].remark,
+        member_id: mappedMembers[i].id,
+        reason: mappedMembers[i].reason,
+        remark: mappedMembers[i].remark,
         callBackDate: mappedMembers[i].callBackDate,
         endDate: mappedMembers[i].endDate,
         gender: mappedMembers[i].gender,
         age: mappedMembers[i].age,
-        email:mappedMembers[i].email,
-      }
+        email: mappedMembers[i].email,
+      };
 
       return this.inActiveMemberRepository.save(data);
     }
-   
-   
   }
-
-
-
-
-
 
   // async getMemberPaymentDetails(id: number) {
   //   id = "'" + id + "'";
   //   const result = await this.dataSource.query(
-  //     'Call getMemberPaymentDetails(?)', 
-  //     [id] 
+  //     'Call getMemberPaymentDetails(?)',
+  //     [id]
   //   );
   //   if (result) {
-  //     return result[0][0];  
-  //   return null; 
+  //     return result[0][0];
+  //   return null;
   // }
-  
+
   // }
 
   async getMemberPaymentDetails(id) {
@@ -196,24 +176,70 @@ export class MemberService {
     return result[0][0];
   }
 
-  
-
-
   async duePaymentList(memberId) {
     memberId = "'" + memberId + "'";
-   const result = await this.dataSource.query(
-       'Call duePaymentList(' + memberId + ')',
- 
-       [],
-     );
-     if (result) {
-       const data = result[0];
-       return data;
-     }
-   }
+    const result = await this.dataSource.query(
+      'Call duePaymentList(' + memberId + ')',
 
+      [],
+    );
+    if (result) {
+      const data = result[0];
+      return data;
+    }
+  }
 
+  //   file Uploader
 
-  
+  async createbukupload(body) {
+    console.log('body', body);
 
+    const excelUpload = body.excelData; // Extract excel data
+    delete body.excelData; // Remove the excelData from the body before processing
+
+    if (excelUpload.length > 0) {
+      for (let i = 0; i < excelUpload.length; i++) {
+        const excelRow = excelUpload[i];
+        console.log('excelRow', excelRow);
+
+        const member = {
+          id: excelRow[0],
+          memberId: excelRow[1],
+          name: excelRow[2],
+          mobile: excelRow[3],
+          email: excelRow[5],
+          age: excelRow[6],
+          freezeStatus: excelRow[7],
+          gender: excelRow[8],
+          maritalStatus: excelRow[9],
+          shoulder: excelRow[10],
+          arms: excelRow[11],
+          chest: excelRow[12],
+          abdomenUpper: excelRow[13],
+          waist: excelRow[14],
+          abdomenLower: excelRow[15],
+          glute: excelRow[16],
+          thigh: excelRow[17],
+          calf: excelRow[18],
+          height: excelRow[19],
+          weight: excelRow[20],
+          smoking: excelRow[21],
+          alcohol: excelRow[22],
+          foodPreference: excelRow[23],
+          fitnessGoal: excelRow[24],
+          workoutType: excelRow[25],
+          billDate: excelRow[26],
+        };
+
+        try {
+          await this.memberRepository.save(member);
+          console.log('Member saved:', member);
+        } catch (error) {
+          console.error('Error saving member:', error);
+        }
+      }
+    } else {
+      console.log('No data to process.');
+    }
+  }
 }

@@ -15,32 +15,39 @@ import { Gst } from 'src/entities/gst.entity';
 import { PettyCash } from 'src/entities/pettyCash.entity';
 import { BankDetails } from 'src/entities/bankDetails.entity';
 import { BranchDetails } from 'src/entities/branchDetails.entity';
-import {Expense} from "../entities/expense.entity";
-import {ReceivePayment} from "../entities/receive_payment,entity";
-import {Withdraw} from "../entities/withDraw.entity";
-import {Topup} from "../entities/topup.entity";
+import { Expense } from '../entities/expense.entity';
+import { ReceivePayment } from '../entities/receive_payment,entity';
+import { Withdraw } from '../entities/withDraw.entity';
+import { Topup } from '../entities/topup.entity';
+import { BulkUpload } from '../entities/bulkUpload.entity';
+import { BulkUploadMeta } from '../entities/bulkUploadMeta.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Member,ElectricityConsumption,WaterConsumption,
-    ServiceLog,
-    Reminder,
-    CheckList,
-    WorkOutType,
-    Exercise,
-    Freeze,
-    Gst,
-    PettyCash,
-    BankDetails,
-    BranchDetails,
-    Expense,
-    ReceivePayment,
-    Withdraw,
-    Topup
-  ])],
+  imports: [
+    TypeOrmModule.forFeature([
+      Member,
+      ElectricityConsumption,
+      WaterConsumption,
+      ServiceLog,
+      Reminder,
+      CheckList,
+      WorkOutType,
+      Exercise,
+      Freeze,
+      Gst,
+      PettyCash,
+      BankDetails,
+      BranchDetails,
+      Expense,
+      ReceivePayment,
+      Withdraw,
+      Topup,
+      BulkUpload,
+      BulkUploadMeta,
+    ]),
+  ],
   providers: [MiscService],
   controllers: [MiscController],
   exports: [MiscService],
 })
 export class MiscModule {}
-
-

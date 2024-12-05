@@ -11,7 +11,7 @@ import { WaterConsumption } from 'src/entities/waterConsumption.entity';
 import { WorkOutType } from 'src/entities/workOutType.entity';
 import { DataSource } from 'typeorm';
 import * as twig from 'twig';
-import * as path from 'path';
+
 import { Freeze } from 'src/entities/freeze.entity';
 import { Member } from 'src/entities/Member.entity';
 import { Repository } from 'typeorm';
@@ -20,9 +20,15 @@ import { PettyCash } from 'src/entities/pettyCash.entity';
 import { BankDetails } from 'src/entities/bankDetails.entity';
 import { BranchDetails } from 'src/entities/branchDetails.entity';
 import { Expense } from '../entities/expense.entity';
-import {ReceivePayment} from "../entities/receive_payment,entity";
-import {Withdraw} from "../entities/withDraw.entity";
-import {Topup} from "../entities/topup.entity";
+import { ReceivePayment } from '../entities/receive_payment,entity';
+import { Withdraw } from '../entities/withDraw.entity';
+import { Topup } from '../entities/topup.entity';
+import AWS from 'aws-sdk';
+import * as path from 'path';
+import * as fs from 'fs';
+import * as XLSX from 'xlsx';
+import { BulkUpload } from '../entities/bulkUpload.entity';
+import { BulkUploadMeta } from '../entities/bulkUploadMeta.entity';
 
 @Injectable()
 export class MiscService {
@@ -62,7 +68,10 @@ export class MiscService {
     private withdrawRepository: Repository<Withdraw>,
     @InjectRepository(Topup)
     private topupRepository: Repository<Topup>,
-
+    @InjectRepository(BulkUpload)
+    private bulkUploadRepository: Repository<BulkUpload>,
+    @InjectRepository(BulkUploadMeta)
+    private bulkUploadMetaRepository: Repository<BulkUploadMeta>,
   ) {}
 
   // electricity Consumption
@@ -942,17 +951,12 @@ export class MiscService {
     return result[0][0];
   }
 
-
-
   async getBankDetails() {
     const result = await this.dataSource.query('CALL getBankDetailsList()');
     return result[0];
   }
 
-
-
-//   withDraw
-
+  //   withDraw
 
   async createwithDraw(body) {
     try {
@@ -967,8 +971,8 @@ export class MiscService {
   async updatewithDraw(body) {
     try {
       const updatewithDraw = await this.withdrawRepository.update(
-          { id: body.id },
-          body,
+        { id: body.id },
+        body,
       );
       return updatewithDraw;
     } catch (error) {
@@ -1005,16 +1009,6 @@ export class MiscService {
     return this.withdrawRepository.save(updatewithDrawstatus);
   }
 
-
-
-
-
-
-
-
-
-
-
   async createtopup(body) {
     try {
       await this.topupRepository.save(body);
@@ -1028,8 +1022,8 @@ export class MiscService {
   async updatetopup(body) {
     try {
       const updatetopup = await this.topupRepository.update(
-          { id: body.id },
-          body,
+        { id: body.id },
+        body,
       );
       return updatetopup;
     } catch (error) {
@@ -1065,6 +1059,8 @@ export class MiscService {
 
     return this.topupRepository.save(updatetopupstatus);
   }
+
+
 
 
 }
