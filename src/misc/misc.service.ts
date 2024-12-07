@@ -23,7 +23,7 @@ import { Expense } from '../entities/expense.entity';
 import { ReceivePayment } from '../entities/receive_payment,entity';
 import { Withdraw } from '../entities/withDraw.entity';
 import { Topup } from '../entities/topup.entity';
-import AWS from 'aws-sdk';
+
 import * as path from 'path';
 import * as fs from 'fs';
 import * as XLSX from 'xlsx';
