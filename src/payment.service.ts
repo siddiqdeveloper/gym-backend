@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Payment } from './entities/Payment';
-import {DuePaidPayment} from "./entities/duePaidPayment.entity";
+import { DuePaidPayment } from './entities/duePaidPayment.entity';
+import { Lead } from './entities/Lead.entity';
 
 @Injectable()
 export class PaymentService {
@@ -43,8 +44,6 @@ export class PaymentService {
     await this.paymentRepository.softDelete(id);
   }
 
-
-
   async updatepayments(body) {
     try {
       const updatePayments = await this.paymentRepository.update(
@@ -81,13 +80,7 @@ export class PaymentService {
     await this.paymentRepository.save(body);
   }
 
-
-//   due paidPayment Save
-
-
-
-
-
+  //   due paidPayment Save
 
   async createduePaidPayment(body) {
     console.log('Body to save:', body);
@@ -100,20 +93,18 @@ export class PaymentService {
       if (paymentData) {
         console.log('paymentData:', paymentData);
 
-
         const paidAmount = parseFloat(paymentData.paidAmount) || 0;
         const pendingAmount = parseFloat(details.pendingAmount) || 0;
         const totalAmount = parseFloat(paymentData.totalAmount) || 0;
-
 
         paymentData.paidAmount = (paidAmount + pendingAmount).toString();
 
         if (paidAmount + pendingAmount >= totalAmount) {
           paymentData.pendingAmount = 0;
         } else {
-          paymentData.pendingAmount = totalAmount - (paidAmount + pendingAmount);
+          paymentData.pendingAmount =
+            totalAmount - (paidAmount + pendingAmount);
         }
-
 
         await this.paymentRepository.save(paymentData);
         return body;
@@ -126,4 +117,82 @@ export class PaymentService {
     }
   }
 
+  async transaction(customStartDate, customEndDate, selectedTrainer) {
+    customStartDate = "'" + customStartDate + "'";
+    customEndDate = "'" + customEndDate + "'";
+    selectedTrainer = "'" + selectedTrainer + "'";
+    const result = await this.dataSource.query(
+      'Call gettransactionTodayList(' +
+        customStartDate +
+        ',' +
+        customEndDate +
+        ',' +
+        selectedTrainer +
+        ')',
+      [],
+    );
+    if (result) {
+      const data = result[0];
+      return data;
+    }
+  }
+
+  async weekcollection(customStartDate, customEndDate, selectedTrainer) {
+    customStartDate = "'" + customStartDate + "'";
+    customEndDate = "'" + customEndDate + "'";
+    selectedTrainer = "'" + selectedTrainer + "'";
+    const result = await this.dataSource.query(
+      'Call gettransactionweekcollection(' +
+        customStartDate +
+        ',' +
+        customEndDate +
+        ',' +
+        selectedTrainer +
+        ')',
+      [],
+    );
+    if (result) {
+      const data = result[0];
+      return data;
+    }
+  }
+
+  async cashcollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getcashcollection()');
+    console.log();
+    return result[0];
+  }
+
+  async duesummary(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getduesummary()');
+    console.log();
+    return result[0];
+  }
+
+  async monthcollection(customStartDate, customEndDate, selectedTrainer) {
+    customStartDate = "'" + customStartDate + "'";
+    customEndDate = "'" + customEndDate + "'";
+    selectedTrainer = "'" + selectedTrainer + "'";
+    const result = await this.dataSource.query(
+      'Call getmonthcollection(' +
+        customStartDate +
+        ',' +
+        customEndDate +
+        ',' +
+        selectedTrainer +
+        ')',
+      [],
+    );
+    if (result) {
+      const data = result[0];
+      return data;
+    }
+  }
+
+
+  async upicollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getduesummary()');
+    console.log();
+    return result[0];
+  }
 }

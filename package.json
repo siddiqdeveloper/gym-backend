@@ -29,7 +29,7 @@
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^10.0.0",
-    "aws-sdk": "^2.1419.0",
+    "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
     "cache-manager": "^5.2.3",
     "cache-manager-redis-store": "^2.0.0",

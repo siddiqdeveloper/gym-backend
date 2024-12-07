@@ -23,6 +23,8 @@ import {ReceivePayment} from "./receive_payment,entity";
 import {DuePaidPayment} from "./duePaidPayment.entity";
 import {Withdraw} from "./withDraw.entity";
 import {Topup} from "./topup.entity";
+import {BulkUpload} from "./bulkUpload.entity";
+import {BulkUploadMeta} from "./bulkUploadMeta.entity";
 
 const entities = [
   User,
@@ -48,7 +50,9 @@ const entities = [
   ReceivePayment,
   DuePaidPayment,
   Withdraw,
-  Topup
+  Topup,
+  BulkUpload,
+  BulkUploadMeta
  
 ];
 

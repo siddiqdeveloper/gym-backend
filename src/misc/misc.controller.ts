@@ -10,6 +10,8 @@ import {
   Param,
   Delete,
   Put,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { MiscService } from './misc.service';
 import { get } from 'http';
@@ -17,6 +19,7 @@ import { Response } from 'express';
 import puppeteer from 'puppeteer';
 import * as twig from 'twig';
 import * as path from 'path';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('misc')
 export class MiscController {
@@ -2439,9 +2442,7 @@ export class MiscController {
     }
   }
 
-
-//   topup
-
+  //   topup
 
   @Post('topup/add')
   async createtopup(@Body() body) {
@@ -2457,12 +2458,12 @@ export class MiscController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to topup',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to topup',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
@@ -2471,9 +2472,9 @@ export class MiscController {
 
   @Post('topup/update')
   async updatetopup(
-      @Body() body,
-      @Res() res: Response,
-      @Req() request: Request,
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
   ) {
     try {
       const check = await this.mis.updatetopup(body);
@@ -2485,12 +2486,12 @@ export class MiscController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to topup',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to topup',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
@@ -2508,12 +2509,12 @@ export class MiscController {
     } catch (error) {
       console.error('Error retrieving topup:', error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve topup',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve topup',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
@@ -2530,12 +2531,12 @@ export class MiscController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve topup',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve topup',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
@@ -2552,12 +2553,12 @@ export class MiscController {
       };
     } catch (error) {
       throw new HttpException(
-          {
-            status: false,
-            message: `Failed to delete topup with ID ${id}`,
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: `Failed to delete topup with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
@@ -2566,8 +2567,8 @@ export class MiscController {
 
   @Put('topupstatus/:id')
   async updatetopupstatus(
-      @Param('id') id: string,
-      @Body() body: { isActive: boolean },
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
   ) {
     try {
       const data = await this.mis.updatetopupstatus(id, body.isActive);
@@ -2579,13 +2580,18 @@ export class MiscController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to update Receive topup',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to update Receive topup',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
+
+  //   file Upload in BulkUpload
+
+
+
 }

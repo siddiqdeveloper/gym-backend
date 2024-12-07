@@ -204,4 +204,82 @@ export class PaymentController {
       );
     }
   }
+
+  //
+
+  @Post('transaction/todaycollection')
+  async transaction(
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.transaction(body.customStartDate,body.customEndDate,body.selectedTrainer);
+
+    res.send(data);
+  }
+
+
+  @Post('transaction/weekcollection')
+  async weekcollection(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.weekcollection(body.customStartDate,body.customEndDate,body.selectedTrainer);
+
+    res.send(data);
+  }
+
+
+  @Post('transaction/cashcollection')
+  async cashcollection(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.cashcollection();
+
+    res.send(data);
+  }
+
+  @Post('transaction/duesummary')
+  async duesummary(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.duesummary();
+
+    res.send(data);
+  }
+
+
+  @Post('transaction/monthcollection')
+  async monthcollection(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.monthcollection(body.customStartDate,body.customEndDate,body.selectedTrainer);
+
+    res.send(data);
+  }
+
+
+  @Post('transaction/upicollection')
+  async upicollection(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.upicollection();
+
+    res.send(data);
+  }
 }
