@@ -189,9 +189,75 @@ export class PaymentService {
     }
   }
 
-
   async upicollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getduesummary()');
+    console.log();
+    return result[0];
+  }
+
+  async trainerwise(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL gettrainerwise()');
+    console.log();
+    return result[0];
+  }
+
+  async maleMember(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getmaleMember()');
+    console.log();
+    return result[0];
+  }
+
+  async femaleMember(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getfemaleMember()');
+    console.log();
+    return result[0];
+  }
+
+  async annualSales(customStartDate, customEndDate, selectedTrainer) {
+    customStartDate = "'" + customStartDate + "'";
+    customEndDate = "'" + customEndDate + "'";
+    selectedTrainer = "'" + selectedTrainer + "'";
+    const result = await this.dataSource.query(
+      'Call getannualSales(' +
+        customStartDate +
+        ',' +
+        customEndDate +
+        ',' +
+        selectedTrainer +
+        ')',
+      [],
+    );
+    if (result) {
+      const data = result[0];
+      return data;
+    }
+  }
+
+
+  async topSelling(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL gettopSelling()');
+    console.log();
+    return result[0];
+  }
+
+
+  async lowSelling(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getlowSelling()');
+    console.log();
+    return result[0];
+  }
+
+
+
+  async branchWise(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getbranchWise()');
+    console.log();
+    return result[0];
+  }
+
+
+  async collection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getcollection()');
     console.log();
     return result[0];
   }

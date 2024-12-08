@@ -282,4 +282,109 @@ export class PaymentController {
 
     res.send(data);
   }
+
+
+  @Post('trainerwise/report')
+  async trainerwise(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.trainerwise();
+
+    res.send(data);
+  }
+
+  @Post('maleMember/report')
+  async maleMember(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.maleMember();
+
+    res.send(data);
+  }
+
+
+  @Post('femaleMember/report')
+  async femaleMember(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.femaleMember();
+
+    res.send(data);
+  }
+
+
+
+  @Post('annualSales/reports')
+  async annualSales(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.annualSales(body.customStartDate,body.customEndDate,body.selectedTrainer);
+
+    res.send(data);
+  }
+
+
+  @Post('topSelling/report')
+  async topSelling(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.topSelling();
+
+    res.send(data);
+  }
+
+
+  @Post('lowSelling/report')
+  async lowSelling(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.lowSelling();
+
+    res.send(data);
+  }
+
+
+  @Post('branchWise/report')
+  async branchWise(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.branchWise();
+
+    res.send(data);
+  }
+
+
+  @Post('collection/report')
+  async collection(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.collection();
+
+    res.send(data);
+  }
+
 }
