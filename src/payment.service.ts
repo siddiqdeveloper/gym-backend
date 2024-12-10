@@ -233,13 +233,11 @@ export class PaymentService {
     }
   }
 
-
   async topSelling(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL gettopSelling()');
     console.log();
     return result[0];
   }
-
 
   async lowSelling(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getlowSelling()');
@@ -247,17 +245,70 @@ export class PaymentService {
     return result[0];
   }
 
-
-
   async branchWise(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getbranchWise()');
     console.log();
     return result[0];
   }
 
-
   async collection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getcollection()');
+    console.log();
+    return result[0];
+  }
+
+  async paymentdiscount(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getpaymentdiscount()');
+    console.log();
+    return result[0];
+  }
+
+  async packagecomplementary(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+      'CALL getpackagecomplementary()',
+    );
+    console.log();
+    return result[0];
+  }
+
+  async packageoffer(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL getpackageoffer()',
+    );
+    console.log();
+    return result[0];
+  }
+
+
+  async paymentrenewal(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL getpaymentrenewal()',
+    );
+    console.log();
+    return result[0];
+  }
+
+
+  async paymentrefund(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL getpaymentrefund()',
+    );
+    console.log();
+    return result[0];
+  }
+
+  async halfOfYearMember(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL gethalfOfYearMember()',
+    );
+    console.log();
+    return result[0];
+  }
+
+  async quaterlymember(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL getquaterlymember()',
+    );
     console.log();
     return result[0];
   }

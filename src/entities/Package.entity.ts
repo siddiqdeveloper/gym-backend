@@ -17,6 +17,12 @@ export class Package {
   @Column()
   packageFeatures: string;
 
+  @Column()
+  complementary: string;
+
+  @Column()
+  offer: string;
+
   @Column('decimal', { precision: 5, scale: 2, nullable: true })
   discount: number;
 
@@ -27,6 +33,6 @@ export class Package {
   endDate: string; // or you can use Date type
 
   // New column to indicate if the package is active or not
-  @Column({ type:'tinyint', default: 1 })
+  @Column({ type: 'tinyint', default: 1 })
   isActive: number;
 }

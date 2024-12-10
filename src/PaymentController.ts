@@ -387,4 +387,93 @@ export class PaymentController {
     res.send(data);
   }
 
+
+  @Post('paymentdiscount/report')
+  async paymentdiscount(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.paymentdiscount();
+
+    res.send(data);
+  }
+
+
+  @Post('packagecomplementary/report')
+  async packagecomplementary(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.packagecomplementary();
+
+    res.send(data);
+  }
+
+
+  @Post('packageoffer/report')
+  async packageoffer(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.packageoffer();
+
+    res.send(data);
+  }
+
+
+  @Post('paymentrenewal/report')
+  async paymentrenewal(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.paymentrenewal();
+
+    res.send(data);
+  }
+
+  @Post('paymentrefund/report')
+  async paymentrefund(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.paymentrefund();
+
+    res.send(data);
+  }
+
+
+  @Post('halfOfYearMember/report')
+  async halfOfYearMember(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.halfOfYearMember();
+
+    res.send(data);
+  }
+
+
+  @Post('quaterlymember/report')
+  async quaterlymember(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.quaterlymember();
+
+    res.send(data);
+  }
 }

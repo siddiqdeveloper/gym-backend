@@ -39,7 +39,7 @@ export class Payment {
   @Column({ type: 'int' })
   memberId: number;
 
-  @Column({ type: 'enum', enum: ['NEW', 'RENEWAL'] })
+  @Column({ type: 'enum', enum: ['NEW', 'RENEWAL','REFUND'] })
   memberPaymentFor: 'NEW' | 'RENEWAL';
 
   @Column({ type: 'varchar', length: 255, nullable: true })
