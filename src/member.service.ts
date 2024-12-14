@@ -284,4 +284,32 @@ export class MemberService {
     const result = await this.dataSource.query('CALL getBmiList()');
     return result[0];
   }
+
+  async saveBmiDate(body) {
+    try {
+      const bmiSave = await this.bmiRepository.findOne({
+        where: { member_id: body.member_id },
+      });
+
+      if (!bmiSave) {
+        return { message: "BMI data not found." };
+      }
+
+      bmiSave.date = body.date;
+
+      if (bmiSave.date === body.date) {
+
+        return { message: "The BMI data for this date has already been saved." };
+      }
+
+      await this.bmiRepository.save(bmiSave);
+
+      return { message: "BMI data saved successfully." };
+    } catch (error) {
+      console.error('Error saving BMI data:', error);
+      return { message: "An error occurred while saving BMI data." };
+    }
+  }
+
+
 }

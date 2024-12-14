@@ -305,7 +305,6 @@ export class MemberController {
     }
   }
 
-
   @Post('cancel')
   async cancel(@Body() { memberId }) {
     try {
@@ -318,17 +317,15 @@ export class MemberController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to cancel member',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to cancel member',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('getBmiList/all')
   async getBmiList() {
@@ -342,14 +339,37 @@ export class MemberController {
     } catch (error) {
       console.error('Error retrieving member list:', error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve MemberList',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve MemberList',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
 
+  @Post('saveBmiData')
+  async saveBmiDate(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.memberService.saveBmiDate(reqdata);
+
+      return {
+        status: true,
+        message: 'Bmi created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Bulk Upload ',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
