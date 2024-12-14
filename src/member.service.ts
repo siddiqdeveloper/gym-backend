@@ -5,6 +5,7 @@ import { Member } from './entities/Member.entity';
 import { DataSource } from 'typeorm';
 import { InActiveMember } from './entities/inActiveMember.entity';
 import { log } from 'console';
+import { Bmi } from './entities/bmi.entity';
 
 @Injectable()
 export class MemberService {
@@ -14,11 +15,31 @@ export class MemberService {
     private memberRepository: Repository<Member>,
     @InjectRepository(InActiveMember)
     private inActiveMemberRepository: Repository<InActiveMember>,
+    @InjectRepository(Bmi)
+    private bmiRepository: Repository<Bmi>,
   ) {}
 
   // Create a new member
-  create(member: Member) {
-    return this.memberRepository.save(member);
+ async create(member: Member) {
+    console.log('aaaaaaaaaaMember', member);
+    // return this.memberRepository.save(member);
+    const savedMember = await this.memberRepository.save(member);
+    const savebmi = {
+      member_id: savedMember.memberId,
+      shoulders: savedMember.shoulders,
+      arms: savedMember.arms,
+      chest: savedMember.chest,
+      abdomenUpper: savedMember.abdomenUpper,
+      waist: savedMember.waist,
+      abdomenLower: savedMember.abdomenLower,
+      glute: savedMember.glute,
+      thigh: savedMember.thigh,
+      calf: savedMember.calf,
+      height: savedMember.height,
+      weight: savedMember.weight,
+    };
+
+    return this.bmiRepository.save(savebmi);
   }
 
   // Get all members
@@ -197,13 +218,10 @@ export class MemberService {
     const excelUpload = body.excelData;
     delete body.excelData;
 
-
     if (excelUpload && excelUpload.length > 0) {
-
       for (let i = 0; i < excelUpload.length; i++) {
         const excelRow = excelUpload[i];
         console.log('excelRow', excelRow);
-
 
         const member = {
           memberID: excelRow.memberID,
@@ -235,12 +253,10 @@ export class MemberService {
           packagePrice: excelRow.packagePrice,
           interestedIn: excelRow.interestedIn,
           dob: excelRow.dob,
-          endDate: excelRow.endDate
+          endDate: excelRow.endDate,
         };
 
-
         try {
-
           await this.memberRepository.save(member);
           console.log('Member saved:', member);
         } catch (error) {
@@ -251,5 +267,49 @@ export class MemberService {
       console.log('No data to process.');
     }
   }
+
+  async cancel(body) {
+    console.log('aaaabody', body);
+    const member = await this.memberRepository.findOne({
+      where: { id: body },
+    });
+    member.cancel = 1;
+    await this.memberRepository.save(member);
+    return body;
+  }
+
+
+
+  async getBmiList() {
+    const result = await this.dataSource.query('CALL getBmiList()');
+    return result[0];
+  }
+
+  async saveBmiDate(body) {
+    try {
+      const bmiSave = await this.bmiRepository.findOne({
+        where: { member_id: body.member_id },
+      });
+
+      if (!bmiSave) {
+        return { message: "BMI data not found." };
+      }
+
+      bmiSave.date = body.date;
+
+      if (bmiSave.date === body.date) {
+
+        return { message: "The BMI data for this date has already been saved." };
+      }
+
+      await this.bmiRepository.save(bmiSave);
+
+      return { message: "BMI data saved successfully." };
+    } catch (error) {
+      console.error('Error saving BMI data:', error);
+      return { message: "An error occurred while saving BMI data." };
+    }
+  }
+
 
 }
