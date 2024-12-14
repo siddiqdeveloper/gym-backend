@@ -543,7 +543,7 @@ export class MiscService {
   // freeze
 
   async getMemberListInFreeze() {
-    const result = await this.dataSource.query('CALL getMemberListInFreeze()');
+    const result = await this.dataSource.query('CALL getmemberListInFreeze()');
     return result[0];
   }
 

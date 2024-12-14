@@ -304,4 +304,52 @@ export class MemberController {
       );
     }
   }
+
+
+  @Post('cancel')
+  async cancel(@Body() { memberId }) {
+    try {
+      const data = await this.memberService.cancel(memberId);
+      return {
+        status: true,
+        message: 'Member Cancel successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to cancel member',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getBmiList/all')
+  async getBmiList() {
+    try {
+      const data = await this.memberService.getBmiList();
+      return {
+        status: true,
+        message: 'MemberList retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving member list:', error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve MemberList',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
 }

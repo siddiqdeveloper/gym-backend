@@ -120,4 +120,7 @@ export class Member {
 
   @Column({ type: 'tinyint', default: 0 })
   freezeStatus: number;
+
+  @Column({ type: 'tinyint', default: 0 })
+  cancel: number;
 }
