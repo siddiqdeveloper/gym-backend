@@ -445,4 +445,29 @@ export class MemberController {
     }
   }
 
+
+
+  @Get('bmi/get/:id')
+  async bmifindOne(@Param('id') id: number) {
+    try {
+      const data = await this.memberService.bmifindOne(id);
+      console.log('data:', data);
+      return {
+        status: true,
+        message: 'BMI successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving BMI:', error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve BMI',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
 }
