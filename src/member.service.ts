@@ -356,4 +356,12 @@ export class MemberService {
     const result = await this.dataSource.query('CALL getAllBmiData()');
     return result[0];
   }
+
+
+  async bmifindOne(id: number) {
+    const result = await this.dataSource.query('Call getbmifindOne(?)', [id]);
+    console.log('result', result);
+    return result[0][0];
+  }
+
 }
