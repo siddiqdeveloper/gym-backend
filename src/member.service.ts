@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Member } from './entities/Member.entity';
@@ -6,6 +6,7 @@ import { DataSource } from 'typeorm';
 import { InActiveMember } from './entities/inActiveMember.entity';
 import { log } from 'console';
 import { Bmi } from './entities/bmi.entity';
+import { HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class MemberService {
@@ -37,6 +38,7 @@ export class MemberService {
       calf: savedMember.calf,
       height: savedMember.height,
       weight: savedMember.weight,
+      date: new Date(),
     };
 
     return this.bmiRepository.save(savebmi);
@@ -283,54 +285,48 @@ export class MemberService {
     return result[0];
   }
 
-  // async saveBmiDate(body) {
-  //   console.log('hahhddd', body);
-  //   try {
-  //     const bmiSave = await this.bmiRepository.findOne({
-  //       where: { member_id: body.member_id },
-  //     });
-  //
-  //     if (bmiSave) {
-  //       if (bmiSave.date === body.date) {
-  //         throw new Error(`This date ${body.date} is already saved for member ${body.member_id}.`);
-  //
-  //       } else {
-  //         bmiSave.date = body.date;
-  //         await this.bmiRepository.save(bmiSave);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('Error saving BMI data:', error);
-  //   }
-  // }
-
   async saveBmiDate(body) {
-    console.log('hahhddd', body);
-    try {
-      const bmiSave = await this.bmiRepository.findOne({
-        where: { member_id: body.member_id },
-      });
+    const formattedDate = new Date(body.date).toLocaleDateString('en-GB');
+    const finalFormattedDate = formattedDate.replace(/\//g, '-');
+    const dateObj = new Date(body.date);
+    dateObj.setHours(0, 0, 0, 0);
 
-      if (bmiSave) {
-        if (bmiSave.date === body.date) {
-          throw new Error(
-            `This date ${body.date} is already saved for member ${body.member_id}.`,
-          );
-        } else {
-          bmiSave.date = body.date;
-          await this.bmiRepository.save(bmiSave);
-        }
-      } else {
-        console.log('No BMI record found for member', body.member_id);
-      }
-    } catch (error) {
-      console.error('Error saving BMI data:', error.message);
+    const existingBmi = await this.bmiRepository.findOne({
+      where: { member_id: body.member_id },
+    });
+    console.log('existingBmi', existingBmi);
+    console.log('dateObj', dateObj);
 
-      return { success: false, message: error.message };
+    if (existingBmi.date === dateObj) {
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Data for this member and date already exists.',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    } else {
+      const newBmiData = {
+        date: dateObj,
+        weight: body.weight,
+        height: body.height,
+        calf: body.calf,
+        thigh: body.thigh,
+        abdomenLower: body.abdomenLower,
+        abdomenUpper: body.abdomenUpper,
+        chest: body.chest,
+        arms: body.arms,
+        shoulders: body.shoulders,
+        member_id: body.member_id,
+      };
+      console.log('newBmiData', newBmiData);
+      const details = await this.bmiRepository.save(newBmiData);
+
+      //
+
+      return details;
     }
   }
-
-
 
   async updatebmistatus(id: any, isActive: boolean) {
     console.log(id);
@@ -346,22 +342,18 @@ export class MemberService {
     return this.bmiRepository.save(exerciseType);
   }
 
-
   async bmiDelete(id: number): Promise<void> {
     await this.bmiRepository.delete(id);
   }
-
 
   async bmiAll() {
     const result = await this.dataSource.query('CALL getAllBmiData()');
     return result[0];
   }
 
-
   async bmifindOne(id: number) {
     const result = await this.dataSource.query('Call getbmifindOne(?)', [id]);
     console.log('result', result);
     return result[0][0];
   }
-
 }
