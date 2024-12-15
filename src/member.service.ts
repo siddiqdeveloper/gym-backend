@@ -20,7 +20,7 @@ export class MemberService {
   ) {}
 
   // Create a new member
- async create(member: Member) {
+  async create(member: Member) {
     console.log('aaaaaaaaaaMember', member);
     // return this.memberRepository.save(member);
     const savedMember = await this.memberRepository.save(member);
@@ -278,38 +278,82 @@ export class MemberService {
     return body;
   }
 
-
-
   async getBmiList() {
     const result = await this.dataSource.query('CALL getBmiList()');
     return result[0];
   }
 
+  // async saveBmiDate(body) {
+  //   console.log('hahhddd', body);
+  //   try {
+  //     const bmiSave = await this.bmiRepository.findOne({
+  //       where: { member_id: body.member_id },
+  //     });
+  //
+  //     if (bmiSave) {
+  //       if (bmiSave.date === body.date) {
+  //         throw new Error(`This date ${body.date} is already saved for member ${body.member_id}.`);
+  //
+  //       } else {
+  //         bmiSave.date = body.date;
+  //         await this.bmiRepository.save(bmiSave);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('Error saving BMI data:', error);
+  //   }
+  // }
+
   async saveBmiDate(body) {
+    console.log('hahhddd', body);
     try {
       const bmiSave = await this.bmiRepository.findOne({
         where: { member_id: body.member_id },
       });
 
-      if (!bmiSave) {
-        return { message: "BMI data not found." };
+      if (bmiSave) {
+        if (bmiSave.date === body.date) {
+          throw new Error(
+            `This date ${body.date} is already saved for member ${body.member_id}.`,
+          );
+        } else {
+          bmiSave.date = body.date;
+          await this.bmiRepository.save(bmiSave);
+        }
+      } else {
+        console.log('No BMI record found for member', body.member_id);
       }
-
-      bmiSave.date = body.date;
-
-      if (bmiSave.date === body.date) {
-
-        return { message: "The BMI data for this date has already been saved." };
-      }
-
-      await this.bmiRepository.save(bmiSave);
-
-      return { message: "BMI data saved successfully." };
     } catch (error) {
-      console.error('Error saving BMI data:', error);
-      return { message: "An error occurred while saving BMI data." };
+      console.error('Error saving BMI data:', error.message);
+
+      return { success: false, message: error.message };
     }
   }
 
 
+
+  async updatebmistatus(id: any, isActive: boolean) {
+    console.log(id);
+    const exerciseType: any = await this.bmiRepository.findOne({
+      where: { id: id },
+    });
+    if (!exerciseType) {
+      throw new Error('exerciseType not found');
+    }
+
+    exerciseType.isActive = isActive ? 1 : 0;
+
+    return this.bmiRepository.save(exerciseType);
+  }
+
+
+  async bmiDelete(id: number): Promise<void> {
+    await this.bmiRepository.delete(id);
+  }
+
+
+  async bmiAll() {
+    const result = await this.dataSource.query('CALL getAllBmiData()');
+    return result[0];
+  }
 }
