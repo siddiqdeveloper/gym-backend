@@ -44,4 +44,7 @@ export class Bmi {
   @Column({ type: 'date', nullable: true })
   date: Date;
 
+  @Column({ type:'tinyint', default: 1 })
+  isActive: number;
+
 }

@@ -372,4 +372,77 @@ export class MemberController {
       );
     }
   }
+
+
+
+  @Delete('bmiDelete/:id')
+  async bmiDelete(@Param('id') id: number) {
+    try {
+      await this.memberService.bmiDelete(id);
+      return {
+        status: true,
+        message: 'Exercise deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+          {
+            status: false,
+            message: `Failed to delete Exercise with ID ${id}`,
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Put('bmistatus/:id')
+  async updatebmistatus(
+      @Param('id') id: string,
+      @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.memberService.updatebmistatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Exercise  updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to update Exercise',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('bmi/all')
+  async bmiAll() {
+    try {
+      const data = await this.memberService.bmiAll();
+      return {
+        status: true,
+        message: 'Bmi retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.error('Error retrieving Bmi list:', error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve Bmi',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
 }
