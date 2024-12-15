@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Member } from './entities/Member.entity';
@@ -6,6 +6,8 @@ import { DataSource } from 'typeorm';
 import { InActiveMember } from './entities/inActiveMember.entity';
 import { log } from 'console';
 import { Bmi } from './entities/bmi.entity';
+import { HttpStatus } from '@nestjs/common';
+
 
 @Injectable()
 export class MemberService {
@@ -292,15 +294,19 @@ export class MemberService {
   //
   //     if (bmiSave) {
   //       if (bmiSave.date === body.date) {
-  //         throw new Error(`This date ${body.date} is already saved for member ${body.member_id}.`);
-  //
+  //         throw new Error(`This date ${body.date} is already saved for member ${body.member_id}.`,);
+  //         return ;
   //       } else {
   //         bmiSave.date = body.date;
   //         await this.bmiRepository.save(bmiSave);
   //       }
+  //     } else {
+  //       console.log('No BMI record found for member', body.member_id);
   //     }
   //   } catch (error) {
-  //     console.error('Error saving BMI data:', error);
+  //     console.error('Error saving BMI data:', error.message);
+  //
+  //     return { success: false, message: error.message };
   //   }
   // }
 
@@ -313,8 +319,12 @@ export class MemberService {
 
       if (bmiSave) {
         if (bmiSave.date === body.date) {
-          throw new Error(
-            `This date ${body.date} is already saved for member ${body.member_id}.`,
+          throw new HttpException(
+            {
+              status: false,
+              message: `This date ${body.date} is already saved for member ${body.member_id}.`,
+            },
+            HttpStatus.BAD_REQUEST,
           );
         } else {
           bmiSave.date = body.date;
@@ -325,12 +335,15 @@ export class MemberService {
       }
     } catch (error) {
       console.error('Error saving BMI data:', error.message);
-
-      return { success: false, message: error.message };
+      throw new HttpException(
+        {
+          status: false,
+          message: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
-
-
 
   async updatebmistatus(id: any, isActive: boolean) {
     console.log(id);
@@ -346,22 +359,18 @@ export class MemberService {
     return this.bmiRepository.save(exerciseType);
   }
 
-
   async bmiDelete(id: number): Promise<void> {
     await this.bmiRepository.delete(id);
   }
-
 
   async bmiAll() {
     const result = await this.dataSource.query('CALL getAllBmiData()');
     return result[0];
   }
 
-
   async bmifindOne(id: number) {
     const result = await this.dataSource.query('Call getbmifindOne(?)', [id]);
     console.log('result', result);
     return result[0][0];
   }
-
 }
