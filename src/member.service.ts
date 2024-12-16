@@ -285,19 +285,18 @@ export class MemberService {
     return result[0];
   }
 
+
+
+
   async saveBmiDate(body) {
-    const formattedDate = new Date(body.date).toLocaleDateString('en-GB');
-    const finalFormattedDate = formattedDate.replace(/\//g, '-');
     const dateObj = new Date(body.date);
-    dateObj.setHours(0, 0, 0, 0);
-
+    const formattedDate = dateObj.toLocaleDateString('en-CA');
+    console.log('formattedDate:', formattedDate);
+    const dateForQuery = new Date(formattedDate);
     const existingBmi = await this.bmiRepository.findOne({
-      where: { member_id: body.member_id },
+      where: { member_id: body.member_id, date: dateForQuery },
     });
-    console.log('existingBmi', existingBmi);
-    console.log('dateObj', dateObj);
-
-    if (existingBmi.date === dateObj) {
+    if (existingBmi) {
       throw new HttpException(
         {
           status: false,
@@ -305,6 +304,7 @@ export class MemberService {
         },
         HttpStatus.BAD_REQUEST,
       );
+      return;
     } else {
       const newBmiData = {
         date: dateObj,
@@ -321,12 +321,13 @@ export class MemberService {
       };
       console.log('newBmiData', newBmiData);
       const details = await this.bmiRepository.save(newBmiData);
-
-      //
-
       return details;
     }
   }
+
+
+
+
 
   async updatebmistatus(id: any, isActive: boolean) {
     console.log(id);
