@@ -312,4 +312,50 @@ export class PaymentService {
     console.log();
     return result[0];
   }
+
+
+
+  async AllTodayCollection() {
+    const result = await this.dataSource.query('CALL getAllTodayCollection()');
+    console.log()
+    return result[0];
+
+  }
+
+
+  async AllWeekCollection() {
+    const result = await this.dataSource.query('CALL getAllWeekCollection()');
+    console.log()
+    return result[0];
+
+  }
+
+
+  async Allcashcollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getcashcollection()');
+    console.log();
+    return result[0];
+  }
+
+
+
+  async allDueSummary(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getduesummary()');
+    console.log();
+    return result[0];
+  }
+
+
+  async allMonthList(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getAllMonthCollectionData()');
+    console.log();
+    return result[0];
+  }
+
+
+  async allUpiList(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getduesummary()');
+    console.log();
+    return result[0];
+  }
 }
