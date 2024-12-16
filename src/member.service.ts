@@ -285,17 +285,19 @@ export class MemberService {
     return result[0];
   }
 
-
-
-
   // async saveBmiDate(body) {
   //   const dateObj = new Date(body.date);
   //   const formattedDate = dateObj.toLocaleDateString('en-CA');
   //   console.log('formattedDate:', formattedDate);
   //
-  //   const existingBmi = await this.bmiRepository.findOne({
-  //     where: { member_id: body.member_id, date: formattedDate },
-  //   });
+  //   const existingBmi = await this.bmiRepository
+  //     .createQueryBuilder('bmi')
+  //     .where(
+  //       'bmi.member_id = :memberId AND DATE_FORMAT(bmi.date, "%Y-%m-%d") = :formattedDate',
+  //       { memberId: body.member_id, formattedDate: formattedDate },
+  //     )
+  //     .getOne();
+  //
   //   if (existingBmi) {
   //     throw new HttpException(
   //       {
@@ -304,7 +306,7 @@ export class MemberService {
   //       },
   //       HttpStatus.BAD_REQUEST,
   //     );
-  //     return;
+  //     return false;
   //   } else {
   //     const newBmiData = {
   //       date: dateObj,
@@ -327,29 +329,29 @@ export class MemberService {
 
   async saveBmiDate(body) {
     const dateObj = new Date(body.date);
-    const formattedDate = dateObj.toLocaleDateString('en-CA');
+    const formattedDate = dateObj.toLocaleDateString('en-CA'); // Formats as YYYY-MM-DD
     console.log('formattedDate:', formattedDate);
 
     const existingBmi = await this.bmiRepository
-        .createQueryBuilder('bmi')
-        .where(
-            'bmi.member_id = :memberId AND DATE_FORMAT(bmi.date, "%Y-%m-%d") = :formattedDate',
-            { memberId: body.member_id, formattedDate: formattedDate },
-        )
-        .getOne();
+      .createQueryBuilder('bmi')
+      .where(
+        'bmi.member_id = :memberId AND DATE(bmi.date) = :formattedDate', // Use DATE() to ignore time
+        { memberId: body.member_id, formattedDate: formattedDate },
+      )
+      .getOne();
 
     if (existingBmi) {
       throw new HttpException(
-          {
-            status: false,
-            message: 'Data for this member and date already exists.',
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Date for this member and date already exists.',
+        },
+        HttpStatus.BAD_REQUEST,
       );
-      return;
+      return false;
     } else {
       const newBmiData = {
-        date: dateObj,  // Store as Date object in the database
+        date: dateObj,
         weight: body.weight,
         height: body.height,
         calf: body.calf,
@@ -366,9 +368,6 @@ export class MemberService {
       return details;
     }
   }
-
-
-
 
   async updatebmistatus(id: any, isActive: boolean) {
     console.log(id);
