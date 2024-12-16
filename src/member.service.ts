@@ -288,26 +288,68 @@ export class MemberService {
 
 
 
+  // async saveBmiDate(body) {
+  //   const dateObj = new Date(body.date);
+  //   const formattedDate = dateObj.toLocaleDateString('en-CA');
+  //   console.log('formattedDate:', formattedDate);
+  //
+  //   const existingBmi = await this.bmiRepository.findOne({
+  //     where: { member_id: body.member_id, date: formattedDate },
+  //   });
+  //   if (existingBmi) {
+  //     throw new HttpException(
+  //       {
+  //         status: false,
+  //         message: 'Data for this member and date already exists.',
+  //       },
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  //     return;
+  //   } else {
+  //     const newBmiData = {
+  //       date: dateObj,
+  //       weight: body.weight,
+  //       height: body.height,
+  //       calf: body.calf,
+  //       thigh: body.thigh,
+  //       abdomenLower: body.abdomenLower,
+  //       abdomenUpper: body.abdomenUpper,
+  //       chest: body.chest,
+  //       arms: body.arms,
+  //       shoulders: body.shoulders,
+  //       member_id: body.member_id,
+  //     };
+  //     console.log('newBmiData', newBmiData);
+  //     const details = await this.bmiRepository.save(newBmiData);
+  //     return details;
+  //   }
+  // }
+
   async saveBmiDate(body) {
     const dateObj = new Date(body.date);
     const formattedDate = dateObj.toLocaleDateString('en-CA');
     console.log('formattedDate:', formattedDate);
-    const dateForQuery = new Date(formattedDate);
-    const existingBmi = await this.bmiRepository.findOne({
-      where: { member_id: body.member_id, date: dateForQuery },
-    });
+
+    const existingBmi = await this.bmiRepository
+        .createQueryBuilder('bmi')
+        .where(
+            'bmi.member_id = :memberId AND DATE_FORMAT(bmi.date, "%Y-%m-%d") = :formattedDate',
+            { memberId: body.member_id, formattedDate: formattedDate },
+        )
+        .getOne();
+
     if (existingBmi) {
       throw new HttpException(
-        {
-          status: false,
-          message: 'Data for this member and date already exists.',
-        },
-        HttpStatus.BAD_REQUEST,
+          {
+            status: false,
+            message: 'Data for this member and date already exists.',
+          },
+          HttpStatus.BAD_REQUEST,
       );
       return;
     } else {
       const newBmiData = {
-        date: dateObj,
+        date: dateObj,  // Store as Date object in the database
         weight: body.weight,
         height: body.height,
         calf: body.calf,
@@ -324,7 +366,6 @@ export class MemberService {
       return details;
     }
   }
-
 
 
 
