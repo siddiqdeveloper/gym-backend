@@ -365,7 +365,7 @@ export class MemberController {
       throw new HttpException(
         {
           status: false,
-          message: 'Failed to Bulk Upload ',
+          message: 'Date for this member and date already exists.',
           error: error.message,
         },
         HttpStatus.BAD_REQUEST,
