@@ -285,26 +285,70 @@ export class MemberService {
     return result[0];
   }
 
+  // async saveBmiDate(body) {
+  //   const dateObj = new Date(body.date);
+  //   const formattedDate = dateObj.toLocaleDateString('en-CA');
+  //   console.log('formattedDate:', formattedDate);
+  //
+  //   const existingBmi = await this.bmiRepository
+  //     .createQueryBuilder('bmi')
+  //     .where(
+  //       'bmi.member_id = :memberId AND DATE_FORMAT(bmi.date, "%Y-%m-%d") = :formattedDate',
+  //       { memberId: body.member_id, formattedDate: formattedDate },
+  //     )
+  //     .getOne();
+  //
+  //   if (existingBmi) {
+  //     throw new HttpException(
+  //       {
+  //         status: false,
+  //         message: 'Data for this member and date already exists.',
+  //       },
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  //     return false;
+  //   } else {
+  //     const newBmiData = {
+  //       date: dateObj,
+  //       weight: body.weight,
+  //       height: body.height,
+  //       calf: body.calf,
+  //       thigh: body.thigh,
+  //       abdomenLower: body.abdomenLower,
+  //       abdomenUpper: body.abdomenUpper,
+  //       chest: body.chest,
+  //       arms: body.arms,
+  //       shoulders: body.shoulders,
+  //       member_id: body.member_id,
+  //     };
+  //     console.log('newBmiData', newBmiData);
+  //     const details = await this.bmiRepository.save(newBmiData);
+  //     return details;
+  //   }
+  // }
+
   async saveBmiDate(body) {
-    const formattedDate = new Date(body.date).toLocaleDateString('en-GB');
-    const finalFormattedDate = formattedDate.replace(/\//g, '-');
     const dateObj = new Date(body.date);
-    dateObj.setHours(0, 0, 0, 0);
+    const formattedDate = dateObj.toLocaleDateString('en-CA'); // Formats as YYYY-MM-DD
+    console.log('formattedDate:', formattedDate);
 
-    const existingBmi = await this.bmiRepository.findOne({
-      where: { member_id: body.member_id },
-    });
-    console.log('existingBmi', existingBmi);
-    console.log('dateObj', dateObj);
+    const existingBmi = await this.bmiRepository
+      .createQueryBuilder('bmi')
+      .where(
+        'bmi.member_id = :memberId AND DATE(bmi.date) = :formattedDate', // Use DATE() to ignore time
+        { memberId: body.member_id, formattedDate: formattedDate },
+      )
+      .getOne();
 
-    if (existingBmi.date === dateObj) {
+    if (existingBmi) {
       throw new HttpException(
         {
           status: false,
-          message: 'Data for this member and date already exists.',
+          message: 'Date for this member and date already exists.',
         },
         HttpStatus.BAD_REQUEST,
       );
+      return false;
     } else {
       const newBmiData = {
         date: dateObj,
@@ -321,9 +365,6 @@ export class MemberService {
       };
       console.log('newBmiData', newBmiData);
       const details = await this.bmiRepository.save(newBmiData);
-
-      //
-
       return details;
     }
   }
