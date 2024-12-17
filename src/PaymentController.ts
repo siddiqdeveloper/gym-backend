@@ -214,30 +214,36 @@ export class PaymentController {
     @Res() res: Response,
   ) {
     console.log('ywhb', body);
-    const data = await this.paymentService.transaction(body.customStartDate,body.customEndDate,body.selectedTrainer);
+    const data = await this.paymentService.transaction(
+      body.customStartDate,
+      body.customEndDate,
+      body.selectedTrainer,
+    );
 
     res.send(data);
   }
-
 
   @Post('transaction/weekcollection')
   async weekcollection(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
-    const data = await this.paymentService.weekcollection(body.customStartDate,body.customEndDate,body.selectedTrainer);
+    const data = await this.paymentService.weekcollection(
+      body.customStartDate,
+      body.customEndDate,
+      body.selectedTrainer,
+    );
 
     res.send(data);
   }
 
-
   @Post('transaction/cashcollection')
   async cashcollection(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.cashcollection();
@@ -247,9 +253,9 @@ export class PaymentController {
 
   @Post('transaction/duesummary')
   async duesummary(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.duesummary();
@@ -257,25 +263,27 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('transaction/monthcollection')
   async monthcollection(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
-    const data = await this.paymentService.monthcollection(body.customStartDate,body.customEndDate,body.selectedTrainer);
+    const data = await this.paymentService.monthcollection(
+      body.customStartDate,
+      body.customEndDate,
+      body.selectedTrainer,
+    );
 
     res.send(data);
   }
 
-
   @Post('transaction/upicollection')
   async upicollection(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.upicollection();
@@ -283,12 +291,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('trainerwise/report')
   async trainerwise(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.trainerwise();
@@ -298,9 +305,9 @@ export class PaymentController {
 
   @Post('maleMember/report')
   async maleMember(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.maleMember();
@@ -308,12 +315,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('femaleMember/report')
   async femaleMember(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.femaleMember();
@@ -321,26 +327,27 @@ export class PaymentController {
     res.send(data);
   }
 
-
-
   @Post('annualSales/reports')
   async annualSales(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
-    const data = await this.paymentService.annualSales(body.customStartDate,body.customEndDate,body.selectedTrainer);
+    const data = await this.paymentService.annualSales(
+      body.customStartDate,
+      body.customEndDate,
+      body.selectedTrainer,
+    );
 
     res.send(data);
   }
 
-
   @Post('topSelling/report')
   async topSelling(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.topSelling();
@@ -348,12 +355,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('lowSelling/report')
   async lowSelling(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.lowSelling();
@@ -361,12 +367,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('branchWise/report')
   async branchWise(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.branchWise();
@@ -374,12 +379,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('collection/report')
   async collection(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.collection();
@@ -387,12 +391,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('paymentdiscount/report')
   async paymentdiscount(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.paymentdiscount();
@@ -400,12 +403,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('packagecomplementary/report')
   async packagecomplementary(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.packagecomplementary();
@@ -413,12 +415,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('packageoffer/report')
   async packageoffer(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.packageoffer();
@@ -426,12 +427,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('paymentrenewal/report')
   async paymentrenewal(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.paymentrenewal();
@@ -441,9 +441,9 @@ export class PaymentController {
 
   @Post('paymentrefund/report')
   async paymentrefund(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.paymentrefund();
@@ -451,12 +451,11 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('halfOfYearMember/report')
   async halfOfYearMember(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.halfOfYearMember();
@@ -464,16 +463,481 @@ export class PaymentController {
     res.send(data);
   }
 
-
   @Post('quaterlymember/report')
   async quaterlymember(
-      @Body() body,
-      @Req() request: Request,
-      @Res() res: Response,
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
   ) {
     console.log('ywhb', body);
     const data = await this.paymentService.quaterlymember();
 
     res.send(data);
+  }
+
+  @Get('AllTodayCollection')
+  async AllTodayCollection() {
+    try {
+      const data = await this.paymentService.AllTodayCollection();
+      return {
+        status: true,
+        message: 'AllTodayCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve AllTodayCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('AllTodayCollection')
+  async AllWeekCollection() {
+    try {
+      const data = await this.paymentService.AllWeekCollection();
+      return {
+        status: true,
+        message: 'AllWeekCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve AllWeekCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('Allcashcollection')
+  async Allcashcollection() {
+    try {
+      const data = await this.paymentService.Allcashcollection();
+      return {
+        status: true,
+        message: 'Allcashcollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve Allcashcollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('allDueSummary')
+  async allDueSummary() {
+    try {
+      const data = await this.paymentService.allDueSummary();
+      return {
+        status: true,
+        message: 'AllDueSummary retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve AllDueSummary',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('allMonthList')
+  async allMonthList() {
+    try {
+      const data = await this.paymentService.allMonthList();
+      return {
+        status: true,
+        message: 'allMonthList retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve allMonthList',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('allUpiList')
+  async allUpiList() {
+    try {
+      const data = await this.paymentService.allUpiList();
+      return {
+        status: true,
+        message: 'allUpiList retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve allUpiList',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getALlMaleMember')
+  async getALlMaleMember() {
+    try {
+      const data = await this.paymentService.getALlMaleMember();
+      return {
+        status: true,
+        message: 'getALlMaleMember retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlMaleMember',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getALlFemaleMember')
+  async getALlFemaleMember() {
+    try {
+      const data = await this.paymentService.getALlFemaleMember();
+      return {
+        status: true,
+        message: 'getALlFemaleMember retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlFemaleMember',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getALlAnnualSales')
+  async getALlAnnualSales() {
+    try {
+      const data = await this.paymentService.getALlAnnualSales();
+      return {
+        status: true,
+        message: 'getALlAnnualSales retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlAnnualSales',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getALlTopSelling')
+  async getALlTopSelling() {
+    try {
+      const data = await this.paymentService.getALlTopSelling();
+      return {
+        status: true,
+        message: 'getALlTopSelling retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlTopSelling',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getALlLowSelling')
+  async getALlLowSelling() {
+    try {
+      const data = await this.paymentService.getALlLowSelling();
+      return {
+        status: true,
+        message: 'getALlLowSelling retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlLowSelling',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getALlbranchwish')
+  async getALlbranchwish() {
+    try {
+      const data = await this.paymentService.getALlbranchwish();
+      return {
+        status: true,
+        message: 'getALlbranchwish retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlbranchwish',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+  @Get('getALlCollection')
+  async getALlCollection() {
+    try {
+      const data = await this.paymentService.getALlCollection();
+      return {
+        status: true,
+        message: 'getALlCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getAllPaymentDiscount')
+  async getAllPaymentDiscount() {
+    try {
+      const data = await this.paymentService.getAllPaymentDiscount();
+      return {
+        status: true,
+        message: 'getAllPaymentDiscount retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getAllPaymentDiscount',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getALlPackageComplementary')
+  async getALlPackageComplementary() {
+    try {
+      const data = await this.paymentService.getALlPackageComplementary();
+      return {
+        status: true,
+        message: 'getALlPackageComplementary retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlPackageComplementary to retrieve getALlPackageComplementary',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getAllPackageOffer')
+  async getAllPackageOffer() {
+    try {
+      const data = await this.paymentService.getAllPackageOffer();
+      return {
+        status: true,
+        message: 'getAllPackageOffer retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllPackageOffer to retrieve getAllPackageOffer',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getAllPaymentRenewal')
+  async getAllPaymentRenewal() {
+    try {
+      const data = await this.paymentService.getAllPaymentRenewal();
+      return {
+        status: true,
+        message: 'getAllPaymentRenewal retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllPaymentRenewal to retrieve getAllPaymentRenewal',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getAllPaymentRefund')
+  async getAllPaymentRefund() {
+    try {
+      const data = await this.paymentService.getAllPaymentRefund();
+      return {
+        status: true,
+        message: 'getAllPaymentRefund retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllPaymentRefund to retrieve getAllPaymentRefund',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getAllHalfOfYearMember')
+  async getAllHalfOfYearMember() {
+    try {
+      const data = await this.paymentService.getAllHalfOfYearMember();
+      return {
+        status: true,
+        message: 'getAllHalfOfYearMember retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllHalfOfYearMember to retrieve getAllHalfOfYearMember',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getAllQuaterlyMemberS')
+  async getAllQuaterlyMemberS() {
+    try {
+      const data = await this.paymentService.getAllQuaterlyMemberS();
+      return {
+        status: true,
+        message: 'getAllQuaterlyMemberS retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllQuaterlyMemberS to retrieve getAllQuaterlyMemberS',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }
