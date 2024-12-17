@@ -358,4 +358,117 @@ export class PaymentService {
     console.log();
     return result[0];
   }
+
+
+  async getALlMaleMember(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getmaleMember()');
+    console.log();
+    return result[0];
+  }
+
+
+  async getALlFemaleMember(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getfemaleMember()');
+    console.log();
+    return result[0];
+  }
+
+
+  async getALlAnnualSales(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getAllAnnualSalesList()');
+    console.log();
+    return result[0];
+  }
+
+
+  async getALlTopSelling(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL gettopSelling()');
+    console.log();
+    return result[0];
+  }
+
+
+  async getALlLowSelling(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getlowSelling()');
+    console.log();
+    return result[0];
+  }
+
+
+  async getALlbranchwish(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getbranchWise()');
+    console.log();
+    return result[0];
+  }
+
+
+  async getALlCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getcollection()');
+    console.log();
+    return result[0];
+  }
+
+
+  async getAllPaymentDiscount(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getpaymentdiscount()');
+    console.log();
+    return result[0];
+  }
+
+
+  async getALlPackageComplementary(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL getpackagecomplementary()',
+    );
+    console.log();
+    return result[0];
+  }
+
+
+
+  async getAllPackageOffer(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL getpackageoffer()',
+    );
+    console.log();
+    return result[0];
+  }
+
+
+  async getAllPaymentRenewal(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL getpaymentrenewal()',
+    );
+    console.log();
+    return result[0];
+  }
+
+
+  async getAllPaymentRefund(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL getpaymentrefund()',
+    );
+    console.log();
+    return result[0];
+  }
+
+
+
+  async getAllHalfOfYearMember(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL gethalfOfYearMember()',
+    );
+    console.log();
+    return result[0];
+  }
+
+
+  async getAllQuaterlyMemberS(): Promise<Lead[]> {
+    const result = await this.dataSource.query(
+        'CALL getquaterlymember()',
+    );
+    console.log();
+    return result[0];
+  }
+
 }

@@ -611,4 +611,333 @@ export class PaymentController {
       );
     }
   }
+
+
+  @Get('getALlMaleMember')
+  async getALlMaleMember() {
+    try {
+      const data = await this.paymentService.getALlMaleMember();
+      return {
+        status: true,
+        message: 'getALlMaleMember retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlMaleMember',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getALlFemaleMember')
+  async getALlFemaleMember() {
+    try {
+      const data = await this.paymentService.getALlFemaleMember();
+      return {
+        status: true,
+        message: 'getALlFemaleMember retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlFemaleMember',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getALlAnnualSales')
+  async getALlAnnualSales() {
+    try {
+      const data = await this.paymentService.getALlAnnualSales();
+      return {
+        status: true,
+        message: 'getALlAnnualSales retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlAnnualSales',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getALlTopSelling')
+  async getALlTopSelling() {
+    try {
+      const data = await this.paymentService.getALlTopSelling();
+      return {
+        status: true,
+        message: 'getALlTopSelling retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlTopSelling',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getALlLowSelling')
+  async getALlLowSelling() {
+    try {
+      const data = await this.paymentService.getALlLowSelling();
+      return {
+        status: true,
+        message: 'getALlLowSelling retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlLowSelling',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getALlbranchwish')
+  async getALlbranchwish() {
+    try {
+      const data = await this.paymentService.getALlbranchwish();
+      return {
+        status: true,
+        message: 'getALlbranchwish retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlbranchwish',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+  @Get('getALlCollection')
+  async getALlCollection() {
+    try {
+      const data = await this.paymentService.getALlCollection();
+      return {
+        status: true,
+        message: 'getALlCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getALlCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getAllPaymentDiscount')
+  async getAllPaymentDiscount() {
+    try {
+      const data = await this.paymentService.getAllPaymentDiscount();
+      return {
+        status: true,
+        message: 'getAllPaymentDiscount retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlMaleMember to retrieve getAllPaymentDiscount',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getALlPackageComplementary')
+  async getALlPackageComplementary() {
+    try {
+      const data = await this.paymentService.getALlPackageComplementary();
+      return {
+        status: true,
+        message: 'getALlPackageComplementary retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getALlPackageComplementary to retrieve getALlPackageComplementary',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getAllPackageOffer')
+  async getAllPackageOffer() {
+    try {
+      const data = await this.paymentService.getAllPackageOffer();
+      return {
+        status: true,
+        message: 'getAllPackageOffer retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllPackageOffer to retrieve getAllPackageOffer',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getAllPaymentRenewal')
+  async getAllPaymentRenewal() {
+    try {
+      const data = await this.paymentService.getAllPaymentRenewal();
+      return {
+        status: true,
+        message: 'getAllPaymentRenewal retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllPaymentRenewal to retrieve getAllPaymentRenewal',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getAllPaymentRefund')
+  async getAllPaymentRefund() {
+    try {
+      const data = await this.paymentService.getAllPaymentRefund();
+      return {
+        status: true,
+        message: 'getAllPaymentRefund retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllPaymentRefund to retrieve getAllPaymentRefund',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getAllHalfOfYearMember')
+  async getAllHalfOfYearMember() {
+    try {
+      const data = await this.paymentService.getAllHalfOfYearMember();
+      return {
+        status: true,
+        message: 'getAllHalfOfYearMember retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllHalfOfYearMember to retrieve getAllHalfOfYearMember',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getAllQuaterlyMemberS')
+  async getAllQuaterlyMemberS() {
+    try {
+      const data = await this.paymentService.getAllQuaterlyMemberS();
+      return {
+        status: true,
+        message: 'getAllQuaterlyMemberS retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'getAllQuaterlyMemberS to retrieve getAllQuaterlyMemberS',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
