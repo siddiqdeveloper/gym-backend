@@ -29,6 +29,10 @@ export class ElectricityConsumption {
 
   @Column({ type:'tinyint', default: 1 })
   isActive: number;
+
+
+  @Column({ type: 'enum', enum: ['morning', 'evening'] })
+  type: 'morning' | 'evening';
  
 
   
