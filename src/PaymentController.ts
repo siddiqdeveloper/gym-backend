@@ -541,8 +541,6 @@ export class PaymentController {
     }
   }
 
-
-
   @Get('allDueSummary')
   async allDueSummary() {
     try {
@@ -555,16 +553,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve AllDueSummary',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve AllDueSummary',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('allMonthList')
   async allMonthList() {
@@ -578,17 +575,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve allMonthList',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve allMonthList',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('allUpiList')
   async allUpiList() {
@@ -602,16 +597,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve allUpiList',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve allUpiList',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('getALlMaleMember')
   async getALlMaleMember() {
@@ -625,16 +619,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getALlMaleMember to retrieve getALlMaleMember',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getALlMaleMember to retrieve getALlMaleMember',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('getALlFemaleMember')
   async getALlFemaleMember() {
@@ -648,16 +641,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getALlMaleMember to retrieve getALlFemaleMember',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getALlMaleMember to retrieve getALlFemaleMember',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('getALlAnnualSales')
   async getALlAnnualSales() {
@@ -671,17 +663,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getALlMaleMember to retrieve getALlAnnualSales',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getALlMaleMember to retrieve getALlAnnualSales',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('getALlTopSelling')
   async getALlTopSelling() {
@@ -695,16 +685,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getALlMaleMember to retrieve getALlTopSelling',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getALlMaleMember to retrieve getALlTopSelling',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('getALlLowSelling')
   async getALlLowSelling() {
@@ -718,17 +707,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getALlMaleMember to retrieve getALlLowSelling',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getALlMaleMember to retrieve getALlLowSelling',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('getALlbranchwish')
   async getALlbranchwish() {
@@ -742,18 +729,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getALlMaleMember to retrieve getALlbranchwish',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getALlMaleMember to retrieve getALlbranchwish',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
-
 
   @Get('getALlCollection')
   async getALlCollection() {
@@ -767,17 +751,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getALlMaleMember to retrieve getALlCollection',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getALlMaleMember to retrieve getALlCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('getAllPaymentDiscount')
   async getAllPaymentDiscount() {
@@ -791,16 +773,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getALlMaleMember to retrieve getAllPaymentDiscount',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getALlMaleMember to retrieve getAllPaymentDiscount',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('getALlPackageComplementary')
   async getALlPackageComplementary() {
@@ -814,16 +795,16 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getALlPackageComplementary to retrieve getALlPackageComplementary',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message:
+            'getALlPackageComplementary to retrieve getALlPackageComplementary',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('getAllPackageOffer')
   async getAllPackageOffer() {
@@ -837,17 +818,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getAllPackageOffer to retrieve getAllPackageOffer',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getAllPackageOffer to retrieve getAllPackageOffer',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('getAllPaymentRenewal')
   async getAllPaymentRenewal() {
@@ -861,16 +840,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getAllPaymentRenewal to retrieve getAllPaymentRenewal',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getAllPaymentRenewal to retrieve getAllPaymentRenewal',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('getAllPaymentRefund')
   async getAllPaymentRefund() {
@@ -884,17 +862,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getAllPaymentRefund to retrieve getAllPaymentRefund',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getAllPaymentRefund to retrieve getAllPaymentRefund',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('getAllHalfOfYearMember')
   async getAllHalfOfYearMember() {
@@ -908,16 +884,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getAllHalfOfYearMember to retrieve getAllHalfOfYearMember',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getAllHalfOfYearMember to retrieve getAllHalfOfYearMember',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('getAllQuaterlyMemberS')
   async getAllQuaterlyMemberS() {
@@ -931,12 +906,36 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'getAllQuaterlyMemberS to retrieve getAllQuaterlyMemberS',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'getAllQuaterlyMemberS to retrieve getAllQuaterlyMemberS',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  //   transaction Dashboard
+
+  @Get('transaction/get')
+  async transactionDashboard() {
+    try {
+      const data = await this.paymentService.transactionDashboard();
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }

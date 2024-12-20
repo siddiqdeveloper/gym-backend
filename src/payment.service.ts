@@ -164,7 +164,7 @@ export class PaymentService {
   }
 
   async duesummary(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getduesummary()');
+    const result = await this.dataSource.query('CALL getDueSummary()');
     console.log();
     return result[0];
   }
@@ -190,7 +190,7 @@ export class PaymentService {
   }
 
   async upicollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getduesummary()');
+    const result = await this.dataSource.query('CALL getUPICollection()');
     console.log();
     return result[0];
   }
@@ -272,64 +272,46 @@ export class PaymentService {
   }
 
   async packageoffer(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL getpackageoffer()',
-    );
+    const result = await this.dataSource.query('CALL getpackageoffer()');
     console.log();
     return result[0];
   }
-
 
   async paymentrenewal(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL getpaymentrenewal()',
-    );
+    const result = await this.dataSource.query('CALL getpaymentrenewal()');
     console.log();
     return result[0];
   }
 
-
   async paymentrefund(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL getpaymentrefund()',
-    );
+    const result = await this.dataSource.query('CALL getpaymentrefund()');
     console.log();
     return result[0];
   }
 
   async halfOfYearMember(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL gethalfOfYearMember()',
-    );
+    const result = await this.dataSource.query('CALL gethalfOfYearMember()');
     console.log();
     return result[0];
   }
 
   async quaterlymember(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL getquaterlymember()',
-    );
+    const result = await this.dataSource.query('CALL getquaterlymember()');
     console.log();
     return result[0];
   }
 
-
-
   async AllTodayCollection() {
     const result = await this.dataSource.query('CALL getAllTodayCollection()');
-    console.log()
+    console.log();
     return result[0];
-
   }
-
 
   async AllWeekCollection() {
     const result = await this.dataSource.query('CALL getAllWeekCollection()');
-    console.log()
+    console.log();
     return result[0];
-
   }
-
 
   async Allcashcollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getcashcollection()');
@@ -337,28 +319,25 @@ export class PaymentService {
     return result[0];
   }
 
-
-
   async allDueSummary(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getduesummary()');
+    const result = await this.dataSource.query('CALL getDueSummary()');
     console.log();
     return result[0];
   }
-
 
   async allMonthList(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getAllMonthCollectionData()');
+    const result = await this.dataSource.query(
+      'CALL getAllMonthCollectionData()',
+    );
     console.log();
     return result[0];
   }
-
 
   async allUpiList(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getduesummary()');
+    const result = await this.dataSource.query('CALL getUPICollection()');
     console.log();
     return result[0];
   }
-
 
   async getALlMaleMember(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getmaleMember()');
@@ -366,13 +345,11 @@ export class PaymentService {
     return result[0];
   }
 
-
   async getALlFemaleMember(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getfemaleMember()');
     console.log();
     return result[0];
   }
-
 
   async getALlAnnualSales(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getAllAnnualSalesList()');
@@ -380,13 +357,11 @@ export class PaymentService {
     return result[0];
   }
 
-
   async getALlTopSelling(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL gettopSelling()');
     console.log();
     return result[0];
   }
-
 
   async getALlLowSelling(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getlowSelling()');
@@ -394,13 +369,11 @@ export class PaymentService {
     return result[0];
   }
 
-
   async getALlbranchwish(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getbranchWise()');
     console.log();
     return result[0];
   }
-
 
   async getALlCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getcollection()');
@@ -408,67 +381,76 @@ export class PaymentService {
     return result[0];
   }
 
-
   async getAllPaymentDiscount(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getpaymentdiscount()');
     console.log();
     return result[0];
   }
 
-
   async getALlPackageComplementary(): Promise<Lead[]> {
     const result = await this.dataSource.query(
-        'CALL getpackagecomplementary()',
+      'CALL getpackagecomplementary()',
     );
     console.log();
     return result[0];
   }
-
-
 
   async getAllPackageOffer(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL getpackageoffer()',
-    );
+    const result = await this.dataSource.query('CALL getpackageoffer()');
     console.log();
     return result[0];
   }
-
 
   async getAllPaymentRenewal(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL getpaymentrenewal()',
-    );
+    const result = await this.dataSource.query('CALL getpaymentrenewal()');
     console.log();
     return result[0];
   }
-
 
   async getAllPaymentRefund(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL getpaymentrefund()',
-    );
+    const result = await this.dataSource.query('CALL getpaymentrefund()');
     console.log();
     return result[0];
   }
-
-
 
   async getAllHalfOfYearMember(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL gethalfOfYearMember()',
-    );
+    const result = await this.dataSource.query('CALL gethalfOfYearMember()');
     console.log();
     return result[0];
   }
 
-
   async getAllQuaterlyMemberS(): Promise<Lead[]> {
-    const result = await this.dataSource.query(
-        'CALL getquaterlymember()',
-    );
+    const result = await this.dataSource.query('CALL getquaterlymember()');
     console.log();
     return result[0];
+  }
+
+  //   transaction Dashboard
+
+  // async transactionDashboard() {
+  //   const result = await this.dataSource.query(
+  //     'CALL gettransactionDashboard()',
+  //   );
+  //   console.log();
+  //   const details = result[0];
+  //    details.weeklyCollection = result[1];
+  //   return details;
+  // }
+
+  async transactionDashboard() {
+    const result = await this.dataSource.query('CALL gettransactionDashboard()');
+
+    // The result array will contain both result sets:
+    const details = {
+      total_todayCollection: result[0][0]?.total_todayCollection || 0,
+      total_weeklyCollection: result[1][0]?.total_weeklyCollection || 0,
+      total_cashCollection: result[2][0]?.total_cashCollection || 0,
+      total_monthly: result[3][0]?.total_monthly || 0,
+      total_upi: result[4][0]?.total_upi || 0,
+      total_due: result[5][0]?.total_due || 0,
+    };
+
+    return details;
   }
 
 }

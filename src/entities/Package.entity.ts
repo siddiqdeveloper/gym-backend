@@ -17,11 +17,11 @@ export class Package {
   @Column()
   packageFeatures: string;
 
-  @Column()
-  complementary: string;
 
-  @Column()
-  offer: string;
+  @Column({ type: 'enum', enum: ['complementary', 'offer'] })
+  type: 'complementary' | 'offer';
+
+
 
   @Column('decimal', { precision: 5, scale: 2, nullable: true })
   discount: number;
