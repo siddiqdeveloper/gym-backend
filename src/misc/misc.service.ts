@@ -1063,4 +1063,9 @@ export class MiscService {
 
 
 
+  async stafffindAll(): Promise<Freeze[]> {
+    const result = await this.dataSource.query('CALL getStaffAllList()');
+    return result[0];
+  }
+
 }
