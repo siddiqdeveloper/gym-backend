@@ -1068,4 +1068,9 @@ export class MiscService {
     return result[0];
   }
 
+  async getstaffTrainer(): Promise<Freeze[]> {
+    const result = await this.dataSource.query('CALL getstaffTrainer()');
+    return result[0];
+  }
+
 }

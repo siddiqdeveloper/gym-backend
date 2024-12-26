@@ -2616,4 +2616,28 @@ export class MiscController {
     }
   }
 
+
+
+
+  @Get('staffTrainer/all')
+  async getstaffTrainer() {
+    try {
+      const data = await this.mis.getstaffTrainer();
+      return {
+        status: true,
+        message: 'staff retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve staff',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }

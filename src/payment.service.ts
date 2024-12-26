@@ -453,4 +453,31 @@ export class PaymentService {
     return details;
   }
 
+
+  async cardcollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getcardcollection()');
+    console.log();
+    return result[0];
+  }
+
+
+  async Allcardcollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getcardcollection()');
+    console.log();
+    return result[0];
+  }
+
+
+  async annualMember(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getannualMember()');
+    console.log();
+    return result[0];
+  }
+
+
+  async getAllAnnualList(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getannualMember()');
+    console.log();
+    return result[0];
+  }
 }

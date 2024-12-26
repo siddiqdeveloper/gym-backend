@@ -939,4 +939,75 @@ export class PaymentController {
       );
     }
   }
+
+  @Post('transaction/cardcollection')
+  async cardcollection(
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.cardcollection();
+
+    res.send(data);
+  }
+
+  @Get('Allcardcollection')
+  async Allcardcollection() {
+    try {
+      const data = await this.paymentService.Allcardcollection();
+      return {
+        status: true,
+        message: 'Allcardcollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve Allcardcollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Post('annualMember/report')
+  async annualMember(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.annualMember();
+
+    res.send(data);
+  }
+
+
+  @Get('getAllAnnualList')
+  async getAllAnnualList() {
+    try {
+      const data = await this.paymentService.getAllAnnualList();
+      return {
+        status: true,
+        message: 'Allcardcollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve Allcardcollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
 }
