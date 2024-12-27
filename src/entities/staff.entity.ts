@@ -75,4 +75,9 @@ export class Staff {
 
   @Column({ type:'tinyint', default: 1 })
   isActive: number;
+
+
+  @Column({ type: 'enum', enum: ['manager', 'staff', 'trainer', 'admin', 'accountant'] })
+  type: 'manager' | 'staff' | 'trainer' | 'admin' | 'accountant';
+
 }
