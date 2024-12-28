@@ -1050,4 +1050,243 @@ export class PaymentController {
   }
 
 
+//   today cashCollection
+
+  @Get('getTodayCashCollection')
+  async getTodayCashCollection() {
+    try {
+      const data = await this.paymentService.getTodayCashCollection();
+      return {
+        status: true,
+        message: 'getTodayCashCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getTodayCashCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getWeekCashCollection')
+  async getWeekCashCollection() {
+    try {
+      const data = await this.paymentService.getWeekCashCollection();
+      return {
+        status: true,
+        message: 'getWeekCashCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getWeekCashCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getMonthCashCollection')
+  async getMonthCashCollection() {
+    try {
+      const data = await this.paymentService.getMonthCashCollection();
+      return {
+        status: true,
+        message: 'getMonthCashCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getMonthCashCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getTodayweeklyCollection')
+  async getTodayweeklyCollection() {
+    try {
+      const data = await this.paymentService.getTodayweeklyCollection();
+      return {
+        status: true,
+        message: 'getTodayweeklyCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getTodayweeklyCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getWeekWeeklyCollection')
+  async getWeekWeeklyCollection() {
+    try {
+      const data = await this.paymentService.getWeekWeeklyCollection();
+      return {
+        status: true,
+        message: 'getWeekWeeklyCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getWeekWeeklyCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+  @Get('getTodayupiCollection')
+  async getTodayupiCollection() {
+    try {
+      const data = await this.paymentService.getTodayupiCollection();
+      return {
+        status: true,
+        message: 'getTodayupiCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getTodayupiCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getWeekupiCollection')
+  async getWeekupiCollection() {
+    try {
+      const data = await this.paymentService.getWeekupiCollection();
+      return {
+        status: true,
+        message: 'getWeekupiCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getWeekupiCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getMonthupiCollection')
+  async getMonthupiCollection() {
+    try {
+      const data = await this.paymentService.getMonthupiCollection();
+      return {
+        status: true,
+        message: 'getMonthupiCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getMonthupiCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+  @Get('getTodayCardCollection')
+  async getTodayCardCollection() {
+    try {
+      const data = await this.paymentService.getTodayCardCollection();
+      return {
+        status: true,
+        message: 'getTodayCardCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getTodayCardCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('getMonthCardCollection')
+  async getMonthCardCollection() {
+    try {
+      const data = await this.paymentService.getMonthCardCollection();
+      return {
+        status: true,
+        message: 'getMonthCardCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getMonthCardCollection',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }

@@ -448,6 +448,7 @@ export class PaymentService {
       total_monthly: result[3][0]?.total_monthly || 0,
       total_upi: result[4][0]?.total_upi || 0,
       total_due: result[5][0]?.total_due || 0,
+      total_cardCollection: result[6][0]?.total_cardCollection || 0,
     };
 
     return details;
@@ -494,5 +495,80 @@ export class PaymentService {
     console.log();
     return result[0];
   }
+
+
+  async getTodayCashCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getTodayCashCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getWeekCashCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getWeekCashCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getMonthCashCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getMonthCashCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+
+  async getTodayweeklyCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getTodayweeklyCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getWeekWeeklyCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getWeekWeeklyCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+
+  async getTodayupiCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getTodayupiCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getWeekupiCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getWeekupiCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getMonthupiCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getMonthupiCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+
+  async getTodayCardCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getTodayCardCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+
+  async getMonthCardCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getMonthCardCollection()');
+    console.log();
+    return result[0][0];
+  }
+
 
 }
