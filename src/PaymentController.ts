@@ -1010,4 +1010,18 @@ export class PaymentController {
     }
   }
 
+
+
+  @Post('splitcollection/report')
+  async splitcollection(
+      @Body() body,
+      @Req() request: Request,
+      @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.paymentService.splitcollection();
+
+    res.send(data);
+  }
+
 }

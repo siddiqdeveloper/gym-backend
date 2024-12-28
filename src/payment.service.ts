@@ -480,4 +480,12 @@ export class PaymentService {
     console.log();
     return result[0];
   }
+
+
+  async splitcollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getsplitcollection()');
+    console.log();
+    return result[0];
+  }
+
 }
