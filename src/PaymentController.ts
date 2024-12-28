@@ -1400,4 +1400,53 @@ export class PaymentController {
       );
     }
   }
+
+
+
+  @Get('getUpiDatainTodayCollections')
+  async getUpiDatainTodayCollections() {
+    try {
+      const data = await this.paymentService.getUpiDatainTodayCollections();
+      return {
+        status: true,
+        message: 'getUpiDatainTodayCollections retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getUpiDatainTodayCollections',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+  @Get('getMonthDatainReportList')
+  async getMonthDatainReportList() {
+    try {
+      const data = await this.paymentService.getMonthDatainReportList();
+      return {
+        status: true,
+        message: 'getMonthDatainReportList retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getMonthDatainReportList',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }

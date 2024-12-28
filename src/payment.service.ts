@@ -612,4 +612,19 @@ export class PaymentService {
     return result[0][0];
   }
 
+
+
+  async getUpiDatainTodayCollections(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getUpiDatainTodayCollections()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getMonthDatainReportList(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getMonthDatainReportList()');
+    console.log();
+    return result[0][0];
+  }
+
 }
