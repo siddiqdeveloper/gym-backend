@@ -570,5 +570,46 @@ export class PaymentService {
     return result[0][0];
   }
 
+  async getCardTodayCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getCardTodayCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+
+  async getUpiTodayCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getUpiTodayCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getCashTodayCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getCashTodayCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+
+  async getsplitTodayCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getsplitTodayCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+  async getsplitWeeklyCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getsplitWeeklyCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getsplitMonthlyCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getsplitMonthlyCollection()');
+    console.log();
+    return result[0][0];
+  }
 
 }
