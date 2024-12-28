@@ -1024,4 +1024,30 @@ export class PaymentController {
     res.send(data);
   }
 
+
+
+
+  @Get('getAllSplitList')
+  async getAllSplitList() {
+    try {
+      const data = await this.paymentService.getAllSplitList();
+      return {
+        status: true,
+        message: 'getAllSplitList retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve getAllSplitList',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
 }

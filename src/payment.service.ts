@@ -488,4 +488,11 @@ export class PaymentService {
     return result[0];
   }
 
+
+  async getAllSplitList(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getsplitcollection()');
+    console.log();
+    return result[0];
+  }
+
 }
