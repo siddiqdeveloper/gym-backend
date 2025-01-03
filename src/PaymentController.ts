@@ -1154,6 +1154,28 @@ export class PaymentController {
     }
   }
 
+  @Get('getCashWeeklyCollection')
+  async getCashWeeklyCollection() {
+    try {
+      const data = await this.paymentService.getCashWeeklyCollection();
+      return {
+        status: true,
+        message: 'getCashWeeklyCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve getCashWeeklyCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
   @Get('getTodayupiCollection')
   async getTodayupiCollection() {
     try {
@@ -1330,8 +1352,6 @@ export class PaymentController {
     }
   }
 
-
-
   @Get('getsplitTodayCollection')
   async getsplitTodayCollection() {
     try {
@@ -1344,17 +1364,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve getsplitTodayCollection',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve getsplitTodayCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('getsplitWeeklyCollection')
   async getsplitWeeklyCollection() {
@@ -1368,16 +1386,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve getsplitWeeklyCollection',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve getsplitWeeklyCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('getsplitMonthlyCollection')
   async getsplitMonthlyCollection() {
@@ -1391,17 +1408,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve getsplitMonthlyCollection',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve getsplitMonthlyCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('getUpiDatainTodayCollections')
   async getUpiDatainTodayCollections() {
@@ -1415,18 +1430,15 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve getUpiDatainTodayCollections',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve getUpiDatainTodayCollections',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
-
 
   @Get('getMonthDatainReportList')
   async getMonthDatainReportList() {
@@ -1440,12 +1452,80 @@ export class PaymentController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve getMonthDatainReportList',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve getMonthDatainReportList',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  //   monthly collection
+
+  @Get('getUpiMonthlyCollection')
+  async getUpiMonthlyCollection() {
+    try {
+      const data = await this.paymentService.getUpiMonthlyCollection();
+      return {
+        status: true,
+        message: 'getUpiMonthlyCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve getUpiMonthlyCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('getcashMonthlyCollection')
+  async getcashMonthlyCollection() {
+    try {
+      const data = await this.paymentService.getcashMonthlyCollection();
+      return {
+        status: true,
+        message: 'getcashMonthlyCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve getcashMonthlyCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('getCardMonthlyCollection')
+  async getCardMonthlyCollection() {
+    try {
+      const data = await this.paymentService.getCardMonthlyCollection();
+      return {
+        status: true,
+        message: 'getCardMonthlyCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve getCardMonthlyCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }

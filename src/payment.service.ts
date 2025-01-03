@@ -533,6 +533,13 @@ export class PaymentService {
   }
 
 
+  async getCashWeeklyCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getCashWeeklyCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
 
   async getTodayupiCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getTodayupiCollection()');
@@ -627,4 +634,29 @@ export class PaymentService {
     return result[0][0];
   }
 
+
+
+
+
+//   monthly collection
+
+  async getUpiMonthlyCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getUpiMonthlyCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getcashMonthlyCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getcashMonthlyCollection()');
+    console.log();
+    return result[0][0];
+  }
+
+
+  async getCardMonthlyCollection(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getCardMonthlyCollection()');
+    console.log();
+    return result[0][0];
+  }
 }
