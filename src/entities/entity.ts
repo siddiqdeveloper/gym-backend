@@ -26,6 +26,8 @@ import {Topup} from "./topup.entity";
 import {BulkUpload} from "./bulkUpload.entity";
 import {BulkUploadMeta} from "./bulkUploadMeta.entity";
 import {Bmi} from "./bmi.entity";
+import {CashTopUp} from "./cashtop.entity";
+import {Withdrawal} from "./withdrawal.entity";
 
 const entities = [
   User,
@@ -54,7 +56,9 @@ const entities = [
   Topup,
   BulkUpload,
   BulkUploadMeta,
-  Bmi
+  Bmi,
+  CashTopUp,
+  Withdrawal
  
 ];
 

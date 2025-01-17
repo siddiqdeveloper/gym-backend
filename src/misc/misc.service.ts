@@ -29,6 +29,8 @@ import * as fs from 'fs';
 import * as XLSX from 'xlsx';
 import { BulkUpload } from '../entities/bulkUpload.entity';
 import { BulkUploadMeta } from '../entities/bulkUploadMeta.entity';
+import { CashTopUp } from '../entities/cashtop.entity';
+import { Withdrawal } from '../entities/withdrawal.entity';
 
 @Injectable()
 export class MiscService {
@@ -72,6 +74,10 @@ export class MiscService {
     private bulkUploadRepository: Repository<BulkUpload>,
     @InjectRepository(BulkUploadMeta)
     private bulkUploadMetaRepository: Repository<BulkUploadMeta>,
+    @InjectRepository(CashTopUp)
+    private cashTopUpRepository: Repository<CashTopUp>,
+    @InjectRepository(Withdrawal)
+    private withdrawalRepository: Repository<Withdrawal>,
   ) {}
 
   // electricity Consumption
@@ -1060,9 +1066,6 @@ export class MiscService {
     return this.topupRepository.save(updatetopupstatus);
   }
 
-
-
-
   async stafffindAll(): Promise<Freeze[]> {
     const result = await this.dataSource.query('CALL getStaffAllList()');
     return result[0];
@@ -1073,4 +1076,111 @@ export class MiscService {
     return result[0];
   }
 
+  //   cashtop
+
+  async createCashtop(body) {
+    try {
+      await this.cashTopUpRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving Water consumption', error);
+      throw new Error('Failed to save Water consumption');
+    }
+  }
+
+  async updateCashtop(body) {
+    try {
+      const updateCashtop = await this.cashTopUpRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateCashtop;
+    } catch (error) {
+      console.error('Error updating Cashtop', error);
+      throw new Error('Failed to updating Cashtop');
+    }
+  }
+
+  async cashtopfindOne(id: number): Promise<CashTopUp> {
+    return await this.cashTopUpRepository.findOne({ where: { id } });
+  }
+
+  async cashtopfindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getAllCashTopList()');
+    return result[0];
+  }
+
+  async removeCashtop(id: number): Promise<void> {
+    await this.cashTopUpRepository.delete(id);
+  }
+
+  // status
+
+  async updateCashtopStatus(id: any, isActive: boolean) {
+    console.log(id);
+    const Cashtop: any = await this.cashTopUpRepository.findOne({
+      where: { id: id },
+    });
+    if (!Cashtop) {
+      throw new Error('meter not found');
+    }
+
+    Cashtop.isActive = isActive ? 1 : 0;
+
+    return this.cashTopUpRepository.save(Cashtop);
+  }
+
+  //   withDraw
+
+  async createWithdrawal(body) {
+    try {
+      await this.withdrawalRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving Withdrawal', error);
+      throw new Error('Failed to save WWithdrawal');
+    }
+  }
+
+  async updateWithdrawal(body) {
+    try {
+      const updateWithdrawal = await this.withdrawalRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateWithdrawal;
+    } catch (error) {
+      console.error('Error updating Withdrawal', error);
+      throw new Error('Failed to updating Withdrawal');
+    }
+  }
+
+  async withdrawalfindOne(id: number): Promise<CashTopUp> {
+    return await this.withdrawalRepository.findOne({ where: { id } });
+  }
+
+  async withdrawalfindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getAllWithdrawalList()');
+    return result[0];
+  }
+
+  async withdrawaldelete(id: number): Promise<void> {
+    await this.withdrawalRepository.delete(id);
+  }
+
+  // status
+
+  async withdrawalstatus(id: any, isActive: boolean) {
+    console.log(id);
+    const Cashtop: any = await this.withdrawalRepository.findOne({
+      where: { id: id },
+    });
+    if (!Cashtop) {
+      throw new Error('meter not found');
+    }
+
+    Cashtop.isActive = isActive ? 1 : 0;
+
+    return this.withdrawalRepository.save(Cashtop);
+  }
 }

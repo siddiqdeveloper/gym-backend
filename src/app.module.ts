@@ -52,6 +52,8 @@ import {Topup} from "./entities/topup.entity";
 import {BulkUpload} from "./entities/bulkUpload.entity";
 import {BulkUploadMeta} from "./entities/bulkUploadMeta.entity";
 import {Bmi} from "./entities/bmi.entity";
+import {CashTopUp} from "./entities/cashtop.entity";
+import {Withdrawal} from "./entities/withdrawal.entity";
 
 
 @Module({
@@ -83,7 +85,7 @@ import {Bmi} from "./entities/bmi.entity";
       logging: "all",
       logger:"file",
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment,DuePaidPayment,Withdraw,Topup,BulkUpload,BulkUploadMeta,Bmi]),
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment,DuePaidPayment,Withdraw,Topup,BulkUpload,BulkUploadMeta,Bmi,CashTopUp,Withdrawal]),
     MasterModule,
     UserModule,
     MiscModule
