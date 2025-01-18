@@ -2592,8 +2592,6 @@ export class MiscController {
 
   //   file Upload in BulkUpload
 
-
-
   @Get('staff/all')
   async stafffindAll() {
     try {
@@ -2606,18 +2604,15 @@ export class MiscController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve staff',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve staff',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
-
 
   @Get('staffTrainer/all')
   async getstaffTrainer() {
@@ -2631,12 +2626,302 @@ export class MiscController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve staff',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve staff',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  //   cashtop
+
+  @Post('cashtop/add')
+  async createCashtop(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createCashtop(reqdata);
+      return {
+        status: true,
+        message: 'Cashtop  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Water Consumption',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('cashtop/update')
+  async updateCashtop(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updateCashtop(body);
+      return {
+        status: true,
+        message: 'Cashtop Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Cashtop',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('cashtop/get/:id')
+  async cashtopfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.cashtopfindOne(id);
+      return {
+        status: true,
+        message: 'Cashtop retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve Cashtop with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('cashtop/all')
+  async cashtopfindAll() {
+    try {
+      const data = await this.mis.cashtopfindAll();
+      return {
+        status: true,
+        message: 'Cashtop retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve Cashtop',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('cashtopdelete/:id')
+  async removeCashtop(@Param('id') id: number) {
+    try {
+      await this.mis.removeCashtop(id);
+      return {
+        status: true,
+        message: 'Cashtop deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete Cashtop with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('cashtopstatus/:id')
+  async updateCashtopStatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.updateCashtopStatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Cashtop status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update Cashtop status',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  //   withDraw
+
+  @Post('withdrawal/add')
+  async createWithdrawal(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createWithdrawal(reqdata);
+      return {
+        status: true,
+        message: 'Withdrawal  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Withdrawal',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('withdrawal/update')
+  async updateWithdrawal(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updateWithdrawal(body);
+      return {
+        status: true,
+        message: 'withdrawal Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to withdrawal',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('withdrawal/get/:id')
+  async withdrawalfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.withdrawalfindOne(id);
+      return {
+        status: true,
+        message: 'withdrawal retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve withdrawal with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('withdrawal/all')
+  async withdrawalfindAll() {
+    try {
+      const data = await this.mis.withdrawalfindAll();
+      return {
+        status: true,
+        message: 'withdrawal retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve withdrawal',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('withdrawaldelete/:id')
+  async withdrawaldelete(@Param('id') id: number) {
+    try {
+      await this.mis.withdrawaldelete(id);
+      return {
+        status: true,
+        message: 'withdrawal deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete withdrawal with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('withdrawalstatus/:id')
+  async withdrawalstatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.withdrawalstatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'withdrawal status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update withdrawal status',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }

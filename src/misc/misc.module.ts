@@ -21,6 +21,8 @@ import { Withdraw } from '../entities/withDraw.entity';
 import { Topup } from '../entities/topup.entity';
 import { BulkUpload } from '../entities/bulkUpload.entity';
 import { BulkUploadMeta } from '../entities/bulkUploadMeta.entity';
+import {CashTopUp} from "../entities/cashtop.entity";
+import {Withdrawal} from "../entities/withdrawal.entity";
 
 @Module({
   imports: [
@@ -44,6 +46,8 @@ import { BulkUploadMeta } from '../entities/bulkUploadMeta.entity';
       Topup,
       BulkUpload,
       BulkUploadMeta,
+      CashTopUp,
+      Withdrawal
     ]),
   ],
   providers: [MiscService],
