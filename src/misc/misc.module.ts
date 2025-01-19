@@ -23,6 +23,11 @@ import { BulkUpload } from '../entities/bulkUpload.entity';
 import { BulkUploadMeta } from '../entities/bulkUploadMeta.entity';
 import {CashTopUp} from "../entities/cashtop.entity";
 import {Withdrawal} from "../entities/withdrawal.entity";
+import {Asset} from "../entities/assets.entity";
+import {FeedBack} from "../entities/feedBack.entity";
+import {FreeProgram} from "../entities/freeProgram.entity";
+import {PaymentType} from "../entities/paymentType.entity";
+import {Cctv} from "../entities/cctv.entity";
 
 @Module({
   imports: [
@@ -47,7 +52,12 @@ import {Withdrawal} from "../entities/withdrawal.entity";
       BulkUpload,
       BulkUploadMeta,
       CashTopUp,
-      Withdrawal
+      Withdrawal,
+      Asset,
+      FeedBack,
+      FreeProgram,
+      PaymentType,
+      Cctv
     ]),
   ],
   providers: [MiscService],

@@ -28,6 +28,11 @@ import {BulkUploadMeta} from "./bulkUploadMeta.entity";
 import {Bmi} from "./bmi.entity";
 import {CashTopUp} from "./cashtop.entity";
 import {Withdrawal} from "./withdrawal.entity";
+import {Asset} from "./assets.entity";
+import {FeedBack} from "./feedBack.entity";
+import {FreeProgram} from "./freeProgram.entity";
+import {PaymentType} from "./paymentType.entity";
+import {Cctv} from "./cctv.entity";
 
 const entities = [
   User,
@@ -58,7 +63,12 @@ const entities = [
   BulkUploadMeta,
   Bmi,
   CashTopUp,
-  Withdrawal
+  Withdrawal,
+  Asset,
+  FeedBack,
+  FreeProgram,
+  PaymentType,
+  Cctv
  
 ];
 
