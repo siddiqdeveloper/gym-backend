@@ -31,6 +31,11 @@ import { BulkUpload } from '../entities/bulkUpload.entity';
 import { BulkUploadMeta } from '../entities/bulkUploadMeta.entity';
 import { CashTopUp } from '../entities/cashtop.entity';
 import { Withdrawal } from '../entities/withdrawal.entity';
+import { Asset } from '../entities/assets.entity';
+import { FeedBack } from '../entities/feedBack.entity';
+import { FreeProgram } from '../entities/freeProgram.entity';
+import { PaymentType } from '../entities/paymentType.entity';
+import {Cctv} from "../entities/cctv.entity";
 
 @Injectable()
 export class MiscService {
@@ -78,6 +83,16 @@ export class MiscService {
     private cashTopUpRepository: Repository<CashTopUp>,
     @InjectRepository(Withdrawal)
     private withdrawalRepository: Repository<Withdrawal>,
+    @InjectRepository(Asset)
+    private assetRepository: Repository<Asset>,
+    @InjectRepository(FeedBack)
+    private feedBackRepository: Repository<FeedBack>,
+    @InjectRepository(FreeProgram)
+    private freeProgramRepository: Repository<FreeProgram>,
+    @InjectRepository(PaymentType)
+    private paymentTypeRepository: Repository<PaymentType>,
+    @InjectRepository(Cctv)
+    private CctvRepository: Repository<Cctv>,
   ) {}
 
   // electricity Consumption
@@ -1182,5 +1197,251 @@ export class MiscService {
     Cashtop.isActive = isActive ? 1 : 0;
 
     return this.withdrawalRepository.save(Cashtop);
+  }
+
+  //   assets
+
+  async createAssets(body) {
+    try {
+      console.log('jajaj', body);
+      await this.assetRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving Withdrawal', error);
+      throw new Error('Failed to save WWithdrawal');
+    }
+  }
+
+  async updateAssets(body) {
+    try {
+      const updateWithdrawal = await this.assetRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateWithdrawal;
+    } catch (error) {
+      console.error('Error updating Withdrawal', error);
+      throw new Error('Failed to updating Withdrawal');
+    }
+  }
+
+  async assetsfindOne(id: number): Promise<Asset> {
+    return await this.assetRepository.findOne({ where: { id } });
+  }
+
+  async assetsfindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getAllAssetList()');
+    return result[0];
+  }
+
+  async assetsdelete(id: number): Promise<void> {
+    await this.assetRepository.delete(id);
+  }
+
+  // status
+
+  async assetsstatus(id: any, isActive: boolean) {
+    console.log(id);
+    const assets: any = await this.assetRepository.findOne({
+      where: { id: id },
+    });
+    if (!assets) {
+      throw new Error('asset not found');
+    }
+
+    assets.isActive = isActive ? 1 : 0;
+
+    return this.assetRepository.save(assets);
+  }
+
+  //   feedback
+
+  async createfeedback(body) {
+    try {
+      console.log('aajajaj', body);
+      await this.feedBackRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving Withdrawal', error);
+      throw new Error('Failed to save WWithdrawal');
+    }
+  }
+
+  async updatefeedback(body) {
+    try {
+      const updateWithdrawal = await this.feedBackRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateWithdrawal;
+    } catch (error) {
+      console.error('Error updating Withdrawal', error);
+      throw new Error('Failed to updating Withdrawal');
+    }
+  }
+
+  async feedbackfindOne(id: number): Promise<FeedBack> {
+    return await this.feedBackRepository.findOne({ where: { id } });
+  }
+
+  async feedbackfindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getAllFeedBackList()');
+    return result[0];
+  }
+
+  async feedbackdelete(id: number): Promise<void> {
+    await this.feedBackRepository.delete(id);
+  }
+
+  // status
+
+  async feedbackstatus(id: any, isActive: boolean) {
+    console.log(id);
+    const feedback: any = await this.feedBackRepository.findOne({
+      where: { id: id },
+    });
+    if (!feedback) {
+      throw new Error('feedback not found');
+    }
+
+    feedback.isActive = isActive ? 1 : 0;
+
+    return this.feedBackRepository.save(feedback);
+  }
+
+  //   free program
+
+  async createfreeProgram(body) {
+    try {
+      console.log('aajajaj', body);
+      await this.freeProgramRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving Withdrawal', error);
+      throw new Error('Failed to save WWithdrawal');
+    }
+  }
+
+  async updatefreeProgram(body) {
+    try {
+      const updateWithdrawal = await this.freeProgramRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateWithdrawal;
+    } catch (error) {
+      console.error('Error updating Withdrawal', error);
+      throw new Error('Failed to updating Withdrawal');
+    }
+  }
+
+  async freeProgramfindOne(id: number): Promise<FreeProgram> {
+    return await this.freeProgramRepository.findOne({ where: { id } });
+  }
+
+  async freeProgramfindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getAllFeedBackList()');
+    return result[0];
+  }
+
+  async freeProgramdelete(id: number): Promise<void> {
+    await this.freeProgramRepository.delete(id);
+  }
+
+  // status
+
+  async freeProgramstatus(id: any, isActive: boolean) {
+    console.log(id);
+    const freeProgram: any = await this.freeProgramRepository.findOne({
+      where: { id: id },
+    });
+    if (!freeProgram) {
+      throw new Error('freeProgram not found');
+    }
+
+    freeProgram.isActive = isActive ? 1 : 0;
+
+    return this.freeProgramRepository.save(freeProgram);
+  }
+
+  //   payment Type
+
+  async createpaymentType(body) {
+    try {
+      console.log('aajajaj', body);
+      await this.paymentTypeRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving Withdrawal', error);
+      throw new Error('Failed to save WWithdrawal');
+    }
+  }
+
+  async updatepaymentType(body) {
+    try {
+      const updateWithdrawal = await this.paymentTypeRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateWithdrawal;
+    } catch (error) {
+      console.error('Error updating Withdrawal', error);
+      throw new Error('Failed to updating Withdrawal');
+    }
+  }
+
+  async paymentTypefindOne(id: number): Promise<PaymentType> {
+    return await this.paymentTypeRepository.findOne({ where: { id } });
+  }
+
+  async paymentTypefindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getAllPaymentTypeList()');
+    return result[0];
+  }
+
+  async paymentTypedelete(id: number): Promise<void> {
+    await this.paymentTypeRepository.delete(id);
+  }
+
+  // status
+
+  async paymentTypestatus(id: any, isActive: boolean) {
+    console.log(id);
+    const paymentType: any = await this.paymentTypeRepository.findOne({
+      where: { id: id },
+    });
+    if (!paymentType) {
+      throw new Error('paymentType not found');
+    }
+
+    paymentType.isActive = isActive ? 1 : 0;
+
+    return this.paymentTypeRepository.save(paymentType);
+  }
+
+  //   cctv
+
+  async createwatchCCTV(body) {
+    try {
+      console.log('aajajaj', body);
+      await this.CctvRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving Withdrawal', error);
+      throw new Error('Failed to save WWithdrawal');
+    }
+  }
+
+  async updatewatchCCTV(body) {
+    try {
+      const updateWithdrawal = await this.CctvRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateWithdrawal;
+    } catch (error) {
+      console.error('Error updating Withdrawal', error);
+      throw new Error('Failed to updating Withdrawal');
+    }
   }
 }

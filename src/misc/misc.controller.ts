@@ -2925,4 +2925,637 @@ export class MiscController {
       );
     }
   }
+
+  //   assets
+
+  @Post('assets/add')
+  async createAssets(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createAssets(reqdata);
+      return {
+        status: true,
+        message: 'Assets  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Assets',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('assets/update')
+  async updateAssets(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updateAssets(body);
+      return {
+        status: true,
+        message: 'updateAssets Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to withdrawal',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('assets/get/:id')
+  async assetsfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.assetsfindOne(id);
+      return {
+        status: true,
+        message: 'Assets  retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve Assets with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('assets/all')
+  async assetsfindAll() {
+    try {
+      const data = await this.mis.assetsfindAll();
+      return {
+        status: true,
+        message: 'Assets retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve Assets',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('assetsdelete/:id')
+  async assetsdelete(@Param('id') id: number) {
+    try {
+      await this.mis.assetsdelete(id);
+      return {
+        status: true,
+        message: 'Assets deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete Assets with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('assetsstatus/:id')
+  async assetsstatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.assetsstatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Assets status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update Assets status',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  //   feed back
+
+  @Post('feedback/add')
+  async createfeedback(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createfeedback(reqdata);
+      return {
+        status: true,
+        message: 'Feedback  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Feedback',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('feedback/update')
+  async updatefeedback(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updatefeedback(body);
+      return {
+        status: true,
+        message: 'Feedback Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Feedback',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('feedback/get/:id')
+  async feedbackfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.feedbackfindOne(id);
+      return {
+        status: true,
+        message: 'Feedback  retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve Feedback with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('feedback/all')
+  async feedbackfindAll() {
+    try {
+      const data = await this.mis.feedbackfindAll();
+      return {
+        status: true,
+        message: 'Feedback retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve Feedback',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('feedbackdelete/:id')
+  async feedbackdelete(@Param('id') id: number) {
+    try {
+      await this.mis.feedbackdelete(id);
+      return {
+        status: true,
+        message: 'Feedback deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete Feedback with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('feedbackstatus/:id')
+  async feedbackstatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.feedbackstatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Feedback status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update Feedback status',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  //   free Program
+
+  @Post('freeProgram/add')
+  async createfreeProgram(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createfreeProgram(reqdata);
+      return {
+        status: true,
+        message: 'freeProgram  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to freeProgram',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('freeProgram/update')
+  async updatefreeProgram(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updatefreeProgram(body);
+      return {
+        status: true,
+        message: 'freeProgram Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to freeProgram',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('freeProgram/get/:id')
+  async freeProgramfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.freeProgramfindOne(id);
+      return {
+        status: true,
+        message: 'freeProgram  retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve freeProgram with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('freeProgram/all')
+  async freeProgramfindAll() {
+    try {
+      const data = await this.mis.freeProgramfindAll();
+      return {
+        status: true,
+        message: 'freeProgram retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve freeProgram',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('freeProgramdelete/:id')
+  async freeProgramdelete(@Param('id') id: number) {
+    try {
+      await this.mis.freeProgramdelete(id);
+      return {
+        status: true,
+        message: 'freeProgram deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete freeProgram with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('freeProgramstatus/:id')
+  async freeProgramstatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.freeProgramstatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'freeProgram status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update freeProgram status',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  //   payment Type
+
+  @Post('paymentType/add')
+  async createpaymentType(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createpaymentType(reqdata);
+      return {
+        status: true,
+        message: 'paymentType  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to paymentType',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('paymentType/update')
+  async updatepaymentType(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updatepaymentType(body);
+      return {
+        status: true,
+        message: 'paymentType Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to paymentType',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('paymentType/get/:id')
+  async paymentTypefindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.paymentTypefindOne(id);
+      return {
+        status: true,
+        message: 'paymentType  retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve paymentType with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('paymentType/all')
+  async paymentTypefindAll() {
+    try {
+      const data = await this.mis.paymentTypefindAll();
+      return {
+        status: true,
+        message: 'paymentType retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve paymentType',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('paymentTypedelete/:id')
+  async paymentTypedelete(@Param('id') id: number) {
+    try {
+      await this.mis.paymentTypedelete(id);
+      return {
+        status: true,
+        message: 'paymentType deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete paymentType with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('paymentTypestatus/:id')
+  async paymentTypestatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.paymentTypestatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'paymentType status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update paymentType status',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // watch CCTV
+
+  @Post('watchCCTV/add')
+  async createwatchCCTV(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createwatchCCTV(reqdata);
+      return {
+        status: true,
+        message: 'CCTV  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to CCTV',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('watchCCTV/update')
+  async updatewatchCCTV(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updatewatchCCTV(body);
+      return {
+        status: true,
+        message: 'CCTV Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to CCTV',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
