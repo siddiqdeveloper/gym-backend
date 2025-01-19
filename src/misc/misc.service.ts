@@ -1340,7 +1340,7 @@ export class MiscService {
   }
 
   async freeProgramfindAll(): Promise<CashTopUp[]> {
-    const result = await this.dataSource.query('CALL getAllFeedBackList()');
+    const result = await this.dataSource.query('CALL getAllFreeProgramList()');
     return result[0];
   }
 
