@@ -36,6 +36,7 @@ import { FeedBack } from '../entities/feedBack.entity';
 import { FreeProgram } from '../entities/freeProgram.entity';
 import { PaymentType } from '../entities/paymentType.entity';
 import { Cctv } from '../entities/cctv.entity';
+import {Salary} from "../entities/salary.entity";
 
 @Injectable()
 export class MiscService {
@@ -93,6 +94,8 @@ export class MiscService {
     private paymentTypeRepository: Repository<PaymentType>,
     @InjectRepository(Cctv)
     private CctvRepository: Repository<Cctv>,
+    @InjectRepository(Salary)
+    private salaryRepository: Repository<Salary>,
   ) {}
 
   // electricity Consumption
@@ -1450,7 +1453,7 @@ export class MiscService {
   async salaryAdd(body) {
     try {
       console.log('aajajaj', body);
-      await this.CctvRepository.save(body);
+      await this.salaryRepository.save(body);
       return body;
     } catch (error) {
       console.error('Error saving Withdrawal', error);
@@ -1460,7 +1463,7 @@ export class MiscService {
 
   async updatesalary(body) {
     try {
-      const updateWithdrawal = await this.CctvRepository.update(
+      const updateWithdrawal = await this.salaryRepository.update(
         { id: body.id },
         body,
       );
@@ -1469,5 +1472,35 @@ export class MiscService {
       console.error('Error updating Withdrawal', error);
       throw new Error('Failed to updating Withdrawal');
     }
+  }
+
+
+  async salaryfindOne(id: number): Promise<Salary> {
+    return await this.salaryRepository.findOne({ where: { id } });
+  }
+
+  async salaryfindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getAllSalaryList()');
+    return result[0];
+  }
+
+  async salarydelete(id: number): Promise<void> {
+    await this.salaryRepository.delete(id);
+  }
+
+  // status
+
+  async salarystatus(id: any, isActive: boolean) {
+    console.log(id);
+    const salary: any = await this.salaryRepository.findOne({
+      where: { id: id },
+    });
+    if (!salary) {
+      throw new Error('salary not found');
+    }
+
+    salary.isActive = isActive ? 1 : 0;
+
+    return this.salaryRepository.save(salary);
   }
 }
