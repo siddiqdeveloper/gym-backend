@@ -3558,4 +3558,149 @@ export class MiscController {
       );
     }
   }
+
+  //   salary
+
+  @Post('salary/add')
+  async salaryAdd(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.salaryAdd(reqdata);
+      return {
+        status: true,
+        message: 'Salary  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Salary',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('salary/update')
+  async updatesalary(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updatesalary(body);
+      return {
+        status: true,
+        message: 'Salary Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Salary',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // @Get('salary/get/:id')
+  // async salaryfindOne(@Param('id') id: number) {
+  //   try {
+  //     const data = await this.mis.paymentTypefindOne(id);
+  //     return {
+  //       status: true,
+  //       message: 'paymentType  retrieved successfully',
+  //       data: data,
+  //     };
+  //   } catch (error) {
+  //     throw new HttpException(
+  //       {
+  //         status: false,
+  //         message: `Failed to retrieve paymentType with ID ${id}`,
+  //         error: error.message,
+  //       },
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  //   }
+  // }
+  //
+  // @Get('salary/all')
+  // async salaryfindAll() {
+  //   try {
+  //     const data = await this.mis.paymentTypefindAll();
+  //     return {
+  //       status: true,
+  //       message: 'paymentType retrieved successfully',
+  //       data: data,
+  //     };
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw new HttpException(
+  //       {
+  //         status: false,
+  //         message: 'Failed to retrieve paymentType',
+  //         error: error.message,
+  //       },
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  //   }
+  // }
+  //
+  // // delete
+  //
+  // @Delete('salarydelete/:id')
+  // async salarydelete(@Param('id') id: number) {
+  //   try {
+  //     await this.mis.paymentTypedelete(id);
+  //     return {
+  //       status: true,
+  //       message: 'paymentType deleted successfully',
+  //     };
+  //   } catch (error) {
+  //     throw new HttpException(
+  //       {
+  //         status: false,
+  //         message: `Failed to delete paymentType with ID ${id}`,
+  //         error: error.message,
+  //       },
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  //   }
+  // }
+  //
+  // // status
+  //
+  // @Put('salarystatus/:id')
+  // async salarystatus(
+  //   @Param('id') id: string,
+  //   @Body() body: { isActive: boolean },
+  // ) {
+  //   try {
+  //     const data = await this.mis.paymentTypestatus(id, body.isActive);
+  //     return {
+  //       status: true,
+  //       message: 'paymentType status updated successfully',
+  //       data: data,
+  //     };
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw new HttpException(
+  //       {
+  //         status: false,
+  //         message: 'Failed to update paymentType status',
+  //         error: error.message,
+  //       },
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  //   }
+  // }
 }

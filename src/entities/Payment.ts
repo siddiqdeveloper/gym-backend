@@ -66,6 +66,13 @@ export class Payment {
   @Column({ type: 'varchar', length: 255, nullable: true })
   totalAmount: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  gst_percentage: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  registration_fees: string;
+
+
   @Column({ type: 'boolean', nullable: true })
   rejoinMember: boolean;
 
