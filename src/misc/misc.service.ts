@@ -35,7 +35,7 @@ import { Asset } from '../entities/assets.entity';
 import { FeedBack } from '../entities/feedBack.entity';
 import { FreeProgram } from '../entities/freeProgram.entity';
 import { PaymentType } from '../entities/paymentType.entity';
-import {Cctv} from "../entities/cctv.entity";
+import { Cctv } from '../entities/cctv.entity';
 
 @Injectable()
 export class MiscService {
@@ -1433,6 +1433,32 @@ export class MiscService {
   }
 
   async updatewatchCCTV(body) {
+    try {
+      const updateWithdrawal = await this.CctvRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateWithdrawal;
+    } catch (error) {
+      console.error('Error updating Withdrawal', error);
+      throw new Error('Failed to updating Withdrawal');
+    }
+  }
+
+  //   salary
+
+  async salaryAdd(body) {
+    try {
+      console.log('aajajaj', body);
+      await this.CctvRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving Withdrawal', error);
+      throw new Error('Failed to save WWithdrawal');
+    }
+  }
+
+  async updatesalary(body) {
     try {
       const updateWithdrawal = await this.CctvRepository.update(
         { id: body.id },
