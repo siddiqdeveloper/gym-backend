@@ -28,6 +28,7 @@ import {FeedBack} from "../entities/feedBack.entity";
 import {FreeProgram} from "../entities/freeProgram.entity";
 import {PaymentType} from "../entities/paymentType.entity";
 import {Cctv} from "../entities/cctv.entity";
+import {Salary} from "../entities/salary.entity";
 
 @Module({
   imports: [
@@ -57,7 +58,8 @@ import {Cctv} from "../entities/cctv.entity";
       FeedBack,
       FreeProgram,
       PaymentType,
-      Cctv
+      Cctv,
+      Salary
     ]),
   ],
   providers: [MiscService],

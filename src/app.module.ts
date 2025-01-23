@@ -59,6 +59,7 @@ import {FeedBack} from "./entities/feedBack.entity";
 import {FreeProgram} from "./entities/freeProgram.entity";
 import {PaymentType} from "./entities/paymentType.entity";
 import {Cctv} from "./entities/cctv.entity";
+import {Salary} from "./entities/salary.entity";
 
 
 @Module({
@@ -91,7 +92,7 @@ import {Cctv} from "./entities/cctv.entity";
       logger:"file",
     }),
     TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment,DuePaidPayment,Withdraw,Topup,BulkUpload,BulkUploadMeta,Bmi,CashTopUp,Withdrawal,Asset,PaymentType,Cctv,
-      FeedBack,FreeProgram]),
+      FeedBack,FreeProgram,Salary]),
     MasterModule,
     UserModule,
     MiscModule

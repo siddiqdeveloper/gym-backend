@@ -33,6 +33,7 @@ import {FeedBack} from "./feedBack.entity";
 import {FreeProgram} from "./freeProgram.entity";
 import {PaymentType} from "./paymentType.entity";
 import {Cctv} from "./cctv.entity";
+import {Salary} from "./salary.entity";
 
 const entities = [
   User,
@@ -68,7 +69,8 @@ const entities = [
   FeedBack,
   FreeProgram,
   PaymentType,
-  Cctv
+  Cctv,
+  Salary
  
 ];
 

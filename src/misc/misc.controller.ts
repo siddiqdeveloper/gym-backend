@@ -3612,95 +3612,95 @@ export class MiscController {
     }
   }
 
-  // @Get('salary/get/:id')
-  // async salaryfindOne(@Param('id') id: number) {
-  //   try {
-  //     const data = await this.mis.paymentTypefindOne(id);
-  //     return {
-  //       status: true,
-  //       message: 'paymentType  retrieved successfully',
-  //       data: data,
-  //     };
-  //   } catch (error) {
-  //     throw new HttpException(
-  //       {
-  //         status: false,
-  //         message: `Failed to retrieve paymentType with ID ${id}`,
-  //         error: error.message,
-  //       },
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   }
-  // }
-  //
-  // @Get('salary/all')
-  // async salaryfindAll() {
-  //   try {
-  //     const data = await this.mis.paymentTypefindAll();
-  //     return {
-  //       status: true,
-  //       message: 'paymentType retrieved successfully',
-  //       data: data,
-  //     };
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw new HttpException(
-  //       {
-  //         status: false,
-  //         message: 'Failed to retrieve paymentType',
-  //         error: error.message,
-  //       },
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   }
-  // }
-  //
-  // // delete
-  //
-  // @Delete('salarydelete/:id')
-  // async salarydelete(@Param('id') id: number) {
-  //   try {
-  //     await this.mis.paymentTypedelete(id);
-  //     return {
-  //       status: true,
-  //       message: 'paymentType deleted successfully',
-  //     };
-  //   } catch (error) {
-  //     throw new HttpException(
-  //       {
-  //         status: false,
-  //         message: `Failed to delete paymentType with ID ${id}`,
-  //         error: error.message,
-  //       },
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   }
-  // }
-  //
-  // // status
-  //
-  // @Put('salarystatus/:id')
-  // async salarystatus(
-  //   @Param('id') id: string,
-  //   @Body() body: { isActive: boolean },
-  // ) {
-  //   try {
-  //     const data = await this.mis.paymentTypestatus(id, body.isActive);
-  //     return {
-  //       status: true,
-  //       message: 'paymentType status updated successfully',
-  //       data: data,
-  //     };
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw new HttpException(
-  //       {
-  //         status: false,
-  //         message: 'Failed to update paymentType status',
-  //         error: error.message,
-  //       },
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   }
-  // }
+  @Get('salary/get/:id')
+  async salaryfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.salaryfindOne(id);
+      return {
+        status: true,
+        message: 'Salary  retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve Salary with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('salary/all')
+  async salaryfindAll() {
+    try {
+      const data = await this.mis.salaryfindAll();
+      return {
+        status: true,
+        message: 'Salary retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve Salary',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('salarydelete/:id')
+  async salarydelete(@Param('id') id: number) {
+    try {
+      await this.mis.salarydelete(id);
+      return {
+        status: true,
+        message: 'Salary deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete Salary with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('salarystatus/:id')
+  async salarystatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.salarystatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Salary status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update Salary status',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
