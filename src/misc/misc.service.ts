@@ -1427,27 +1427,35 @@ export class MiscService {
 
   async createwatchCCTV(body) {
     console.log('body',body)
-   return body
+    const setting = new Setting();
+    setting.key = 'cctvUrl';
+    setting.value = body.cctvUrl;
+    const savedSetting = await this.settingRepository.save(setting);
+
+    return savedSetting
   }
 
 
 
+  async watchCCtvfindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getAllSettingList()');
+    return result[0][0];
+  }
 
+  async updateCCTV(id: any, key: string, value: string): Promise<Setting> {
+    const cctv = await this.settingRepository.findOne({ where: { id } });
 
-
-
-  async updatewatchCCTV(body) {
-    try {
-      const updateWithdrawal = await this.settingRepository.update(
-        { id: body.id },
-        body,
-      );
-      return updateWithdrawal;
-    } catch (error) {
-      console.error('Error updating Withdrawal', error);
-      throw new Error('Failed to updating Withdrawal');
+    if (!cctv) {
+     return
     }
+
+    cctv.key = key;
+    cctv.value = value;
+
+    return this.settingRepository.save(cctv);
   }
+
+
 
   //   salary
 

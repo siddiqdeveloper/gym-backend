@@ -3512,7 +3512,7 @@ export class MiscController {
   async createwatchCCTV(@Body() body) {
     try {
       const reqdata: any = body;
-      console.log('reqdata',reqdata)
+      console.log('reqdata', reqdata);
       const check = await this.mis.createwatchCCTV(reqdata);
       return {
         status: true,
@@ -3532,31 +3532,40 @@ export class MiscController {
     }
   }
 
-  // update
-
-  @Post('watchCCTV/update')
-  async updatewatchCCTV(
-    @Body() body,
-    @Res() res: Response,
-    @Req() request: Request,
-  ) {
+  @Get('watchCCtv/all')
+  async watchCCtvfindAll() {
     try {
-      const check = await this.mis.updatewatchCCTV(body);
+      const data = await this.mis.watchCCtvfindAll();
       return {
         status: true,
-        message: 'CCTV Updated successfully',
-        data: check,
+        message: 'CCTv retrieved successfully',
+        data: data,
       };
     } catch (error) {
       console.log(error);
       throw new HttpException(
-        {
-          status: false,
-          message: 'Failed to CCTV',
-          error: error.message,
-        },
-        HttpStatus.BAD_REQUEST,
+          {
+            status: false,
+            message: 'Failed to retrieve CCTv',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
       );
+    }
+  }
+
+  @Post('update/:id')
+  async updateCCTV(@Param('id') id: string, @Body() body: { key: string; value: string }) {
+    const { key, value } = body;
+
+    if (!key || !value) {
+      throw new HttpException('Key and Value are required', HttpStatus.BAD_REQUEST);
+    }
+
+    try {
+      return await this.mis.updateCCTV(id, key, value);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
