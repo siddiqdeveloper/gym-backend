@@ -27,8 +27,9 @@ import {Asset} from "../entities/assets.entity";
 import {FeedBack} from "../entities/feedBack.entity";
 import {FreeProgram} from "../entities/freeProgram.entity";
 import {PaymentType} from "../entities/paymentType.entity";
-import {Cctv} from "../entities/cctv.entity";
 import {Salary} from "../entities/salary.entity";
+import {Setting} from "../entities/setting.entity"
+
 
 @Module({
   imports: [
@@ -58,8 +59,9 @@ import {Salary} from "../entities/salary.entity";
       FeedBack,
       FreeProgram,
       PaymentType,
-      Cctv,
-      Salary
+      Salary,
+      Setting
+
     ]),
   ],
   providers: [MiscService],

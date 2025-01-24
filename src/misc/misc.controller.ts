@@ -3512,6 +3512,7 @@ export class MiscController {
   async createwatchCCTV(@Body() body) {
     try {
       const reqdata: any = body;
+      console.log('reqdata',reqdata)
       const check = await this.mis.createwatchCCTV(reqdata);
       return {
         status: true,

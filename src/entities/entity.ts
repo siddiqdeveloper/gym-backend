@@ -32,8 +32,9 @@ import {Asset} from "./assets.entity";
 import {FeedBack} from "./feedBack.entity";
 import {FreeProgram} from "./freeProgram.entity";
 import {PaymentType} from "./paymentType.entity";
-import {Cctv} from "./cctv.entity";
 import {Salary} from "./salary.entity";
+import {Setting} from "./setting.entity"
+
 
 const entities = [
   User,
@@ -69,7 +70,7 @@ const entities = [
   FeedBack,
   FreeProgram,
   PaymentType,
-  Cctv,
+  Setting,
   Salary
  
 ];
