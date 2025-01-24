@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import puppeteer from 'puppeteer';
 import { CheckList } from 'src/entities/checkList.entity';
@@ -35,8 +35,9 @@ import { Asset } from '../entities/assets.entity';
 import { FeedBack } from '../entities/feedBack.entity';
 import { FreeProgram } from '../entities/freeProgram.entity';
 import { PaymentType } from '../entities/paymentType.entity';
-import { Cctv } from '../entities/cctv.entity';
-import {Salary} from "../entities/salary.entity";
+import { Salary } from '../entities/salary.entity';
+import {Setting} from "../entities/setting.entity";
+
 
 @Injectable()
 export class MiscService {
@@ -92,10 +93,10 @@ export class MiscService {
     private freeProgramRepository: Repository<FreeProgram>,
     @InjectRepository(PaymentType)
     private paymentTypeRepository: Repository<PaymentType>,
-    @InjectRepository(Cctv)
-    private CctvRepository: Repository<Cctv>,
     @InjectRepository(Salary)
     private salaryRepository: Repository<Salary>,
+    @InjectRepository(Setting)
+    private settingRepository: Repository<Setting>,
   ) {}
 
   // electricity Consumption
@@ -1425,19 +1426,19 @@ export class MiscService {
   //   cctv
 
   async createwatchCCTV(body) {
-    try {
-      console.log('aajajaj', body);
-      await this.CctvRepository.save(body);
-      return body;
-    } catch (error) {
-      console.error('Error saving Withdrawal', error);
-      throw new Error('Failed to save WWithdrawal');
-    }
+    console.log('body',body)
+   return body
   }
+
+
+
+
+
+
 
   async updatewatchCCTV(body) {
     try {
-      const updateWithdrawal = await this.CctvRepository.update(
+      const updateWithdrawal = await this.settingRepository.update(
         { id: body.id },
         body,
       );
@@ -1473,7 +1474,6 @@ export class MiscService {
       throw new Error('Failed to updating Withdrawal');
     }
   }
-
 
   async salaryfindOne(id: number): Promise<Salary> {
     return await this.salaryRepository.findOne({ where: { id } });
