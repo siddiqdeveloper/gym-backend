@@ -73,6 +73,20 @@ export class Payment {
   registration_fees: string;
 
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  enterTrainerPercentage: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  totalMonth: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  eachMonthAmount: string;
+
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  officeTotalAmount: string;
+
+
   @Column({ type: 'boolean', nullable: true })
   rejoinMember: boolean;
 
