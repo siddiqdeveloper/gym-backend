@@ -4,6 +4,8 @@ import { DataSource, Repository } from 'typeorm';
 import { Payment } from './entities/Payment';
 import { DuePaidPayment } from './entities/duePaidPayment.entity';
 import { Lead } from './entities/Lead.entity';
+import {Incentive} from "./entities/incentive.entity";
+import {CashTopUp} from "./entities/cashtop.entity";
 
 @Injectable()
 export class PaymentService {
@@ -13,10 +15,13 @@ export class PaymentService {
     private readonly paymentRepository: Repository<Payment>,
     @InjectRepository(DuePaidPayment)
     private readonly duePaidPaymentRepository: Repository<DuePaidPayment>,
+    @InjectRepository(Incentive)
+    private readonly incentiveRepository: Repository<Incentive>,
   ) {}
 
   async createPayment(createPaymentDto) {
     const payment = this.paymentRepository.create(createPaymentDto);
+    console.log('payment',payment)
     return this.paymentRepository.save(payment);
   }
 
@@ -658,5 +663,11 @@ export class PaymentService {
     const result = await this.dataSource.query('CALL getCardMonthlyCollection()');
     console.log();
     return result[0][0];
+  }
+
+
+  async incentivefindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getincentivefindAll()');
+    return result[0];
   }
 }

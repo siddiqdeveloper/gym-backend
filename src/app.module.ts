@@ -61,7 +61,7 @@ import {PaymentType} from "./entities/paymentType.entity";
 
 import {Salary} from "./entities/salary.entity";
 import {Setting}from "./entities/setting.entity"
-
+import {Incentive} from "./entities/incentive.entity";
 
 
 @Module({
@@ -95,7 +95,8 @@ import {Setting}from "./entities/setting.entity"
     }),
     TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment,DuePaidPayment,Withdraw,Topup,BulkUpload,BulkUploadMeta,Bmi,CashTopUp,Withdrawal,Asset,PaymentType,
       FeedBack,FreeProgram,Salary,
-      Setting
+      Setting,
+      Incentive
       ]),
     MasterModule,
     UserModule,

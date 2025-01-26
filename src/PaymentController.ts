@@ -109,7 +109,7 @@ export class PaymentController {
 
   // update
 
-  @Post('payments/update')
+  @Post('update')
   async updatepayments(
     @Body() body,
     @Res() res: Response,
@@ -1526,6 +1526,29 @@ export class PaymentController {
           error: error.message,
         },
         HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('incentive')
+  async incentivefindAll() {
+    try {
+      const data = await this.paymentService.incentivefindAll();
+      return {
+        status: true,
+        message: 'Incentive retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+          {
+            status: false,
+            message: 'Failed to retrieve Incentive',
+            error: error.message,
+          },
+          HttpStatus.BAD_REQUEST,
       );
     }
   }

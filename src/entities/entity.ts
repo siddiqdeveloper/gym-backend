@@ -34,6 +34,7 @@ import {FreeProgram} from "./freeProgram.entity";
 import {PaymentType} from "./paymentType.entity";
 import {Salary} from "./salary.entity";
 import {Setting} from "./setting.entity"
+import {Incentive} from "./incentive.entity";
 
 
 const entities = [
@@ -71,7 +72,8 @@ const entities = [
   FreeProgram,
   PaymentType,
   Setting,
-  Salary
+  Salary,
+  Incentive
  
 ];
 
