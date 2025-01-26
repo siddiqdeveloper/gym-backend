@@ -1,8 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity('payments')
 export class Payment {
-  
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -39,14 +43,32 @@ export class Payment {
   @Column({ type: 'int' })
   memberId: number;
 
-  @Column({ type: 'enum', enum: ['NEW', 'RENEWAL','REFUND'] })
+  @Column({ type: 'enum', enum: ['NEW', 'RENEWAL', 'REFUND'] })
   memberPaymentFor: 'NEW' | 'RENEWAL';
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   memberState: string;
 
-  @Column({ type: 'enum', enum: ['CASH', 'G PAY', 'CARD+CASH', 'CARD+G PAY', 'Cheque', 'IMPS/NEFT/RTGS', 'Others'] })
-  modeOfPayment: 'CASH' | 'G PAY' | 'CARD+CASH' | 'CARD+G PAY' | 'Cheque' | 'IMPS/NEFT/RTGS' | 'Others';
+  @Column({
+    type: 'enum',
+    enum: [
+      'CASH',
+      'G PAY',
+      'CARD+CASH',
+      'CARD+G PAY',
+      'Cheque',
+      'IMPS/NEFT/RTGS',
+      'Others',
+    ],
+  })
+  modeOfPayment:
+    | 'CASH'
+    | 'G PAY'
+    | 'CARD+CASH'
+    | 'CARD+G PAY'
+    | 'Cheque'
+    | 'IMPS/NEFT/RTGS'
+    | 'Others';
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   packageAmount: number;
@@ -72,7 +94,6 @@ export class Payment {
   @Column({ type: 'varchar', length: 255, nullable: true })
   registration_fees: string;
 
-
   @Column({ type: 'varchar', length: 255, nullable: true })
   enterTrainerPercentage: string;
 
@@ -82,10 +103,8 @@ export class Payment {
   @Column({ type: 'varchar', length: 255, nullable: true })
   eachMonthAmount: string;
 
-
   @Column({ type: 'varchar', length: 255, nullable: true })
   officeTotalAmount: string;
-
 
   @Column({ type: 'boolean', nullable: true })
   rejoinMember: boolean;
@@ -102,7 +121,6 @@ export class Payment {
   @CreateDateColumn()
   createdAt: Date;
 
-
-  @Column({ type:'tinyint', default: 1 })
+  @Column({ type: 'tinyint', default: 1 })
   isActive: number;
 }
