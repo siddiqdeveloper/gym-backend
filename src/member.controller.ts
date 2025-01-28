@@ -373,8 +373,6 @@ export class MemberController {
     }
   }
 
-
-
   @Delete('bmiDelete/:id')
   async bmiDelete(@Param('id') id: number) {
     try {
@@ -385,22 +383,20 @@ export class MemberController {
       };
     } catch (error) {
       throw new HttpException(
-          {
-            status: false,
-            message: `Failed to delete Exercise with ID ${id}`,
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: `Failed to delete Exercise with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
 
-
-
   @Put('bmistatus/:id')
   async updatebmistatus(
-      @Param('id') id: string,
-      @Body() body: { isActive: boolean },
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
   ) {
     try {
       const data = await this.memberService.updatebmistatus(id, body.isActive);
@@ -412,16 +408,15 @@ export class MemberController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to update Exercise',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to update Exercise',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
 
   @Get('bmi/all')
   async bmiAll() {
@@ -435,17 +430,15 @@ export class MemberController {
     } catch (error) {
       console.error('Error retrieving Bmi list:', error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve Bmi',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve Bmi',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
-
-
 
   @Get('bmi/get/:id')
   async bmifindOne(@Param('id') id: number) {
@@ -460,14 +453,157 @@ export class MemberController {
     } catch (error) {
       console.error('Error retrieving BMI:', error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve BMI',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve BMI',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
 
+  //   member Exchanger
+  @Post('exchanger/add')
+  async exchangerAdd(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.memberService.exchangerAdd(reqdata);
+      return {
+        status: true,
+        message: 'Exchanger  created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Exchanger',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // update
+
+  @Post('exchanger/update')
+  async updateExchanger(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.memberService.updateExchanger(body);
+      return {
+        status: true,
+        message: 'exchanger Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to exchanger',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('exchanger/get/:id')
+  async exchangerfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.memberService.exchangerfindOne(id);
+      return {
+        status: true,
+        message: 'exchanger  retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve exchanger with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('exchanger/all')
+  async exchangerfindAll() {
+    try {
+      const data = await this.memberService.exchangerfindAll();
+      return {
+        status: true,
+        message: 'exchanger retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve exchanger',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // delete
+
+  @Delete('exchangerdelete/:id')
+  async exchangerdelete(@Param('id') id: number) {
+    try {
+      await this.memberService.exchangerdelete(id);
+      return {
+        status: true,
+        message: 'exchanger deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete exchanger with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  // status
+
+  @Put('exchangerstatus/:id')
+  async exchangerstatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.memberService.exchangerstatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'exchanger status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update Salary exchanger',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
