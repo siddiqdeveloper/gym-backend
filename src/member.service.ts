@@ -22,7 +22,16 @@ export class MemberService {
 
   // Create a new member
   async create(member: Member) {
-    console.log('aaaaaaaaaaMember', member);
+
+    if(member.workoutType){
+      member.workoutType = member.workoutType.toString()
+    }
+
+    if(member.fitnessGoal){
+      member.fitnessGoal = member.fitnessGoal.toString()
+    }
+    console.log('aaaaaaaaaaMember', member.workoutType);
+
     // return this.memberRepository.save(member);
     const savedMember = await this.memberRepository.save(member);
     const savebmi = {
@@ -90,7 +99,7 @@ export class MemberService {
       .getOne();
 
     let newCode: string;
-
+    
     if (lastMember && lastMember.memberId) {
       // Extract the number part from the code (e.g., 'MEM001' -> 1)
       const lastCodeNumber = parseInt(
