@@ -7,6 +7,9 @@ import { InActiveMember } from './entities/inActiveMember.entity';
 import { log } from 'console';
 import { Bmi } from './entities/bmi.entity';
 import { HttpStatus } from '@nestjs/common';
+import { Salary } from './entities/salary.entity';
+import { CashTopUp } from './entities/cashtop.entity';
+import { MemberExchanger } from './entities/memberExchanger.entity';
 
 @Injectable()
 export class MemberService {
@@ -18,6 +21,8 @@ export class MemberService {
     private inActiveMemberRepository: Repository<InActiveMember>,
     @InjectRepository(Bmi)
     private bmiRepository: Repository<Bmi>,
+    @InjectRepository(MemberExchanger)
+    private memberExchangerRepository: Repository<MemberExchanger>,
   ) {}
 
   // Create a new member
@@ -396,5 +401,75 @@ export class MemberService {
     const result = await this.dataSource.query('Call getbmifindOne(?)', [id]);
     console.log('result', result);
     return result[0][0];
+  }
+
+  //   exchanger
+
+  async exchangerAdd(body) {
+    try {
+      console.log('memberExcahngeraajajaj', body);
+      const exchangerSave = await this.memberExchangerRepository.save(body);
+      const memberUpdated = await this.memberRepository.findOne({
+        where:{memberId: body.memberId}
+      })
+      console.log('memberUpdated',memberUpdated)
+       if(memberUpdated){
+         exchangerSave.updated_name = memberUpdated.name;
+       } else {
+         throw new Error('Member not found');
+       }
+      await this.memberRepository.save(exchangerSave);
+
+
+
+
+
+      return body;
+    } catch (error) {
+      console.error('Error saving ', error);
+      throw new Error('Failed to save');
+    }
+  }
+
+  async updateExchanger(body) {
+    try {
+      const updateExchanger = await this.memberExchangerRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateExchanger;
+    } catch (error) {
+      console.error('Error updating Withdrawal', error);
+      throw new Error('Failed to updating Withdrawal');
+    }
+  }
+
+  async exchangerfindOne(id: number): Promise<MemberExchanger> {
+    return await this.memberExchangerRepository.findOne({ where: { id } });
+  }
+
+  async exchangerfindAll(): Promise<CashTopUp[]> {
+    const result = await this.dataSource.query('CALL getAllSalaryList()');
+    return result[0];
+  }
+
+  async exchangerdelete(id: number): Promise<void> {
+    await this.memberExchangerRepository.delete(id);
+  }
+
+  // status
+
+  async exchangerstatus(id: any, isActive: boolean) {
+    console.log(id);
+    const exchanger: any = await this.memberExchangerRepository.findOne({
+      where: { id: id },
+    });
+    if (!exchanger) {
+      throw new Error('exchanger not found');
+    }
+
+    exchanger.isActive = isActive ? 1 : 0;
+
+    return this.memberExchangerRepository.save(exchanger);
   }
 }

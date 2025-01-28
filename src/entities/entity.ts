@@ -35,6 +35,7 @@ import {PaymentType} from "./paymentType.entity";
 import {Salary} from "./salary.entity";
 import {Setting} from "./setting.entity"
 import {Incentive} from "./incentive.entity";
+import {MemberExchanger} from "./memberExchanger.entity";
 
 
 const entities = [
@@ -73,7 +74,8 @@ const entities = [
   PaymentType,
   Setting,
   Salary,
-  Incentive
+  Incentive,
+  MemberExchanger
  
 ];
 
