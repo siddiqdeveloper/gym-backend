@@ -4,7 +4,7 @@ import { Member } from "./Member.entity";
 import { Package } from "./Package.entity";
 import { Payment } from "./Payment";
 import { Staff } from "./staff.entity";
-import { User } from "./User.entity";
+import { User } from "./user.entity";
 import { ElectricityConsumption } from "./electricityConsumption.entity";
 import { WaterConsumption } from "./waterConsumption.entity";
 import { ServiceLog } from "./servicelog.entity";
