@@ -21,7 +21,8 @@ export class PaymentService {
 
   async createPayment(createPaymentDto) {
     const payment = this.paymentRepository.create(createPaymentDto);
-    console.log('payment',payment)
+    console.log('aaaaaaaaaaaaaaapayment',payment)
+
     return this.paymentRepository.save(payment);
   }
 
