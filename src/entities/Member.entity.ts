@@ -93,6 +93,16 @@ export class Member {
   @Column({ type: 'text', nullable: true })
   workoutType: string; // Workout types (can be stored as a JSON string or comma-separated values)
 
+  
+
+  @Column({ type: 'text', nullable: true })
+  healthConditions: string; // Workout types (can be stored as a JSON string or comma-separated values)
+
+
+  
+  @Column({ type: 'text', nullable: true })
+  address: string; 
+
   @Column({ type: 'date', nullable: true })
   billDate: Date; // Bill date
 

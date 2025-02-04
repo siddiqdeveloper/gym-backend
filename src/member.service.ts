@@ -481,4 +481,9 @@ export class MemberService {
 
     return this.memberExchangerRepository.save(exchanger);
   }
+
+  async dashbaordDetails() {
+    const result = await this.dataSource.query('CALL getDashbaordCount()');
+    return result[0];
+  }
 }
