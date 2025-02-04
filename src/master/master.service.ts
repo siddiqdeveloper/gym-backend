@@ -22,13 +22,16 @@ export class MasterService {
 
   async fetchCode(query): Promise<string> {
 
-      let lastMember:any =  await this.dataSource.query('select * from '+query.t+' limit 1 ');
+      let lastMember:any =  await this.dataSource.query('select * from '+query.t+' order by id desc limit 1 ');
       if(lastMember){
         lastMember = lastMember[0];
       }
+
       const prefix = query.prefix;
 
     let newCode: string;
+
+    console.log(lastMember);
 
     if (lastMember && lastMember.memberId) {
       // Extract the number part from the code (e.g., 'MEM001' -> 1)

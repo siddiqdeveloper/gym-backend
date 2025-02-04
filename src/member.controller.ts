@@ -606,4 +606,30 @@ export class MemberController {
       );
     }
   }
+
+  
+  @Get('dashbaord-details')
+  async dashbaordDetails() {
+    try {
+      const data = await this.memberService.dashbaordDetails();
+      return {
+        status: true,
+        message: 'exchanger retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve exchanger',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
 }
