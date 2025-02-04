@@ -123,4 +123,25 @@ export class Payment {
 
   @Column({ type: 'tinyint', default: 1 })
   isActive: number;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  CASH: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  UPI: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  CARD: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  cheque: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  IMPS: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  NEFT: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  RTGS: string;
 }

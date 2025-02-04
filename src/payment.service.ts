@@ -21,7 +21,8 @@ export class PaymentService {
 
   async createPayment(createPaymentDto) {
     const payment = this.paymentRepository.create(createPaymentDto);
-    console.log('payment',payment)
+    console.log('aaaaaaaaaaaaaaapayment',payment)
+
     return this.paymentRepository.save(payment);
   }
 
@@ -50,6 +51,7 @@ export class PaymentService {
   }
 
   async updatepayments(body) {
+    console.log('updateData',body)
     try {
       const updatePayments = await this.paymentRepository.update(
         { id: body.id },
