@@ -54,8 +54,11 @@ export class MemberService {
       weight: savedMember.weight,
       date: new Date(),
     };
+    
 
-    return this.bmiRepository.save(savebmi);
+    await this.bmiRepository.save(savebmi);
+
+    return savedMember;
   }
 
   // Get all members
