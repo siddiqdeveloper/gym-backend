@@ -50,6 +50,7 @@ export class PaymentService {
   }
 
   async updatepayments(body) {
+    console.log('updateData',body)
     try {
       const updatePayments = await this.paymentRepository.update(
         { id: body.id },
