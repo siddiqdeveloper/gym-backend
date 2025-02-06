@@ -10,6 +10,7 @@ import { HttpStatus } from '@nestjs/common';
 import { Salary } from './entities/salary.entity';
 import { CashTopUp } from './entities/cashtop.entity';
 import { MemberExchanger } from './entities/memberExchanger.entity';
+import { Attendance } from './entities/attendance.entity';
 
 @Injectable()
 export class MemberService {
@@ -23,17 +24,18 @@ export class MemberService {
     private bmiRepository: Repository<Bmi>,
     @InjectRepository(MemberExchanger)
     private memberExchangerRepository: Repository<MemberExchanger>,
+    @InjectRepository(Attendance)
+    private attendanceRepository: Repository<Attendance>,
   ) {}
 
   // Create a new member
   async create(member: Member) {
-
-    if(member.workoutType){
-      member.workoutType = member.workoutType.toString()
+    if (member.workoutType) {
+      member.workoutType = member.workoutType.toString();
     }
 
-    if(member.fitnessGoal){
-      member.fitnessGoal = member.fitnessGoal.toString()
+    if (member.fitnessGoal) {
+      member.fitnessGoal = member.fitnessGoal.toString();
     }
     console.log('aaaaaaaaaaMember', member.workoutType);
 
@@ -54,7 +56,6 @@ export class MemberService {
       weight: savedMember.weight,
       date: new Date(),
     };
-    
 
     await this.bmiRepository.save(savebmi);
 
@@ -107,7 +108,7 @@ export class MemberService {
       .getOne();
 
     let newCode: string;
-    
+
     if (lastMember && lastMember.memberId) {
       // Extract the number part from the code (e.g., 'MEM001' -> 1)
       const lastCodeNumber = parseInt(
@@ -422,19 +423,15 @@ export class MemberService {
       console.log('memberExcahngeraajajaj', body);
       const exchangerSave = await this.memberExchangerRepository.save(body);
       const memberUpdated = await this.memberRepository.findOne({
-        where:{memberId: body.memberId}
-      })
-      console.log('memberUpdated',memberUpdated)
-       if(memberUpdated){
-         exchangerSave.updated_name = memberUpdated.name;
-       } else {
-         throw new Error('Member not found');
-       }
+        where: { memberId: body.memberId },
+      });
+      console.log('memberUpdated', memberUpdated);
+      if (memberUpdated) {
+        exchangerSave.updated_name = memberUpdated.name;
+      } else {
+        throw new Error('Member not found');
+      }
       await this.memberRepository.save(exchangerSave);
-
-
-
-
 
       return body;
     } catch (error) {
@@ -488,5 +485,40 @@ export class MemberService {
   async dashbaordDetails() {
     const result = await this.dataSource.query('CALL getDashbaordCount()');
     return result[0];
+  }
+
+  //   save attendance
+
+  async attendanceSave(body) {
+    console.log('sajajaja', body);
+    const result = await this.attendanceRepository.findOne({
+      where: { memberId: body},
+    });
+    console.log('result',result)
+    const currentDate = new Date();
+    const currentTime = currentDate.toLocaleTimeString();
+     result.checkOut = currentTime
+    await this.attendanceRepository.save(result)
+
+    if(!result){
+      const currentDate = new Date();
+      const currentDateString = currentDate.toISOString();
+      const currentTime = currentDate.toLocaleTimeString();
+      const createData = {
+        memberId: body,
+        date: currentDateString,
+        checkIn: currentTime,
+      };
+      console.log('createData',createData)
+      await this.attendanceRepository.save(createData);
+    }
+
+
+
+
+
+
+
+    return body;
   }
 }

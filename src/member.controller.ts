@@ -632,4 +632,33 @@ export class MemberController {
 
 
 
+//   attendance Save
+
+
+
+
+  @Post('attendance/save')
+  async createMeter(@Body() body) {
+    try {
+      const reqdata: any = body;
+
+      const check = await this.memberService.attendanceSave(reqdata.memberId);
+      return {
+        status: true,
+        message: 'Attendance Save successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create Attendance',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
 }

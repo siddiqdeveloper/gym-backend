@@ -36,7 +36,7 @@ import {Salary} from "./salary.entity";
 import {Setting} from "./setting.entity"
 import {Incentive} from "./incentive.entity";
 import {MemberExchanger} from "./memberExchanger.entity";
-
+import {Attendance} from "./attendance.entity";
 
 const entities = [
   User,
@@ -75,7 +75,8 @@ const entities = [
   Setting,
   Salary,
   Incentive,
-  MemberExchanger
+  MemberExchanger,
+  Attendance
  
 ];
 
