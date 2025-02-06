@@ -489,36 +489,74 @@ export class MemberService {
 
   //   save attendance
 
+  // async attendanceSave(body) {
+  //   console.log('sajajaja', body);
+  //   const currentDate = new Date();
+  //   const result = await this.attendanceRepository.findOne({
+  //     where: { memberId: body,date:currentDate},
+  //   });
+  //   console.log('result',result)
+  //   // const currentDate = new Date();
+  //   // const currentTime = currentDate.toLocaleTimeString();
+  //   //  result.checkOut = currentTime
+  //   // await this.attendanceRepository.save(result)
+  //
+  //   // if(!result){
+  //   //   const currentDate = new Date();
+  //   //   const currentDateString = currentDate.toISOString();
+  //   //   const currentTime = currentDate.toLocaleTimeString();
+  //   //   const createData = {
+  //   //     memberId: body,
+  //   //     date: currentDateString,
+  //   //     checkIn: currentTime,
+  //   //   };
+  //   //   console.log('createData',createData)
+  //   //   await this.attendanceRepository.save(createData);
+  //   // }
+  //   return body;
+  // }
+
+
+
   async attendanceSave(body) {
-    console.log('sajajaja', body);
-    const result = await this.attendanceRepository.findOne({
-      where: { memberId: body},
-    });
-    console.log('result',result)
-    const currentDate = new Date();
-    const currentTime = currentDate.toLocaleTimeString();
-     result.checkOut = currentTime
-    await this.attendanceRepository.save(result)
+    try {
 
-    if(!result){
+
       const currentDate = new Date();
-      const currentDateString = currentDate.toISOString();
-      const currentTime = currentDate.toLocaleTimeString();
-      const createData = {
-        memberId: body,
-        date: currentDateString,
-        checkIn: currentTime,
-      };
-      console.log('createData',createData)
-      await this.attendanceRepository.save(createData);
+      const currentDateString = currentDate.toISOString().split('T')[0];
+
+      const result = await this.attendanceRepository.findOne({
+        where: {
+          memberId: body.memberId,
+          date: currentDateString,
+        },
+      });
+
+      console.log('Attendance record', result);
+
+
+      if (result) {
+        const currentTime = currentDate.toLocaleTimeString();
+        result.checkOut = currentTime;
+        await this.attendanceRepository.save(result);
+        console.log('Check-out time updated:', currentTime);
+      } else {
+
+        const currentTime = currentDate.toLocaleTimeString();
+        const createData = {
+          memberId: body.memberId,
+          date: currentDateString,
+          checkIn: currentTime,
+        };
+        console.log('Creating new record:', createData);
+        await this.attendanceRepository.save(createData);
+      }
+
+      return body;
+    } catch (error) {
+      console.error('Error saving attendance:', error);
+      throw new Error('Attendance save failed.');
     }
-
-
-
-
-
-
-
-    return body;
   }
+
 }
