@@ -63,6 +63,7 @@ import {Salary} from "./entities/salary.entity";
 import {Setting}from "./entities/setting.entity"
 import {Incentive} from "./entities/incentive.entity";
 import {MemberExchanger} from "./entities/memberExchanger.entity";
+import {Attendance} from "./entities/attendance.entity";
 
 
 @Module({
@@ -98,7 +99,8 @@ import {MemberExchanger} from "./entities/memberExchanger.entity";
       FeedBack,FreeProgram,Salary,
       Setting,
       Incentive,
-      MemberExchanger
+      MemberExchanger,
+      Attendance
       ]),
     MasterModule,
     UserModule,
