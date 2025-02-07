@@ -482,6 +482,11 @@ export class MemberService {
     return this.memberExchangerRepository.save(exchanger);
   }
 
+  async attendaceReport(){
+    const result = await this.dataSource.query('CALL getAttendaceReport()');
+    return result[0];
+
+  }
   async dashbaordDetails() {
     const result = await this.dataSource.query('CALL getDashbaordCount()');
     return result[0];
@@ -521,10 +526,19 @@ export class MemberService {
   async attendanceSave(body) {
     try {
 
+      body.memberId = 'MEM'+body.memberId;
+
+      const memberDetails = await this.memberRepository.findOne({
+        where: { memberId: body.memberId },
+      });
+
+      if(!memberDetails){
+        return false;
+      } 
 
       const currentDate = new Date();
       const currentDateString = currentDate.toISOString().split('T')[0];
-
+      console.log(currentDateString);
       const result = await this.attendanceRepository.findOne({
         where: {
           memberId: body.memberId,
@@ -543,6 +557,7 @@ export class MemberService {
       } else {
 
         const currentTime = currentDate.toLocaleTimeString();
+        console.log(body);
         const createData = {
           memberId: body.memberId,
           date: currentDateString,
@@ -552,7 +567,7 @@ export class MemberService {
         await this.attendanceRepository.save(createData);
       }
 
-      return body;
+      return memberDetails;
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new Error('Attendance save failed.');

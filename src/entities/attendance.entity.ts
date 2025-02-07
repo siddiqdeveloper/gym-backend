@@ -1,29 +1,32 @@
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
 @Entity('attendance')
 export class Attendance {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Member, member => member.attendance)
-  memberId: Member;
 
-  @Column({ type: 'date' })
-  date: string = new Date().toISOString().split('T')[0]; // Default to today's date
+  @Column({ type: 'varchar', length: 255, collation: 'latin1_swedish_ci', nullable: false })
+  memberId: string;
 
-  @Column('time')
+  @Column({ type: 'date', default: () => "'2024-01-01'", nullable: false })
+  date: string;
+
+  @Column({ type: 'time', nullable: false })
   checkIn: string;
 
-  @Column('time')
+  @Column({ type: 'time', nullable: false })
   checkOut: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, collation: 'latin1_swedish_ci', nullable: false })
   branch: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', default: () => "'2024-01-01'", nullable: false })
   endDate: string;
 
-  @Column({ default: false })
+  @Column({ type: 'tinyint', default: 0, nullable: false })
   pending: boolean;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.00 }) 
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.00, nullable: false })
   pendingAmount: number;
 }

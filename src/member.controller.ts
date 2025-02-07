@@ -631,6 +631,29 @@ export class MemberController {
   }
 
 
+  @Get('attendace-report')
+  async attendaceReport() {
+    try {
+      const data = await this.memberService.attendaceReport();
+      return {
+        status: true,
+        message: 'attendaceReport retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve attendaceReport',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
 
 //   attendance Save
 
@@ -642,12 +665,22 @@ export class MemberController {
     try {
       const reqdata: any = body;
 
-      const check = await this.memberService.attendanceSave(reqdata.memberId);
-      return {
-        status: true,
-        message: 'Attendance Save successfully',
-        data: check,
-      };
+      const check = await this.memberService.attendanceSave(reqdata);
+      if(check){
+        return {
+          status: true,
+          data:check,
+          message: 'Attendance Save successfully',
+     
+        };
+      }else{
+        return {
+          status: false,
+          message: 'Please check member id',
+     
+        };
+      }
+     
     } catch (error) {
       console.log(error);
       throw new HttpException(
