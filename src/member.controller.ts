@@ -93,13 +93,15 @@ export class MemberController {
   @Put('update/:id')
   async update(@Param('id') id: string, @Body() member) {
     try {
-      const data = await this.memberService.update(+id, member);
+      const data = await this.memberService.update(id, member);
+      console.log(data);
       return {
         status: true,
         message: 'Member updated successfully',
         data: data,
       };
     } catch (error) {
+      console.log(error)
       throw new HttpException(
         {
           status: false,

@@ -91,7 +91,15 @@ export class MemberService {
 
   // Update a member
   async update(id: any, member) {
-    await this.memberRepository.update(id, member);
+    member.memberId = 'MEM'+id;
+    delete member.id;
+    
+    member.fitnessGoal = member.fitnessGoal?member.fitnessGoal.join(','):'';
+    member.workoutType = member.workoutType?member.workoutType.join(','):'';
+    member.healthConditions = member.healthConditions?member.healthConditions.join(','):'';
+   
+     let result = await this.memberRepository.update(id, member);
+     console.log(result);
     return this.findOne(id);
   }
 
