@@ -574,8 +574,10 @@ export class MemberService {
         console.log('Creating new record:', createData);
         await this.attendanceRepository.save(createData);
       }
+      console.log(memberDetails.id)
+      let details = await this.dataSource.query('call getMemberInfoAtt('+memberDetails.id+')')
 
-      return memberDetails;
+      return details[0][0];
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new Error('Attendance save failed.');
