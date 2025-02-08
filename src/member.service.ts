@@ -11,6 +11,7 @@ import { Salary } from './entities/salary.entity';
 import { CashTopUp } from './entities/cashtop.entity';
 import { MemberExchanger } from './entities/memberExchanger.entity';
 import { Attendance } from './entities/attendance.entity';
+import { Lead } from "./entities/Lead.entity";
 
 @Injectable()
 export class MemberService {
@@ -489,39 +490,8 @@ export class MemberService {
 
   //   save attendance
 
-  // async attendanceSave(body) {
-  //   console.log('sajajaja', body);
-  //   const currentDate = new Date();
-  //   const result = await this.attendanceRepository.findOne({
-  //     where: { memberId: body,date:currentDate},
-  //   });
-  //   console.log('result',result)
-  //   // const currentDate = new Date();
-  //   // const currentTime = currentDate.toLocaleTimeString();
-  //   //  result.checkOut = currentTime
-  //   // await this.attendanceRepository.save(result)
-  //
-  //   // if(!result){
-  //   //   const currentDate = new Date();
-  //   //   const currentDateString = currentDate.toISOString();
-  //   //   const currentTime = currentDate.toLocaleTimeString();
-  //   //   const createData = {
-  //   //     memberId: body,
-  //   //     date: currentDateString,
-  //   //     checkIn: currentTime,
-  //   //   };
-  //   //   console.log('createData',createData)
-  //   //   await this.attendanceRepository.save(createData);
-  //   // }
-  //   return body;
-  // }
-
-
-
   async attendanceSave(body) {
     try {
-
-
       const currentDate = new Date();
       const currentDateString = currentDate.toISOString().split('T')[0];
 
@@ -534,17 +504,15 @@ export class MemberService {
 
       console.log('Attendance record', result);
 
-
       if (result) {
         const currentTime = currentDate.toLocaleTimeString();
         result.checkOut = currentTime;
         await this.attendanceRepository.save(result);
         console.log('Check-out time updated:', currentTime);
       } else {
-
         const currentTime = currentDate.toLocaleTimeString();
         const createData = {
-          memberId: body.memberId,
+          memberId: body,
           date: currentDateString,
           checkIn: currentTime,
         };
@@ -559,4 +527,28 @@ export class MemberService {
     }
   }
 
+    async attendanceReport(customStartDate, customEndDate, selectedMember) {
+      customStartDate = "'" + customStartDate + "'";
+      customEndDate = "'" + customEndDate + "'";
+      selectedMember = "'" + selectedMember + "'";
+      const result = await this.dataSource.query(
+        'Call getAttendanceReportList(' +
+          customStartDate +
+          ',' +
+          customEndDate +
+          ',' +
+          selectedMember +
+          ')',
+        [],
+      );
+      console.log('result',result)
+      return result[0];
+    }
+
+
+  async getAttendanceReport(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL getAttendanceAllList()');
+    console.log('result',result);
+    return result[0];
+  }
 }
