@@ -29,6 +29,11 @@ export class Member {
   interestedIn: number; // interestedIn
 
   @Column({ type: 'int', nullable: true })
+  packageDuration: number; // interestedIn
+
+  
+
+  @Column({ type: 'int', nullable: true })
   packagePrice: number;
 
   @Column({ length: 10, nullable: true })
@@ -73,6 +78,8 @@ export class Member {
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
   lowerAbdomen: number; // Calf measurement
 
+
+  
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
   height: number; // Height
 
@@ -148,8 +155,14 @@ export class Member {
   dob: Date; // dob date
 
   @Column({ type: 'date', nullable: true })
+  anniversaryDate: Date; // dob date
+  
+
+  @Column({ type: 'date', nullable: true })
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt: Date;
+
+
 
   @Column({ type: 'tinyint', default: 1 })
   isActive: number;
