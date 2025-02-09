@@ -62,7 +62,16 @@ export class Member {
   thigh: number; // Thigh measurement
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  hip: number; // Thigh measurement
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
   calf: number; // Calf measurement
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  upperAbdomen: number; // Calf measurement
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  lowerAbdomen: number; // Calf measurement
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
   height: number; // Height
@@ -106,6 +115,18 @@ export class Member {
   @Column({ type: 'date', nullable: true })
   billDate: Date; // Bill date
 
+  @Column({ type: 'date', nullable: true })
+  marriageDate: Date; // Bill date
+
+  @Column({ type: 'date', nullable: true })
+  joiningDate: Date; // Bill date
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  bloodGroup: string; // Bill date
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  aadharNumber: string; // Bill date
+
   @Column({ type: 'varchar', length: 255, nullable: true })
   endDate: string;
 
@@ -115,6 +136,11 @@ export class Member {
   @Column({ type: 'varchar', length: 255, nullable: true })
   staff: string;
 
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  lifestyle: string;
+
+  
   @Column({ type: 'varchar', length: 255, nullable: true })
   branch: string;
 
