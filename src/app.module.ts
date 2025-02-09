@@ -64,6 +64,7 @@ import {Setting}from "./entities/setting.entity"
 import {Incentive} from "./entities/incentive.entity";
 import {MemberExchanger} from "./entities/memberExchanger.entity";
 import {Attendance} from "./entities/attendance.entity";
+import { MailService } from './mail/mail.service';
 
 
 @Module({
@@ -122,6 +123,7 @@ import {Attendance} from "./entities/attendance.entity";
       useClass: AllExceptionsFilter,
     },
     MiscService,
+    MailService,
   ],
 })
 export class AppModule {}
