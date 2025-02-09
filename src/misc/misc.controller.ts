@@ -11,8 +11,8 @@ import {
   Delete,
   Put,
   UploadedFiles,
-  UseInterceptors,
-} from '@nestjs/common';
+  UseInterceptors, Query
+} from "@nestjs/common";
 import { MiscService } from './misc.service';
 import { get } from 'http';
 import { Response } from 'express';
@@ -3544,22 +3544,28 @@ export class MiscController {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-          {
-            status: false,
-            message: 'Failed to retrieve CCTv',
-            error: error.message,
-          },
-          HttpStatus.BAD_REQUEST,
+        {
+          status: false,
+          message: 'Failed to retrieve CCTv',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
       );
     }
   }
 
   @Post('update/:id')
-  async updateCCTV(@Param('id') id: string, @Body() body: { key: string; value: string }) {
+  async updateCCTV(
+    @Param('id') id: string,
+    @Body() body: { key: string; value: string },
+  ) {
     const { key, value } = body;
 
     if (!key || !value) {
-      throw new HttpException('Key and Value are required', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Key and Value are required',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     try {
@@ -3713,4 +3719,61 @@ export class MiscController {
       );
     }
   }
+
+  //   staff
+
+  @Get('getAllAssignManagerStaff')
+  async getAllAssignManagerStaff() {
+    try {
+      const data = await this.mis.getAllAssignManagerStaff();
+      return {
+        status: true,
+        message: 'staff retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve staff',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+
+  @Get('getAllAssignManager')
+  async getAllAssignManager() {
+    try {
+      const data = await this.mis.getAllAssignManager();
+      return {
+        status: true,
+        message: 'Manager retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve Manager',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+
+
+
 }

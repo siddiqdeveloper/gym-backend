@@ -1511,4 +1511,20 @@ export class MiscService {
 
     return this.salaryRepository.save(salary);
   }
+
+
+
+
+//   staff
+
+  async getAllAssignManagerStaff(): Promise<Freeze[]> {
+    const result = await this.dataSource.query('CALL getAllAssignManagerStaff()');
+    return result[0];
+  }
+
+  async getAllAssignManager(): Promise<Freeze[]> {
+    const result = await this.dataSource.query('CALL getAllAssignManager()');
+    return result[0];
+  }
+
 }
