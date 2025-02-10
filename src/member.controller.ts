@@ -609,7 +609,6 @@ export class MemberController {
     }
   }
 
-  
   @Get('dashbaord-details')
   async dashbaordDetails() {
     try {
@@ -631,6 +630,7 @@ export class MemberController {
       );
     }
   }
+
 
 
   @Get('attendace-report')
@@ -658,6 +658,7 @@ export class MemberController {
 
 
 //   attendance Save
+
 
 
 
@@ -694,6 +695,37 @@ export class MemberController {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  //   attendance Report
+
+  @Post('attendance/reports')
+  async attendanceReport(
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.memberService.attendanceReport(
+      body.customStartDate,
+      body.customEndDate,
+      body.selectedMember,
+    );
+
+    res.send(data);
+  }
+
+
+  @Get('attendance-report')
+  async getAttendanceReport(
+    @Body() body,
+    @Req() request: Request,
+    @Res() res: Response,
+  ) {
+    console.log('ywhb', body);
+    const data = await this.memberService.getAttendanceReport();
+
+    res.send(data);
   }
 
 }
