@@ -38,7 +38,12 @@ export class MemberService {
     if (member.fitnessGoal) {
       member.fitnessGoal = member.fitnessGoal.toString();
     }
-    console.log('aaaaaaaaaaMember', member.workoutType);
+
+    
+    if(member.healthConditions){
+      member.healthConditions = member.healthConditions.toString();
+    }
+   
 
     // return this.memberRepository.save(member);
     const savedMember = await this.memberRepository.save(member);
@@ -94,13 +99,25 @@ export class MemberService {
   async update(id: any, member) {
     member.memberId = 'MEM'+id;
     delete member.id;
+
+    if(member.fitnessGoal.length == 0){
+      member.fitnessGoal = '';
+    }
+
+    if(member.healthConditions.length == 0){
+      member.healthConditions = '';
+    }
+ 
     
     member.fitnessGoal = member.fitnessGoal?member.fitnessGoal.join(','):'';
     member.workoutType = member.workoutType?member.workoutType.join(','):'';
     member.healthConditions = member.healthConditions?member.healthConditions.join(','):'';
+    console.log(member.workoutType);
+
+    console.log(member);
    
      let result = await this.memberRepository.update(id, member);
-     console.log(result);
+    
     return this.findOne(id);
   }
 
