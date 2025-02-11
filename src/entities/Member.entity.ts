@@ -142,6 +142,11 @@ export class Member {
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   staff: string;
+  
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  hearabout: string;
+
+  
 
 
   @Column({ type: 'varchar', length: 255, nullable: true })
