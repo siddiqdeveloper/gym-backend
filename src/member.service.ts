@@ -555,7 +555,7 @@ export class MemberService {
         const currentTime = currentDate.toLocaleTimeString();
         console.log(body);
         const createData = {
-          memberId: body,
+          memberId: body.memberId,
           date: currentDateString,
           checkIn: currentTime,
         };
