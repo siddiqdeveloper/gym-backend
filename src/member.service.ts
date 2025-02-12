@@ -92,7 +92,15 @@ export class MemberService {
 
   // Update a member
   async update(id: any, member) {
-    await this.memberRepository.update(id, member);
+    member.memberId = 'MEM'+id;
+    delete member.id;
+    
+    member.fitnessGoal = member.fitnessGoal?member.fitnessGoal.join(','):'';
+    member.workoutType = member.workoutType?member.workoutType.join(','):'';
+    member.healthConditions = member.healthConditions?member.healthConditions.join(','):'';
+   
+     let result = await this.memberRepository.update(id, member);
+     console.log(result);
     return this.findOne(id);
   }
 
@@ -483,6 +491,11 @@ export class MemberService {
     return this.memberExchangerRepository.save(exchanger);
   }
 
+  async attendaceReport(){
+    const result = await this.dataSource.query('CALL getAttendaceReport()');
+    return result[0];
+
+  }
   async dashbaordDetails() {
     const result = await this.dataSource.query('CALL getDashbaordCount()');
     return result[0];
@@ -492,9 +505,21 @@ export class MemberService {
 
   async attendanceSave(body) {
     try {
+
+      body.memberId = 'MEM'+body.memberId;
+
+      const memberDetails = await this.memberRepository.findOne({
+        where: { memberId: body.memberId },
+      });
+
+      if(!memberDetails){
+        return false;
+      } 
+
+
       const currentDate = new Date();
       const currentDateString = currentDate.toISOString().split('T')[0];
-
+      console.log(currentDateString);
       const result = await this.attendanceRepository.findOne({
         where: {
           memberId: body.memberId,
@@ -511,6 +536,7 @@ export class MemberService {
         console.log('Check-out time updated:', currentTime);
       } else {
         const currentTime = currentDate.toLocaleTimeString();
+        console.log(body);
         const createData = {
           memberId: body,
           date: currentDateString,
@@ -519,8 +545,10 @@ export class MemberService {
         console.log('Creating new record:', createData);
         await this.attendanceRepository.save(createData);
       }
+      console.log(memberDetails.id)
+      let details = await this.dataSource.query('call getMemberInfoAtt('+memberDetails.id+')')
 
-      return body;
+      return details[0][0];
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new Error('Attendance save failed.');
