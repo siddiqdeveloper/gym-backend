@@ -6,6 +6,7 @@ import { DuePaidPayment } from './entities/duePaidPayment.entity';
 import { Lead } from './entities/Lead.entity';
 import {Incentive} from "./entities/incentive.entity";
 import {CashTopUp} from "./entities/cashtop.entity";
+import { Member } from './entities/Member.entity';
 
 @Injectable()
 export class PaymentService {
@@ -17,11 +18,18 @@ export class PaymentService {
     private readonly duePaidPaymentRepository: Repository<DuePaidPayment>,
     @InjectRepository(Incentive)
     private readonly incentiveRepository: Repository<Incentive>,
+    @InjectRepository(Member)
+    private memberRepository: Repository<Member>,
   ) {}
 
   async createPayment(createPaymentDto) {
     const payment = this.paymentRepository.create(createPaymentDto);
-    console.log('aaaaaaaaaaaaaaapayment',payment)
+
+   let update =  await this.memberRepository.update(
+      { id: createPaymentDto.memberId }, // WHERE condition
+      {endDate:createPaymentDto.endDate,interestedIn:createPaymentDto.interestedIn,joiningDate:createPaymentDto.joiningDate} // Data to update
+  );
+  console.log(update,createPaymentDto.memberId);
 
     return this.paymentRepository.save(payment);
   }

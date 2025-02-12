@@ -1,147 +1,121 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity('payments')
 export class Payment {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ type: 'varchar', length: 255})
-  collectedBy: string;
+    @Column()
+    memberId: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2})
-  discountAmount: number;
+    @Column({ type: 'enum', enum: ['NEW', 'RENEWAL', 'REFUND', 'PT', ''] })
+    memberPaymentFor: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2})
-  due: number;
+    @Column({ type: 'date', nullable: true })
+    expiryDate: Date;
 
-  @Column({ type: 'int'})
-  durationInDays: number;
+    @Column({ type: 'int', nullable: true })
+    balanceDays: number;
+    
 
-  @Column({ type: 'decimal', precision: 10, scale: 2})
-  emi: number;
 
-  @Column({ type: 'date'})
-  feePaymentDate: Date;
+    @Column({ type: 'int', nullable: true })
+    interestedIn: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2})
-  incentiveIncurred: number;
+    @Column({ type: 'date', nullable: true })
+    feePaymentDate: Date;
 
-  @Column({ type: 'decimal', precision: 5, scale: 2})
-  interestRate: number;
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    packageName: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2})
-  internetAmount: number;
+    @Column({ type: 'date', nullable: true })
+    endDate: Date;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2})
-  loanAmount: number;
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    packageAmount: number;
 
-  @Column({ type: 'int' })
-  memberId: number;
+    @Column({ type: 'enum', enum: ['CASH', 'UPI', 'CARD+CASH', 'CASH+UPI', 'CARD+UPI', 'Cheque', 'Bank', 'Others'] })
+    modeOfPayment: string;
 
-  @Column({ type: 'enum', enum: ['NEW', 'RENEWAL', 'REFUND'] })
-  memberPaymentFor: 'NEW' | 'RENEWAL';
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    CASH: number;
 
-  @Column({ type: 'varchar', length: 255})
-  memberState: string;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    CARD: number;
 
-  @Column({
-    type: 'enum',
-    enum: [
-      'CASH',
-      'G PAY',
-      'CARD+CASH',
-      'CARD+G PAY',
-      'Cheque',
-      'IMPS/NEFT/RTGS',
-      'Others',
-    ],
-  })
-  modeOfPayment:
-    | 'CASH'
-    | 'G PAY'
-    | 'CARD+CASH'
-    | 'CARD+G PAY'
-    | 'Cheque'
-    | 'IMPS/NEFT/RTGS'
-    | 'Others';
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    UPI: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  packageAmount: number;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    Bank: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2})
-  pendingAmount: number;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    Cheque: number;
 
-  @Column({ type: 'date'})
-  pendingAmountDate: Date;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    paidAmount: any;
 
-  @Column({ type: 'varchar', length: 255})
-  pendingApprovedBy: string;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    registration_fees: number;
 
-  @Column({ type: 'varchar', length: 255})
-  paidAmount: string;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    discountAmount: number;
 
-  @Column({ type: 'varchar', length: 255})
-  totalAmount: string;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    pendingAmount: number;
 
-  @Column({ type: 'varchar', length: 255})
-  gst_percentage: string;
+    @Column({ type: 'date', nullable: true })
+    pendingAmountDate: Date;
 
-  @Column({ type: 'varchar', length: 255})
-  registration_fees: string;
+    @Column({ type: 'date', nullable: true })
+    joiningDate: Date;
 
-  @Column({ type: 'varchar', length: 255})
-  enterTrainerPercentage: string;
+    
+    @Column({ type: 'tinyint', nullable: true })
+    gst_applicable: boolean;
 
-  @Column({ type: 'varchar', length: 255})
-  totalMonth: string;
+    @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+    gst_percentage: number;
 
-  @Column({ type: 'varchar', length: 255})
-  eachMonthAmount: string;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    totalAmount: any;
 
-  @Column({ type: 'varchar', length: 255})
-  officeTotalAmount: string;
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    trainerName: string;
 
-  @Column({ type: 'boolean'})
-  rejoinMember: boolean;
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    referedbymember: string;
 
-  @Column({ type: 'text'})
-  remarks: string;
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    referedBy: string;
 
-  @Column({ type: 'int'})
-  tenure: number;
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    collectedBy: string;
 
-  @Column({ type: 'varchar', length: 255})
-  trainerName: string;
+    @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+    enterTrainerPercentage: number;
 
-  @CreateDateColumn()
-  createdAt: Date;
+    @Column({ type: 'int', nullable: true })
+    packageDuration: number;
 
-  @Column({ type: 'tinyint', default: 1 })
-  isActive: number;
+    @Column({ type: 'int', nullable: true })
+    totalMonth: number;
 
-  @Column({ type: 'varchar', length: 255})
-  CASH: string;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    eachMonthAmount: number;
 
-  @Column({ type: 'varchar', length: 255})
-  UPI: string;
+    @Column({ type: 'date', nullable: true })
+    ptendDate: Date;
 
-  @Column({ type: 'varchar', length: 255})
-  CARD: string;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    officeTotalAmount: number;
 
-  @Column({ type: 'varchar', length: 255})
-  cheque: string;
+    @Column({ type: 'date', nullable: true })
+    endDateIncentive: Date;
 
-  @Column({ type: 'varchar', length: 255})
-  IMPS: string;
+    @CreateDateColumn()
+    createdAt: Date;
 
-  @Column({ type: 'varchar', length: 255})
-  NEFT: string;
-
-  @Column({ type: 'varchar', length: 255})
-  RTGS: string;
+    @Column({ type: 'tinyint', default: 1 })
+    isActive: boolean;
 }
