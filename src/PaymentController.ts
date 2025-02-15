@@ -87,25 +87,7 @@ export class PaymentController {
     }
   }
 
-  @Delete('delete/:id')
-  async remove(@Param('id') id: string) {
-    try {
-      await this.paymentService.remove(+id);
-      return {
-        status: true,
-        message: 'Payments deleted successfully',
-      };
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: false,
-          message: 'Failed to delete Payments',
-          error: error.message,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-  }
+
 
   // update
 
@@ -1578,4 +1560,52 @@ export class PaymentController {
       );
     }
   }
+
+
+  @Get('get-details/:id')
+  async getDetails(@Param('id') id: number) {
+    try {
+      const data = await this.paymentService.getDetails(id);
+      return {
+        status: true,
+        message: 'GetDetails retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve GetDetails with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+//   delete
+
+  @Delete('delete/:id')
+  async removePayment(@Param('id') id: number) {
+    try {
+      await this.paymentService.removePayment(id);
+      return {
+        status: true,
+        message: 'Payment deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete Payment with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
 }

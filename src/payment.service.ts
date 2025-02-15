@@ -7,6 +7,7 @@ import { Lead } from './entities/Lead.entity';
 import { Incentive } from './entities/incentive.entity';
 import { CashTopUp } from './entities/cashtop.entity';
 import { Member } from './entities/Member.entity';
+import { WaterConsumption } from "./entities/waterConsumption.entity";
 
 @Injectable()
 export class PaymentService {
@@ -38,11 +39,11 @@ export class PaymentService {
     return this.paymentRepository.save(payment);
   }
 
+
+
   async findAll() {
-    // const result = await this.dataSource.query('CALL getAllPayments()');
-    // console.log()
-    // return result[0];
-    return this.paymentRepository.find();
+    const result = await this.dataSource.query('CALL getAllPaymentList()');
+    return result[0];
   }
 
   async updateStatus(id: any, isActive: boolean) {
@@ -59,7 +60,8 @@ export class PaymentService {
     return this.paymentRepository.save(payment);
   }
   async remove(id: any) {
-    await this.paymentRepository.softDelete(id);
+    console.log('hahaha',id)
+    // await this.paymentRepository.softDelete(id);
   }
 
   async updatepayments(body) {
@@ -703,6 +705,25 @@ export class PaymentService {
     }
 
     return body;
+  }
+
+
+  // async getDetails(id: number): Promise<Payment> {
+  //   return await this.paymentRepository.findOne({ where: { id } });
+  // }
+
+  async getDetails(id) {
+    const result = await this.dataSource.query(
+      'Call getdetailsInPaymentList(' + id + ')',
+      [],
+    );
+    if (result) {
+      return result[0][0];
+    }
+  }
+
+  async removePayment(id: number): Promise<void> {
+    await this.paymentRepository.delete(id);
   }
 
 }
