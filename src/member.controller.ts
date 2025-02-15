@@ -101,7 +101,7 @@ export class MemberController {
         data: data,
       };
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new HttpException(
         {
           status: false,
@@ -631,8 +631,6 @@ export class MemberController {
     }
   }
 
-
-
   @Get('attendace-report')
   async attendaceReport() {
     try {
@@ -655,13 +653,7 @@ export class MemberController {
     }
   }
 
-
-
-//   attendance Save
-
-
-
-
+  //   attendance Save
 
   @Post('attendance/save')
   async createMeter(@Body() body) {
@@ -669,21 +661,18 @@ export class MemberController {
       const reqdata: any = body;
 
       const check = await this.memberService.attendanceSave(reqdata);
-      if(check){
+      if (check) {
         return {
           status: true,
-          data:check,
+          data: check,
           message: 'Attendance Save successfully',
-     
         };
-      }else{
+      } else {
         return {
           status: false,
           message: 'Please check member id',
-     
         };
       }
-     
     } catch (error) {
       console.log(error);
       throw new HttpException(
@@ -708,13 +697,11 @@ export class MemberController {
     console.log('ywhb', body);
     const data = await this.memberService.attendanceReport(
       body.customStartDate,
-      body.customEndDate,
       body.selectedMember,
     );
 
     res.send(data);
   }
-
 
   @Get('attendance-report')
   async getAttendanceReport(
@@ -727,5 +714,4 @@ export class MemberController {
 
     res.send(data);
   }
-
 }
