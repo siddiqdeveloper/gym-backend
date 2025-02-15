@@ -4,8 +4,8 @@ import { DataSource, Repository } from 'typeorm';
 import { Payment } from './entities/Payment';
 import { DuePaidPayment } from './entities/duePaidPayment.entity';
 import { Lead } from './entities/Lead.entity';
-import {Incentive} from "./entities/incentive.entity";
-import {CashTopUp} from "./entities/cashtop.entity";
+import { Incentive } from './entities/incentive.entity';
+import { CashTopUp } from './entities/cashtop.entity';
 import { Member } from './entities/Member.entity';
 
 @Injectable()
@@ -25,11 +25,15 @@ export class PaymentService {
   async createPayment(createPaymentDto) {
     const payment = this.paymentRepository.create(createPaymentDto);
 
-   let update =  await this.memberRepository.update(
+    const update = await this.memberRepository.update(
       { id: createPaymentDto.memberId }, // WHERE condition
-      {endDate:createPaymentDto.endDate,interestedIn:createPaymentDto.interestedIn,joiningDate:createPaymentDto.joiningDate} // Data to update
-  );
-  console.log(update,createPaymentDto.memberId);
+      {
+        endDate: createPaymentDto.endDate,
+        interestedIn: createPaymentDto.interestedIn,
+        joiningDate: createPaymentDto.joiningDate,
+      }, // Data to update
+    );
+    console.log(update, createPaymentDto.memberId);
 
     return this.paymentRepository.save(payment);
   }
@@ -59,7 +63,7 @@ export class PaymentService {
   }
 
   async updatepayments(body) {
-    console.log('updateData',body)
+    console.log('updateData', body);
     try {
       const updatePayments = await this.paymentRepository.update(
         { id: body.id },
@@ -453,7 +457,9 @@ export class PaymentService {
   // }
 
   async transactionDashboard() {
-    const result = await this.dataSource.query('CALL gettransactionDashboard()');
+    const result = await this.dataSource.query(
+      'CALL gettransactionDashboard()',
+    );
 
     // The result array will contain both result sets:
     const details = {
@@ -469,13 +475,11 @@ export class PaymentService {
     return details;
   }
 
-
   async cardcollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getcardcollection()');
     console.log();
     return result[0];
   }
-
 
   async Allcardcollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getcardcollection()');
@@ -483,13 +487,11 @@ export class PaymentService {
     return result[0];
   }
 
-
   async annualMember(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getannualMember()');
     console.log();
     return result[0];
   }
-
 
   async getAllAnnualList(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getannualMember()');
@@ -497,13 +499,11 @@ export class PaymentService {
     return result[0];
   }
 
-
   async splitcollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getsplitcollection()');
     console.log();
     return result[0];
   }
-
 
   async getAllSplitList(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getsplitcollection()');
@@ -511,13 +511,11 @@ export class PaymentService {
     return result[0];
   }
 
-
   async getTodayCashCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getTodayCashCollection()');
     console.log();
     return result[0][0];
   }
-
 
   async getWeekCashCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getWeekCashCollection()');
@@ -525,36 +523,35 @@ export class PaymentService {
     return result[0][0];
   }
 
-
   async getMonthCashCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getMonthCashCollection()');
     console.log();
     return result[0][0];
   }
 
-
-
   async getTodayweeklyCollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getTodayweeklyCollection()');
+    const result = await this.dataSource.query(
+      'CALL getTodayweeklyCollection()',
+    );
     console.log();
     return result[0][0];
   }
-
 
   async getWeekWeeklyCollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getWeekWeeklyCollection()');
+    const result = await this.dataSource.query(
+      'CALL getWeekWeeklyCollection()',
+    );
     console.log();
     return result[0][0];
   }
-
 
   async getCashWeeklyCollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getCashWeeklyCollection()');
+    const result = await this.dataSource.query(
+      'CALL getCashWeeklyCollection()',
+    );
     console.log();
     return result[0][0];
   }
-
-
 
   async getTodayupiCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getTodayupiCollection()');
@@ -562,13 +559,11 @@ export class PaymentService {
     return result[0][0];
   }
 
-
   async getWeekupiCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getWeekupiCollection()');
     console.log();
     return result[0][0];
   }
-
 
   async getMonthupiCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getMonthupiCollection()');
@@ -576,15 +571,11 @@ export class PaymentService {
     return result[0][0];
   }
 
-
-
   async getTodayCardCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getTodayCardCollection()');
     console.log();
     return result[0][0];
   }
-
-
 
   async getMonthCardCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getMonthCardCollection()');
@@ -598,14 +589,11 @@ export class PaymentService {
     return result[0][0];
   }
 
-
-
   async getUpiTodayCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getUpiTodayCollection()');
     console.log();
     return result[0][0];
   }
-
 
   async getCashTodayCollection(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getCashTodayCollection()');
@@ -613,76 +601,108 @@ export class PaymentService {
     return result[0][0];
   }
 
-
-
   async getsplitTodayCollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getsplitTodayCollection()');
+    const result = await this.dataSource.query(
+      'CALL getsplitTodayCollection()',
+    );
     console.log();
     return result[0][0];
   }
 
   async getsplitWeeklyCollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getsplitWeeklyCollection()');
+    const result = await this.dataSource.query(
+      'CALL getsplitWeeklyCollection()',
+    );
     console.log();
     return result[0][0];
   }
-
 
   async getsplitMonthlyCollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getsplitMonthlyCollection()');
+    const result = await this.dataSource.query(
+      'CALL getsplitMonthlyCollection()',
+    );
     console.log();
     return result[0][0];
   }
-
-
 
   async getUpiDatainTodayCollections(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getUpiDatainTodayCollections()');
+    const result = await this.dataSource.query(
+      'CALL getUpiDatainTodayCollections()',
+    );
     console.log();
     return result[0][0];
   }
-
 
   async getMonthDatainReportList(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getMonthDatainReportList()');
+    const result = await this.dataSource.query(
+      'CALL getMonthDatainReportList()',
+    );
     console.log();
     return result[0][0];
   }
 
-
-
-
-
-//   monthly collection
+  //   monthly collection
 
   async getUpiMonthlyCollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getUpiMonthlyCollection()');
+    const result = await this.dataSource.query(
+      'CALL getUpiMonthlyCollection()',
+    );
     console.log();
     return result[0][0];
   }
-
 
   async getcashMonthlyCollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getcashMonthlyCollection()');
+    const result = await this.dataSource.query(
+      'CALL getcashMonthlyCollection()',
+    );
     console.log();
     return result[0][0];
   }
-
 
   async getCardMonthlyCollection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getCardMonthlyCollection()');
+    const result = await this.dataSource.query(
+      'CALL getCardMonthlyCollection()',
+    );
     console.log();
     return result[0][0];
   }
-
 
   async incentivefindAll(): Promise<CashTopUp[]> {
     const result = await this.dataSource.query('CALL getincentivefindAll()');
     return result[0];
   }
 
+  //   update Due Payment
 
 
 
+
+  async updateduePaidPayment(body) {
+
+
+    try {
+      console.log('aaaaaabody',body)
+      const paymentMethods = ['CASH', 'CARD', 'GPAY', 'Cheque', 'IMPS', 'NEFT', 'RTGS'];
+      let totalAmount = 0;
+      let usedMethods = [];
+      for (const method of paymentMethods) {
+        if (body[method]) {
+          totalAmount += parseFloat(body[method]);
+          usedMethods.push(method);
+        }
+      }
+      const paymentData = await this.paymentRepository.findOne({
+        where: { id: body.id },
+      });
+      console.log('paymentData', paymentData);
+      paymentData.pendingAmount = totalAmount;
+      await this.paymentRepository.save(paymentData)
+
+    } catch (e) {
+      console.error('Error saving duePaidPayment:', e.message);
+    }
+
+    return body;
+  }
 
 }

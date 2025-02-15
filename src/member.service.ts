@@ -11,7 +11,7 @@ import { Salary } from './entities/salary.entity';
 import { CashTopUp } from './entities/cashtop.entity';
 import { MemberExchanger } from './entities/memberExchanger.entity';
 import { Attendance } from './entities/attendance.entity';
-import { Lead } from "./entities/Lead.entity";
+import { Lead } from './entities/Lead.entity';
 
 @Injectable()
 export class MemberService {
@@ -39,11 +39,9 @@ export class MemberService {
       member.fitnessGoal = member.fitnessGoal.toString();
     }
 
-    
-    if(member.healthConditions){
+    if (member.healthConditions) {
       member.healthConditions = member.healthConditions.toString();
     }
-   
 
     // return this.memberRepository.save(member);
     const savedMember = await this.memberRepository.save(member);
@@ -97,27 +95,28 @@ export class MemberService {
 
   // Update a member
   async update(id: any, member) {
-    member.memberId = 'MEM'+id;
+    member.memberId = 'MEM' + id;
     delete member.id;
 
-    if(member.fitnessGoal.length == 0){
+    if (member.fitnessGoal.length == 0) {
       member.fitnessGoal = '';
     }
 
-    if(member.healthConditions.length == 0){
+    if (member.healthConditions.length == 0) {
       member.healthConditions = '';
     }
- 
-    
-    member.fitnessGoal = member.fitnessGoal?member.fitnessGoal.join(','):'';
-    member.workoutType = member.workoutType?member.workoutType.join(','):'';
-    member.healthConditions = member.healthConditions?member.healthConditions.join(','):'';
+
+    member.fitnessGoal = member.fitnessGoal ? member.fitnessGoal.join(',') : '';
+    member.workoutType = member.workoutType ? member.workoutType.join(',') : '';
+    member.healthConditions = member.healthConditions
+      ? member.healthConditions.join(',')
+      : '';
     console.log(member.workoutType);
 
     console.log(member);
-   
-     let result = await this.memberRepository.update(id, member);
-    
+
+    const result = await this.memberRepository.update(id, member);
+
     return this.findOne(id);
   }
 
@@ -508,10 +507,9 @@ export class MemberService {
     return this.memberExchangerRepository.save(exchanger);
   }
 
-  async attendaceReport(){
+  async attendaceReport() {
     const result = await this.dataSource.query('CALL getAttendaceReport()');
     return result[0];
-
   }
   async dashbaordDetails() {
     const result = await this.dataSource.query('CALL getDashbaordCount()');
@@ -522,17 +520,15 @@ export class MemberService {
 
   async attendanceSave(body) {
     try {
-
-      body.memberId = 'MEM'+body.memberId;
+      body.memberId = 'MEM' + body.memberId;
 
       const memberDetails = await this.memberRepository.findOne({
         where: { memberId: body.memberId },
       });
 
-      if(!memberDetails){
+      if (!memberDetails) {
         return false;
-      } 
-
+      }
 
       const currentDate = new Date();
       const currentDateString = currentDate.toISOString().split('T')[0];
@@ -562,8 +558,10 @@ export class MemberService {
         console.log('Creating new record:', createData);
         await this.attendanceRepository.save(createData);
       }
-      console.log(memberDetails.id)
-      let details = await this.dataSource.query('call getMemberInfoAtt('+memberDetails.id+')')
+      console.log(memberDetails.id);
+      const details = await this.dataSource.query(
+        'call getMemberInfoAtt(' + memberDetails.id + ')',
+      );
 
       return details[0][0];
     } catch (error) {
@@ -572,28 +570,24 @@ export class MemberService {
     }
   }
 
-    async attendanceReport(customStartDate, customEndDate, selectedMember) {
-      customStartDate = "'" + customStartDate + "'";
-      customEndDate = "'" + customEndDate + "'";
-      selectedMember = "'" + selectedMember + "'";
-      const result = await this.dataSource.query(
-        'Call getAttendanceReportList(' +
-          customStartDate +
-          ',' +
-          customEndDate +
-          ',' +
-          selectedMember +
-          ')',
-        [],
-      );
-      console.log('result',result)
-      return result[0];
-    }
-
+  async attendanceReport(customStartDate, selectedMember) {
+    customStartDate = "'" + customStartDate + "'";
+    selectedMember = "'" + selectedMember + "'";
+    const result = await this.dataSource.query(
+      'Call getAttendanceReportList(' +
+        customStartDate +
+        ',' +
+        selectedMember +
+        ')',
+      [],
+    );
+    console.log('result', result);
+    return result[0];
+  }
 
   async getAttendanceReport(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getAttendanceAllList()');
-    console.log('result',result);
+    console.log('result', result);
     return result[0];
   }
 }

@@ -1552,4 +1552,30 @@ export class PaymentController {
       );
     }
   }
+
+
+
+//   update Due Payment
+
+  @Post('duePaidPayment/update')
+  async updateduePaidPayment(@Body() body) {
+    try {
+      const data = await this.paymentService.updateduePaidPayment(body);
+      return {
+        status: true,
+        message: 'DuePaidPayment Update successfully',
+        data,
+      };
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create DuePaidPayment',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
