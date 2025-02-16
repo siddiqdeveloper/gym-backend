@@ -88,17 +88,17 @@ export class Member {
 
   @Column({
     type: 'enum',
-    enum: ['yes', 'no'],
+    enum: ["never","occasional","regular"],
     nullable: true,
   })
-  smoking: 'yes' | 'no'; // Smoking status
+  smoking:"never"|"occasional"|"regular"; // Smoking status
 
   @Column({
     type: 'enum',
-    enum: ['yes', 'no'],
+    enum: ['never','occasional','regular'],
     nullable: true,
   })
-  alcohol: 'yes' | 'no'; // Alcohol consumption
+  alcohol: 'never' | 'occasional'| 'regular' ; // Alcohol consumption
 
   @Column({ length: 100, nullable: true })
   foodPreference: string; // Food preference

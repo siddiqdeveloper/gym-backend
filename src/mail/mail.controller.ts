@@ -21,7 +21,7 @@ import * as twig from 'twig';
 import * as path from 'path';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { MailService } from "./mail.service";
-import nodemailer from "nodemailer"
+
 
 @Controller('mail')
 export class MailController {
