@@ -65,6 +65,7 @@ import {Incentive} from "./entities/incentive.entity";
 import {MemberExchanger} from "./entities/memberExchanger.entity";
 import {Attendance} from "./entities/attendance.entity";
 import { MailService } from './mail/mail.service';
+import {MailController} from "./mail/mail.controller";
 
 
 @Module({
@@ -112,7 +113,7 @@ import { MailService } from './mail/mail.service';
 
   ],
   
-  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController,PaymentController,MiscController],
+  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController,PaymentController,MiscController,MailController],
   providers: [
     AppService,
     MemberService,
@@ -121,6 +122,7 @@ import { MailService } from './mail/mail.service';
     StaffService,
     FellowLeadService,
     PaymentService,
+    MailService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,

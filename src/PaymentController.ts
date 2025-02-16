@@ -87,25 +87,7 @@ export class PaymentController {
     }
   }
 
-  @Delete('delete/:id')
-  async remove(@Param('id') id: string) {
-    try {
-      await this.paymentService.remove(+id);
-      return {
-        status: true,
-        message: 'Payments deleted successfully',
-      };
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: false,
-          message: 'Failed to delete Payments',
-          error: error.message,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-  }
+
 
   // update
 
@@ -1552,4 +1534,78 @@ export class PaymentController {
       );
     }
   }
+
+
+
+//   update Due Payment
+
+  @Post('duePaidPayment/update')
+  async updateduePaidPayment(@Body() body) {
+    try {
+      const data = await this.paymentService.updateduePaidPayment(body);
+      return {
+        status: true,
+        message: 'DuePaidPayment Update successfully',
+        data,
+      };
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create DuePaidPayment',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('get-details/:id')
+  async getDetails(@Param('id') id: number) {
+    try {
+      const data = await this.paymentService.getDetails(id);
+      return {
+        status: true,
+        message: 'GetDetails retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve GetDetails with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+
+//   delete
+
+  @Delete('delete/:id')
+  async removePayment(@Param('id') id: number) {
+    try {
+      await this.paymentService.removePayment(id);
+      return {
+        status: true,
+        message: 'Payment deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete Payment with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
 }
