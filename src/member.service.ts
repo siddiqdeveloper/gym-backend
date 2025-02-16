@@ -525,6 +525,7 @@ export class MemberService {
 
       body.memberId = 'MEM'+body.memberId;
 
+      console.log(body.memberId);
       const memberDetails = await this.memberRepository.findOne({
         where: { memberId: body.memberId },
       });

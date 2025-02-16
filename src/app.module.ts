@@ -95,6 +95,9 @@ import { MailService } from './mail/mail.service';
       synchronize: process.env.dbSync === 'true',
       logging: "all",
       logger:"file",
+      extra: {
+        connectTimeout: 30000, // Increase timeout to 30 seconds
+      },
     }),
     TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment,DuePaidPayment,Withdraw,Topup,BulkUpload,BulkUploadMeta,Bmi,CashTopUp,Withdrawal,Asset,PaymentType,
       FeedBack,FreeProgram,Salary,
