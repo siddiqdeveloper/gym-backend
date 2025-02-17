@@ -67,13 +67,9 @@ export class MasterService {
   // }
 
   async findOneEmailTemplate(id) {
-    const result = await this.dataSource.query(
-        'Call getPackageData(' + id + ')',
-        [],
-    );
-    if (result) {
-      return result[0][0];
-    }
+
+    const result =  await this.emailTemplateRepository.findOne({where:{id:id}});
+    return result;
   }
 
 
@@ -87,13 +83,13 @@ export class MasterService {
   }
   async findAllActiveEmailTemplate() {
     return await this.emailTemplateRepository.find({
-      where: { status: 'active' }, // Assuming 'isActive' is the column that denotes active status
+      where: { isActive: 1 }, // Assuming 'isActive' is the column that denotes active status
     });
   }
 
 
   
-  async updateEmailTemplateStatus(id: any, isActive: string) {
+  async updateEmailTemplateStatus(id: any, isActive: boolean) {
     console.log(id)
     let emaailTemplateData:any = await this.emailTemplateRepository.findOne({where:{id:id}});
     if (!emaailTemplateData) {

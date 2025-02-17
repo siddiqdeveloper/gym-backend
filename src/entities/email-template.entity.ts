@@ -14,12 +14,11 @@ export class EmailTemplate {
   @Column({ type: 'text', nullable: true })
   emailContent: string;
 
-  @Column({ 
-    type: 'enum', 
-    enum: ['active', 'inactive', 'void'], 
-    default: 'active' 
-  })
-  status: 'active' | 'inactive' | 'void';
+  // New column to indicate if the Email Template is active or not
+  @Column({ type: 'tinyint', default: 1 })
+  isActive: number;
+
+ 
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   created_at: Date;

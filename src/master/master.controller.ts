@@ -70,7 +70,7 @@ export class MasterController {
       console.log(error);
       throw new HttpException({
         status: false,
-        message: 'Failed to create package',
+        message: 'Failed to create Email Template',
         error: error.message,
       }, HttpStatus.BAD_REQUEST);
     }
@@ -89,7 +89,7 @@ export class MasterController {
       console.log(error);
       throw new HttpException({
         status: false,
-        message: 'Failed to fetch all packages',
+        message: 'Failed to fetch all Email Templates',
         error: error.message,
       }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -114,7 +114,7 @@ export class MasterController {
       console.log(error);
       throw new HttpException({
         status: false,
-        message: 'Failed to fetch package',
+        message: 'Failed to fetch Email Template',
         error: error.message,
       }, HttpStatus.NOT_FOUND);
     }
@@ -133,7 +133,7 @@ export class MasterController {
       console.log(error);
       throw new HttpException({
         status: false,
-        message: 'Failed to update package',
+        message: 'Failed to update Email Template',
         error: error.message,
       }, HttpStatus.BAD_REQUEST);
     }
@@ -151,12 +151,31 @@ export class MasterController {
       console.log(error);
       throw new HttpException({
         status: false,
-        message: 'Failed to delete package',
+        message: 'Failed to delete Email Template',
         error: error.message,
       }, HttpStatus.BAD_REQUEST);
     }
   }
 
+  @Put('email-template/update-status/:id')
+async updatePackageStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+  try {
+    const data = await this.ms.updateEmailTemplateStatus(id, body.isActive);
+
+    return {
+      status: true,
+      message: 'Email Template status updated successfully',
+      data: data,
+    };
+  } catch (error) {
+    console.log(error)
+    throw new HttpException({
+      status: false,
+      message: 'Failed to update Email Template status',
+      error: error.message,
+    }, HttpStatus.BAD_REQUEST);
+  }
+}
  
 
 }
