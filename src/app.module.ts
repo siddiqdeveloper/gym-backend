@@ -66,6 +66,8 @@ import {MemberExchanger} from "./entities/memberExchanger.entity";
 import {Attendance} from "./entities/attendance.entity";
 import { MailService } from './mail/mail.service';
 import {MailController} from "./mail/mail.controller";
+import { MasterController } from './master/master.controller';
+import { EmailTemplate } from './entities/email-template.entity';
 
 
 @Module({
@@ -105,7 +107,8 @@ import {MailController} from "./mail/mail.controller";
       Setting,
       Incentive,
       MemberExchanger,
-      Attendance
+      Attendance,
+      EmailTemplate
       ]),
     MasterModule,
     UserModule,
