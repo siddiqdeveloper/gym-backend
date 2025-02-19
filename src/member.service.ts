@@ -517,59 +517,72 @@ export class MemberService {
   }
 
   //   save attendance
+  convertToMySQLDate(dateString) {
+    // Split the date by "/"
+    const [day, month, year] = dateString.split("/").map(num => num.padStart(2, '0'));
+
+    // Format it as YYYY-MM-DD
+    return `${year}-${month}-${day}`;
+}
 
   async attendanceSave(body) {
     try {
       body.memberId = 'MEM' + body.memberId;
-
+  
       console.log(body.memberId);
       const memberDetails = await this.memberRepository.findOne({
         where: { memberId: body.memberId },
       });
-
+  
       if (!memberDetails) {
         return false;
       }
-
-      const currentDate = new Date();
-      const currentDateString = currentDate.toISOString().split('T')[0];
-      console.log(currentDateString);
+  
+      // Get current date and time in IST
+      const currentDate = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+   
+     let datePart =  this.convertToMySQLDate(currentDate.split(", ")[0]);
+     let timePart =  currentDate.split(", ")[1];
+  
+      console.log('IST Date (MySQL Format):', datePart);
+      console.log('IST Time:', timePart);
+  
       const result = await this.attendanceRepository.findOne({
         where: {
           memberId: body.memberId,
-          date: currentDateString,
+          date: datePart,
         },
       });
-
-      console.log('Attendance record', result);
-
+  
+      console.log('Attendance record:', result);
+  
       if (result) {
-        const currentTime = currentDate.toLocaleTimeString();
-        result.checkOut = currentTime;
+        result.checkOut = timePart;
         await this.attendanceRepository.save(result);
-        console.log('Check-out time updated:', currentTime);
+        console.log('Check-out time updated:', timePart);
       } else {
-        const currentTime = currentDate.toLocaleTimeString();
         console.log(body);
         const createData = {
           memberId: body.memberId,
-          date: currentDateString,
-          checkIn: currentTime,
+          date: datePart,
+          checkIn: timePart,
         };
         console.log('Creating new record:', createData);
         await this.attendanceRepository.save(createData);
       }
+  
       console.log(memberDetails.id);
       const details = await this.dataSource.query(
-        'call getMemberInfoAtt(' + memberDetails.id + ')',
+        'call getMemberInfoAtt(' + memberDetails.id + ')'
       );
-
+  
       return details[0][0];
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new Error('Attendance save failed.');
     }
   }
+  
 
   async attendanceReport(customStartDate, selectedMember) {
     customStartDate = "'" + customStartDate + "'";
