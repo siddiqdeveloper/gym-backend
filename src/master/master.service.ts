@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EmailTemplate } from 'src/entities/email-template.entity';
 import { Connection, DataSource, Repository } from 'typeorm';
 
 
@@ -17,6 +18,8 @@ export class MasterService {
   constructor(
     public dataSource:DataSource,
     private readonly cn: Connection,
+     @InjectRepository(EmailTemplate)
+        private readonly emailTemplateRepository: Repository<EmailTemplate>,
   
   ) {}
 
@@ -46,6 +49,58 @@ export class MasterService {
 
     return newCode;
   }
+
+  // Email Templates Configuration
+  async createEmailTemplate(createEmailTemplateDto) {
+    const newPackage = this.emailTemplateRepository.create(createEmailTemplateDto);
+    console.log(newPackage,'NPGS')
+    return await this.emailTemplateRepository.save(newPackage);
+  }
+
+  async findAllEmailTemplate() {
+   
+    return await this.emailTemplateRepository.find();
+  }
+
+  // async findOne(id) {
+  //   return await this.emailTemplateRepository.findOne(id);
+  // }
+
+  async findOneEmailTemplate(id) {
+
+    const result =  await this.emailTemplateRepository.findOne({where:{id:id}});
+    return result;
+  }
+
+
+  async updateEmailTemplate(id: number, updatePackageDto) {
+    await this.emailTemplateRepository.update(id, updatePackageDto);
+    return this.emailTemplateRepository.findOne({where:{id:id}});
+  }
+
+  async removeEmailTemplate(id: number) {
+    await this.emailTemplateRepository.delete(id);
+  }
+  async findAllActiveEmailTemplate() {
+    return await this.emailTemplateRepository.find({
+      where: { isActive: 1 }, // Assuming 'isActive' is the column that denotes active status
+    });
+  }
+
+
+  
+  async updateEmailTemplateStatus(id: any, isActive: boolean) {
+    console.log(id)
+    let emaailTemplateData:any = await this.emailTemplateRepository.findOne({where:{id:id}});
+    if (!emaailTemplateData) {
+      throw new Error('Email Template not found');
+    }
+   
+    emaailTemplateData.isActive = isActive?1:0;
+    console.log(emaailTemplateData)
+    return this.emailTemplateRepository.save(emaailTemplateData);
+  }
+
 
 
 }
