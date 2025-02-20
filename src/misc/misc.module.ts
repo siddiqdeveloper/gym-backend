@@ -29,6 +29,7 @@ import {FreeProgram} from "../entities/freeProgram.entity";
 import {PaymentType} from "../entities/paymentType.entity";
 import {Salary} from "../entities/salary.entity";
 import {Setting} from "../entities/setting.entity"
+import {AssignManager} from "../entities/assignManager.entity";
 
 
 @Module({
@@ -60,7 +61,8 @@ import {Setting} from "../entities/setting.entity"
       FreeProgram,
       PaymentType,
       Salary,
-      Setting
+      Setting,
+      AssignManager
 
     ]),
   ],
