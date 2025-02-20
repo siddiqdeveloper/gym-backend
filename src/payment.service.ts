@@ -32,6 +32,7 @@ export class PaymentService {
         endDate: createPaymentDto.endDate,
         interestedIn: createPaymentDto.interestedIn,
         joiningDate: createPaymentDto.joiningDate,
+        isActive:1,
       }, // Data to update
     );
     console.log(update, createPaymentDto.memberId);
