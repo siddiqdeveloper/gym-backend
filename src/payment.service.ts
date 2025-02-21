@@ -23,8 +23,47 @@ export class PaymentService {
     private memberRepository: Repository<Member>,
   ) {}
 
+
+  formatDateForMySQL(dateStr) {
+    let date;
+    
+    // Check if the format is "DD-MM-YYYY"
+    if (/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
+        const [day, month, year] = dateStr.split("-").map(Number);
+        date = new Date(year, month - 1, day);
+    } else {
+        // Assume it's an ISO format "YYYY-MM-DDTHH:MM:SS"
+        date = new Date(dateStr);
+    }
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+
   async createPayment(createPaymentDto) {
-    const payment = this.paymentRepository.create(createPaymentDto);
+    let payment:any = this.paymentRepository.create(createPaymentDto);
+
+      if(createPaymentDto.endDate){
+        createPaymentDto.endDate = this.formatDateForMySQL(createPaymentDto.endDate);
+
+      }
+
+      if(createPaymentDto.joiningDate){
+        createPaymentDto.joiningDate = this.formatDateForMySQL(createPaymentDto.joiningDate);
+
+      }
+
+      if(createPaymentDto.feePaymentDate){
+        createPaymentDto.feePaymentDate = this.formatDateForMySQL(createPaymentDto.feePaymentDate);
+        
+      }
 
     const update = await this.memberRepository.update(
       { id: createPaymentDto.memberId }, // WHERE condition
@@ -32,9 +71,31 @@ export class PaymentService {
         endDate: createPaymentDto.endDate,
         interestedIn: createPaymentDto.interestedIn,
         joiningDate: createPaymentDto.joiningDate,
+        packageDuration:createPaymentDto.packageDuration,
         isActive:1,
       }, // Data to update
     );
+    
+
+    if(payment.feePaymentDate){
+      payment.feePaymentDate = this.formatDateForMySQL(payment.feePaymentDate);
+    }
+
+    if(payment.endDate){
+      payment.endDate = this.formatDateForMySQL(payment.endDate);
+    }
+   
+    if(payment.expiryDate){
+      payment.expiryDate = this.formatDateForMySQL(payment.expiryDate);
+    }
+
+    if(payment.joiningDate){
+      payment.joiningDate = this.formatDateForMySQL(payment.joiningDate);
+    }
+   
+
+    
+    
     console.log(update, createPaymentDto.memberId);
 
     return this.paymentRepository.save(payment);

@@ -29,8 +29,22 @@ export class MemberService {
     private attendanceRepository: Repository<Attendance>,
   ) {}
 
+
+  formatDateForMySQL(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const seconds = String(d.getSeconds()).padStart(2, '0');
+    
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+
   // Create a new member
-  async create(member: Member) {
+  async create(member: any) {
     if (member.workoutType) {
       member.workoutType = member.workoutType.toString();
     }
@@ -41,6 +55,14 @@ export class MemberService {
 
     if (member.healthConditions) {
       member.healthConditions = member.healthConditions.toString();
+    }
+
+    if(member.billDate){
+      member.billDate = this.formatDateForMySQL(member.billDate);
+    }
+
+    if(member.dob){
+      member.dob = this.formatDateForMySQL(member.dob);
     }
 
     // return this.memberRepository.save(member);
@@ -525,9 +547,23 @@ export class MemberService {
     return `${year}-${month}-${day}`;
 }
 
+convertTo24Hour(time12h) {
+  let [time, modifier] = time12h.split(' ');
+  let [hours, minutes, seconds] = time.split(':').map(Number);
+
+  if (modifier === 'PM' && hours !== 12) {
+      hours += 12;
+  } else if (modifier === 'AM' && hours === 12) {
+      hours = 0;
+  }
+
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
   async attendanceSave(body) {
     try {
       body.memberId = 'MEM' + body.memberId;
+
   
       console.log(body.memberId);
       const memberDetails = await this.memberRepository.findOne({
@@ -542,7 +578,7 @@ export class MemberService {
       const currentDate = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
    
      let datePart =  this.convertToMySQLDate(currentDate.split(", ")[0]);
-     let timePart =  currentDate.split(", ")[1];
+     let timePart =  this.convertTo24Hour(currentDate.split(", ")[1]);
   
       console.log('IST Date (MySQL Format):', datePart);
       console.log('IST Time:', timePart);

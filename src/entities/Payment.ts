@@ -111,7 +111,7 @@ export class Payment {
     officeTotalAmount: number;
 
     @Column({ type: 'date', nullable: true })
-    endDateIncentive: Date;
+    endDateIncentive: string;
 
     @CreateDateColumn()
     createdAt: Date;
