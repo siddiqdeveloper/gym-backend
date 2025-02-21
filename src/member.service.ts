@@ -611,6 +611,12 @@ convertTo24Hour(time12h) {
       const details = await this.dataSource.query(
         'call getMemberInfoAtt(' + memberDetails.id + ')'
       );
+
+      if(details[0][0]){
+        if(details[0][0].balance>0){
+          
+        }
+      }
   
       return details[0][0];
     } catch (error) {
