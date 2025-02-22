@@ -93,6 +93,21 @@ export class PaymentService {
       payment.joiningDate = this.formatDateForMySQL(payment.joiningDate);
     }
 
+
+    if(payment.joiningDate){
+      payment.joiningDate = this.formatDateForMySQL(payment.joiningDate);
+    }
+
+    if(payment.pendingAmountDate){
+      payment.pendingAmountDate = this.formatDateForMySQL(payment.pendingAmountDate);
+    }
+
+    if(payment.discountAmount){
+      payment.discountAmount = parseFloat(payment.discountAmount);
+    }
+
+
+
     console.log(update, createPaymentDto.memberId);
 
     return this.paymentRepository.save(payment);

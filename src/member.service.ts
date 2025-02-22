@@ -569,9 +569,24 @@ convertTo24Hour(time12h) {
       const memberDetails = await this.memberRepository.findOne({
         where: { memberId: body.memberId },
       });
+      
+      console.log(memberDetails.joiningDate,'m');
+
+      const givenDate = new Date(memberDetails.joiningDate);
+      const nowUTC = new Date();
+      const todayIST = new Date(nowUTC.getTime() + (5.5 * 60 * 60 * 1000)); // Convert UTC to IST
+     let today:any = todayIST.setHours(0, 0, 0, 0);
+      
+      
+      console.log(today); // Outputs today's date in IST
+      
+      console.log(givenDate,'-',todayIST)
+      if (givenDate > today) {
+        return {status:false,msg:'memberjoinidate'};
+      } 
   
       if (!memberDetails) {
-        return false;
+        return {status:false,msg:'nomember'};
       }
   
       // Get current date and time in IST
@@ -613,12 +628,18 @@ convertTo24Hour(time12h) {
       );
 
       if(details[0][0]){
-        if(details[0][0].balance>0){
-          
+        if(details[0][0].balance<0){
+
+           await this.memberRepository.update(memberDetails.id, {
+            isActive:0
+           });
+
+            console.log(details[0][0].balance)
         }
       }
   
-      return details[0][0];
+     
+      return {status:true,data:details[0][0]};
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new Error('Attendance save failed.');
