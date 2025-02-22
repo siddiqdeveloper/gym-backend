@@ -37,7 +37,11 @@ import {Setting} from "./setting.entity"
 import {Incentive} from "./incentive.entity";
 import {MemberExchanger} from "./memberExchanger.entity";
 import {Attendance} from "./attendance.entity";
+
+import {AssignManager} from "./assignManager.entity";
+
 import { EmailTemplate } from "./email-template.entity";
+
 
 const entities = [
   User,
@@ -78,7 +82,11 @@ const entities = [
   Incentive,
   MemberExchanger,
   Attendance,
+
+  AssignManager,
+
   EmailTemplate
+
  
 ];
 

@@ -11,8 +11,9 @@ import {
   Delete,
   Put,
   UploadedFiles,
-  UseInterceptors, Query
-} from "@nestjs/common";
+  UseInterceptors,
+  Query,
+} from '@nestjs/common';
 import { MiscService } from './misc.service';
 import { get } from 'http';
 import { Response } from 'express';
@@ -3744,10 +3745,6 @@ export class MiscController {
     }
   }
 
-
-
-
-
   @Get('getAllAssignManager')
   async getAllAssignManager() {
     try {
@@ -3770,10 +3767,147 @@ export class MiscController {
     }
   }
 
+  @Post('assignManager/save')
+  async saveassignManager(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.saveassignManager(body);
+      return {
+        status: true,
+        message: 'Assign Manager Save successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Assign Manager',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
+  @Post('assignManager/update')
+  async updateAssignManager(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updateAssignManager(body);
+      return {
+        status: true,
+        message: 'Assign Manager Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to Assign Manager',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
+  @Get('assignManager/get/:id')
+  async assignManagerfindOne(@Param('id') id: number) {
+    try {
+      const data = await this.mis.assignManagerfindOne(id);
+      return {
+        status: true,
+        message: 'Assign Manager  retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to retrieve Assign Manager with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
+  @Get('assignManager/all')
+  async assignManagerfindAll() {
+    try {
+      const data = await this.mis.assignManagerfindAll();
+      return {
+        status: true,
+        message: 'Assign Manager retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve Assign Manager',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
+  // delete
 
+  @Delete('assignManagerdelete/:id')
+  async assignManagerdelete(@Param('id') id: number) {
+    try {
+      await this.mis.assignManagerdelete(id);
+      return {
+        status: true,
+        message: 'Assign Manager deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: false,
+          message: `Failed to delete Assign Manager with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
+  // status
+
+  @Put('assignManagerstatus/:id')
+  async assignManagerstatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    try {
+      const data = await this.mis.assignManagerstatus(id, body.isActive);
+      return {
+        status: true,
+        message: 'Assign Manager status updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to update Assign Manager status',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }

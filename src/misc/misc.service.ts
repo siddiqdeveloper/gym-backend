@@ -36,8 +36,8 @@ import { FeedBack } from '../entities/feedBack.entity';
 import { FreeProgram } from '../entities/freeProgram.entity';
 import { PaymentType } from '../entities/paymentType.entity';
 import { Salary } from '../entities/salary.entity';
-import {Setting} from "../entities/setting.entity";
-
+import { Setting } from '../entities/setting.entity';
+import { AssignManager } from '../entities/assignManager.entity';
 
 @Injectable()
 export class MiscService {
@@ -97,6 +97,8 @@ export class MiscService {
     private salaryRepository: Repository<Salary>,
     @InjectRepository(Setting)
     private settingRepository: Repository<Setting>,
+    @InjectRepository(AssignManager)
+    private assignManagerRepository: Repository<AssignManager>,
   ) {}
 
   // electricity Consumption
@@ -1426,16 +1428,14 @@ export class MiscService {
   //   cctv
 
   async createwatchCCTV(body) {
-    console.log('body',body)
+    console.log('body', body);
     const setting = new Setting();
     setting.key = 'cctvUrl';
     setting.value = body.cctvUrl;
     const savedSetting = await this.settingRepository.save(setting);
 
-    return savedSetting
+    return savedSetting;
   }
-
-
 
   async watchCCtvfindAll(): Promise<CashTopUp[]> {
     const result = await this.dataSource.query('CALL getAllSettingList()');
@@ -1446,7 +1446,7 @@ export class MiscService {
     const cctv = await this.settingRepository.findOne({ where: { id } });
 
     if (!cctv) {
-     return
+      return;
     }
 
     cctv.key = key;
@@ -1454,8 +1454,6 @@ export class MiscService {
 
     return this.settingRepository.save(cctv);
   }
-
-
 
   //   salary
 
@@ -1512,13 +1510,12 @@ export class MiscService {
     return this.salaryRepository.save(salary);
   }
 
-
-
-
-//   staff
+  //   staff
 
   async getAllAssignManagerStaff(): Promise<Freeze[]> {
-    const result = await this.dataSource.query('CALL getAllAssignManagerStaff()');
+    const result = await this.dataSource.query(
+      'CALL getAllAssignManagerStaff()',
+    );
     return result[0];
   }
 
@@ -1527,6 +1524,56 @@ export class MiscService {
     return result[0];
   }
 
+  async saveassignManager(body) {
+    try {
+      console.log('hahaha',body)
+      await this.assignManagerRepository.save(body);
+      return body;
+    } catch (error) {
+      console.error('Error saving Assign Manager', error);
+      throw new Error('Failed to save Assign Manager');
+    }
+  }
 
+  async updateAssignManager(body) {
+    try {
+      const updateAssignManager = await this.assignManagerRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateAssignManager;
+    } catch (error) {
+      console.error('Error updating AssignManager', error);
+      throw new Error('Failed to updating AssignManager');
+    }
+  }
 
+  async assignManagerfindOne(id: number): Promise<AssignManager> {
+    return await this.assignManagerRepository.findOne({ where: { id } });
+  }
+
+  async assignManagerfindAll(): Promise<AssignManager[]> {
+    const result = await this.dataSource.query('CALL getAllAssignManagerList()');
+    return result[0];
+  }
+
+  async assignManagerdelete(id: number): Promise<void> {
+    await this.assignManagerRepository.delete(id);
+  }
+
+  // status
+
+  async assignManagerstatus(id: any, isActive: boolean) {
+    console.log(id);
+    const assignManager: any = await this.assignManagerRepository.findOne({
+      where: { id: id },
+    });
+    if (!assignManager) {
+      throw new Error('assignManager not found');
+    }
+
+    assignManager.isActive = isActive ? 1 : 0;
+
+    return this.assignManagerRepository.save(assignManager);
+  }
 }

@@ -24,6 +24,12 @@ export class DuePaidPayment {
   pendingAmount: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
+  totalAmount: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  paidAmount: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
   CASH: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
