@@ -29,8 +29,22 @@ export class MemberService {
     private attendanceRepository: Repository<Attendance>,
   ) {}
 
+
+  formatDateForMySQL(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const seconds = String(d.getSeconds()).padStart(2, '0');
+    
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+
   // Create a new member
-  async create(member: Member) {
+  async create(member: any) {
     if (member.workoutType) {
       member.workoutType = member.workoutType.toString();
     }
@@ -41,6 +55,14 @@ export class MemberService {
 
     if (member.healthConditions) {
       member.healthConditions = member.healthConditions.toString();
+    }
+
+    if(member.billDate){
+      member.billDate = this.formatDateForMySQL(member.billDate);
+    }
+
+    if(member.dob){
+      member.dob = this.formatDateForMySQL(member.dob);
     }
 
     // return this.memberRepository.save(member);
@@ -517,58 +539,92 @@ export class MemberService {
   }
 
   //   save attendance
+  convertToMySQLDate(dateString) {
+    // Split the date by "/"
+    const [day, month, year] = dateString.split("/").map(num => num.padStart(2, '0'));
+
+    // Format it as YYYY-MM-DD
+    return `${year}-${month}-${day}`;
+}
+
+convertTo24Hour(time12h) {
+  let [time, modifier] = time12h.split(' ');
+  let [hours, minutes, seconds] = time.split(':').map(Number);
+
+  if (modifier === 'PM' && hours !== 12) {
+      hours += 12;
+  } else if (modifier === 'AM' && hours === 12) {
+      hours = 0;
+  }
+
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
 
   async attendanceSave(body) {
     try {
       body.memberId = 'MEM' + body.memberId;
 
+  
+      console.log(body.memberId);
       const memberDetails = await this.memberRepository.findOne({
         where: { memberId: body.memberId },
       });
-
+  
       if (!memberDetails) {
         return false;
       }
-
-      const currentDate = new Date();
-      const currentDateString = currentDate.toISOString().split('T')[0];
-      console.log(currentDateString);
+  
+      // Get current date and time in IST
+      const currentDate = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+   
+     let datePart =  this.convertToMySQLDate(currentDate.split(", ")[0]);
+     let timePart =  this.convertTo24Hour(currentDate.split(", ")[1]);
+  
+      console.log('IST Date (MySQL Format):', datePart);
+      console.log('IST Time:', timePart);
+  
       const result = await this.attendanceRepository.findOne({
         where: {
           memberId: body.memberId,
-          date: currentDateString,
+          date: datePart,
         },
       });
-
-      console.log('Attendance record', result);
-
+  
+      console.log('Attendance record:', result);
+  
       if (result) {
-        const currentTime = currentDate.toLocaleTimeString();
-        result.checkOut = currentTime;
+        result.checkOut = timePart;
         await this.attendanceRepository.save(result);
-        console.log('Check-out time updated:', currentTime);
+        console.log('Check-out time updated:', timePart);
       } else {
-        const currentTime = currentDate.toLocaleTimeString();
         console.log(body);
         const createData = {
           memberId: body.memberId,
-          date: currentDateString,
-          checkIn: currentTime,
+          date: datePart,
+          checkIn: timePart,
         };
         console.log('Creating new record:', createData);
         await this.attendanceRepository.save(createData);
       }
+  
       console.log(memberDetails.id);
       const details = await this.dataSource.query(
-        'call getMemberInfoAtt(' + memberDetails.id + ')',
+        'call getMemberInfoAtt(' + memberDetails.id + ')'
       );
 
+      if(details[0][0]){
+        if(details[0][0].balance>0){
+          
+        }
+      }
+  
       return details[0][0];
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new Error('Attendance save failed.');
     }
   }
+  
 
   async attendanceReport(customStartDate, selectedMember) {
     customStartDate = "'" + customStartDate + "'";

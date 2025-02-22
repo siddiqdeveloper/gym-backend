@@ -66,7 +66,12 @@ import {MemberExchanger} from "./entities/memberExchanger.entity";
 import {Attendance} from "./entities/attendance.entity";
 import { MailService } from './mail/mail.service';
 import {MailController} from "./mail/mail.controller";
+
 import {AssignManager} from "./entities/assignManager.entity";
+
+import { MasterController } from './master/master.controller';
+import { EmailTemplate } from './entities/email-template.entity';
+
 
 
 @Module({
@@ -97,6 +102,9 @@ import {AssignManager} from "./entities/assignManager.entity";
       synchronize: process.env.dbSync === 'true',
       logging: "all",
       logger:"file",
+      extra: {
+    connectTimeout: 30000, // Increase timeout to 30 seconds
+  },
     }),
     TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment,DuePaidPayment,Withdraw,Topup,BulkUpload,BulkUploadMeta,Bmi,CashTopUp,Withdrawal,Asset,PaymentType,
       FeedBack,FreeProgram,Salary,
@@ -104,7 +112,11 @@ import {AssignManager} from "./entities/assignManager.entity";
       Incentive,
       MemberExchanger,
       Attendance,
-      AssignManager
+
+      AssignManager,
+
+      EmailTemplate
+
       ]),
     MasterModule,
     UserModule,
@@ -130,4 +142,6 @@ import {AssignManager} from "./entities/assignManager.entity";
     MailService,
   ],
 })
+
+
 export class AppModule {}

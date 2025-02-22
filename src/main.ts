@@ -10,6 +10,7 @@ dotenv.config();
 
 async function bootstrap() {
   console.log( process.env.PORT);
+  console.log(process.env.dbPort,'-')
   const PORT = process.env.PORT || 3001; // Default to 3000 if not set in .env
   const USE_SSL = process.env.USE_SSL === 'true'; // Check if SSL is enabled
 

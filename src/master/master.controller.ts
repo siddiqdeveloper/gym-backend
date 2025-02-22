@@ -56,6 +56,126 @@ export class MasterController {
     return res.send([]);
   }
 
+  // Email Templates Configurations
+  @Post('email-template/create')
+  async create(@Body() createPackageDto) {
+    try {
+      const data = await this.ms.createEmailTemplate(createPackageDto);
+      return {
+        status: true,
+        message: 'Email Template created successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to create Email Template',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('email-template/all')
+  async findAll() {
+    try {
+      const data = await this.ms.findAllEmailTemplate();
+      return {
+        status: true,
+        message: 'Email Templates retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to fetch all Email Templates',
+        error: error.message,
+      }, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get('email-template/get/:id')
+  async findOne(@Param('id') id: number) {
+    try {
+      const data = await this.ms.findOneEmailTemplate(id);
+      if (!data) {
+        throw new HttpException({
+          status: false,
+          message: 'Email Template not found',
+        }, HttpStatus.NOT_FOUND);
+      }
+      return {
+        status: true,
+        message: 'Email Template retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to fetch Email Template',
+        error: error.message,
+      }, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @Put('email-template/update/:id')
+  async update(@Param('id') id: number, @Body() updatePackageDto) {
+    try {
+      const data = await this.ms.updateEmailTemplate(id, updatePackageDto);
+      return {
+        status: true,
+        message: 'Email Template updated successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to update Email Template',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Delete('email-template/delete/:id')
+  async remove(@Param('id') id: number) {
+    try {
+      await this.ms.removeEmailTemplate(id);
+      return {
+        status: true,
+        message: 'Email Template deleted successfully',
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException({
+        status: false,
+        message: 'Failed to delete Email Template',
+        error: error.message,
+      }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Put('email-template/update-status/:id')
+async updatePackageStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+  try {
+    const data = await this.ms.updateEmailTemplateStatus(id, body.isActive);
+
+    return {
+      status: true,
+      message: 'Email Template status updated successfully',
+      data: data,
+    };
+  } catch (error) {
+    console.log(error)
+    throw new HttpException({
+      status: false,
+      message: 'Failed to update Email Template status',
+      error: error.message,
+    }, HttpStatus.BAD_REQUEST);
+  }
+}
  
 
 }
