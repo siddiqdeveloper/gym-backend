@@ -7,7 +7,7 @@ import { Lead } from './entities/Lead.entity';
 import { Incentive } from './entities/incentive.entity';
 import { CashTopUp } from './entities/cashtop.entity';
 import { Member } from './entities/Member.entity';
-import { WaterConsumption } from "./entities/waterConsumption.entity";
+import { WaterConsumption } from './entities/waterConsumption.entity';
 
 @Injectable()
 export class PaymentService {
@@ -23,17 +23,16 @@ export class PaymentService {
     private memberRepository: Repository<Member>,
   ) {}
 
-
   formatDateForMySQL(dateStr) {
     let date;
-    
+
     // Check if the format is "DD-MM-YYYY"
     if (/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
-        const [day, month, year] = dateStr.split("-").map(Number);
-        date = new Date(year, month - 1, day);
+      const [day, month, year] = dateStr.split('-').map(Number);
+      date = new Date(year, month - 1, day);
     } else {
-        // Assume it's an ISO format "YYYY-MM-DDTHH:MM:SS"
-        date = new Date(dateStr);
+      // Assume it's an ISO format "YYYY-MM-DDTHH:MM:SS"
+      date = new Date(dateStr);
     }
 
     const year = date.getFullYear();
@@ -44,26 +43,28 @@ export class PaymentService {
     const seconds = String(date.getSeconds()).padStart(2, '0');
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-}
-
+  }
 
   async createPayment(createPaymentDto) {
-    let payment:any = this.paymentRepository.create(createPaymentDto);
+    const payment: any = this.paymentRepository.create(createPaymentDto);
 
-      if(createPaymentDto.endDate){
-        createPaymentDto.endDate = this.formatDateForMySQL(createPaymentDto.endDate);
+    if (createPaymentDto.endDate) {
+      createPaymentDto.endDate = this.formatDateForMySQL(
+        createPaymentDto.endDate,
+      );
+    }
 
-      }
+    if (createPaymentDto.joiningDate) {
+      createPaymentDto.joiningDate = this.formatDateForMySQL(
+        createPaymentDto.joiningDate,
+      );
+    }
 
-      if(createPaymentDto.joiningDate){
-        createPaymentDto.joiningDate = this.formatDateForMySQL(createPaymentDto.joiningDate);
-
-      }
-
-      if(createPaymentDto.feePaymentDate){
-        createPaymentDto.feePaymentDate = this.formatDateForMySQL(createPaymentDto.feePaymentDate);
-        
-      }
+    if (createPaymentDto.feePaymentDate) {
+      createPaymentDto.feePaymentDate = this.formatDateForMySQL(
+        createPaymentDto.feePaymentDate,
+      );
+    }
 
     const update = await this.memberRepository.update(
       { id: createPaymentDto.memberId }, // WHERE condition
@@ -71,37 +72,31 @@ export class PaymentService {
         endDate: createPaymentDto.endDate,
         interestedIn: createPaymentDto.interestedIn,
         joiningDate: createPaymentDto.joiningDate,
-        packageDuration:createPaymentDto.packageDuration,
-        isActive:1,
+        packageDuration: createPaymentDto.packageDuration,
+        isActive: 1,
       }, // Data to update
     );
-    
 
-    if(payment.feePaymentDate){
+    if (payment.feePaymentDate) {
       payment.feePaymentDate = this.formatDateForMySQL(payment.feePaymentDate);
     }
 
-    if(payment.endDate){
+    if (payment.endDate) {
       payment.endDate = this.formatDateForMySQL(payment.endDate);
     }
-   
-    if(payment.expiryDate){
+
+    if (payment.expiryDate) {
       payment.expiryDate = this.formatDateForMySQL(payment.expiryDate);
     }
 
-    if(payment.joiningDate){
+    if (payment.joiningDate) {
       payment.joiningDate = this.formatDateForMySQL(payment.joiningDate);
     }
-   
 
-    
-    
     console.log(update, createPaymentDto.memberId);
 
     return this.paymentRepository.save(payment);
   }
-
-
 
   async findAll() {
     const result = await this.dataSource.query('CALL getAllPaymentList()');
@@ -122,7 +117,7 @@ export class PaymentService {
     return this.paymentRepository.save(payment);
   }
   async remove(id: any) {
-    console.log('hahaha',id)
+    console.log('hahaha', id);
     // await this.paymentRepository.softDelete(id);
   }
 
@@ -166,7 +161,6 @@ export class PaymentService {
   //   due paidPayment Save
 
   async createduePaidPayment(body) {
-    console.log('Body to save:', body);
     try {
       const details = await this.duePaidPaymentRepository.save(body);
       const paymentData = await this.paymentRepository.findOne({
@@ -738,17 +732,20 @@ export class PaymentService {
 
   //   update Due Payment
 
-
-
-
   async updateduePaidPayment(body) {
-
-
     try {
-      console.log('aaaaaabody',body)
-      const paymentMethods = ['CASH', 'CARD', 'GPAY', 'Cheque', 'IMPS', 'NEFT', 'RTGS'];
+      console.log('sajinUpdateData', body);
+      const paymentMethods = [
+        'CASH',
+        'CARD',
+        'GPAY',
+        'Cheque',
+        'IMPS',
+        'NEFT',
+        'RTGS',
+      ];
       let totalAmount = 0;
-      let usedMethods = [];
+      const usedMethods = [];
       for (const method of paymentMethods) {
         if (body[method]) {
           totalAmount += parseFloat(body[method]);
@@ -759,16 +756,36 @@ export class PaymentService {
         where: { id: body.id },
       });
       console.log('paymentData', paymentData);
-      paymentData.pendingAmount = totalAmount;
-      await this.paymentRepository.save(paymentData)
+      if (
+        body.modeOfPayment == 'CASH' ||
+        body.modeOfPayment == 'UPI' ||
+        body.modeOfPayment == 'CARD' ||
+        body.modeOfPayment == 'Cheque' ||
+        body.modeOfPayment == 'IMPS/NEFT/RTGS'
+      ) {
+        const remainingAmount = body.pendingAmount - body.paidAmount;
+        paymentData.pendingAmount = remainingAmount;
+        paymentData.paidAmount = body.paidAmount;
+      }
+      if (
+        body.modeOfPayment == 'CARD+CASH' ||
+        body.modeOfPayment == 'CASH+UPI' ||
+        body.modeOfPayment == 'CARD+UPI'
+      ) {
 
+        const remainingAmount = body.pendingAmount - totalAmount;
+        paymentData.paidAmount = totalAmount;
+        paymentData.pendingAmount = remainingAmount;
+
+      }
+      console.log('finalyyDataResult', paymentData);
+      await this.paymentRepository.save(paymentData)
     } catch (e) {
       console.error('Error saving duePaidPayment:', e.message);
     }
 
     return body;
   }
-
 
   // async getDetails(id: number): Promise<Payment> {
   //   return await this.paymentRepository.findOne({ where: { id } });
@@ -787,5 +804,4 @@ export class PaymentService {
   async removePayment(id: number): Promise<void> {
     await this.paymentRepository.delete(id);
   }
-
 }
