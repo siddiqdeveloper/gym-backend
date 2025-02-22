@@ -92,6 +92,22 @@ export class PaymentService {
     if(payment.joiningDate){
       payment.joiningDate = this.formatDateForMySQL(payment.joiningDate);
     }
+
+    if(payment.joiningDate){
+      payment.joiningDate = this.formatDateForMySQL(payment.joiningDate);
+    }
+
+    if(payment.pendingAmountDate){
+      payment.pendingAmountDate = this.formatDateForMySQL(payment.pendingAmountDate);
+    }
+
+    if(payment.discountAmount){
+      payment.discountAmount = parseFloat(payment.discountAmount);
+    }
+
+    if(payment.discountAmount){
+      payment.discountAmount = parseFloat(payment.discountAmount);
+    }
    
 
     
