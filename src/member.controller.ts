@@ -661,16 +661,17 @@ export class MemberController {
       const reqdata: any = body;
 
       const check = await this.memberService.attendanceSave(reqdata);
-      if (check) {
+      if (check.status) {
         return {
           status: true,
-          data: check,
+          data: check.data,
           message: 'Attendance Save successfully',
         };
-      } else {
+      }else if(check.status && check.msg == 'memberjoinidate' ){}
+       else {
         return {
           status: false,
-          message: 'Please check member id',
+          message: 'Please contact front desk and  check your joining date',
         };
       }
     } catch (error) {
