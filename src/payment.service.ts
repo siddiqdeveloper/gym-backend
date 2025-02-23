@@ -818,7 +818,7 @@ export class PaymentService {
 
   async updateduePaidPayment(body) {
     console.log('finalResult', body);
-    await this.duePaidPaymentRepository.save(body);
+     await this.duePaidPaymentRepository.save(body);
 
     const paymentData = await this.paymentRepository.findOne({
       where: { id: body.id },
@@ -852,7 +852,7 @@ export class PaymentService {
       paymentData.discountAmount = body.discountAmount;
     }
 
-    await this.paymentRepository.save(paymentData);
+   await this.paymentRepository.save(paymentData);
 
     return body;
   }
