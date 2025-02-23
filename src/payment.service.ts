@@ -744,78 +744,6 @@ export class PaymentService {
     return result[0];
   }
 
-  //   update Due Payment
-  // async updateduePaidPayment(body) {
-  //   try {
-  //     console.log('sajinUpdateData', body);
-  //       // await this.duePaidPaymentRepository.save(body);
-  //
-  //     const paymentMethods = [
-  //       'CASH',
-  //       'CARD',
-  //       'GPAY',
-  //       'Cheque',
-  //       'IMPS',
-  //       'NEFT',
-  //       'RTGS',
-  //     ];
-  //     let totalAmount = 0;
-  //     const usedMethods = [];
-  //     for (const method of paymentMethods) {
-  //       if (body[method]) {
-  //         totalAmount += parseFloat(body[method]);
-  //         usedMethods.push(method);
-  //       }
-  //     }
-  //     const paymentData = await this.paymentRepository.findOne({
-  //       where: { id: body.id },
-  //     });
-  //     console.log('paymentData', paymentData);
-  //
-  //
-  //     if (
-  //       body.modeOfPayment == 'CASH' ||
-  //       body.modeOfPayment == 'UPI' ||
-  //       body.modeOfPayment == 'CARD' ||
-  //       body.modeOfPayment == 'Cheque' ||
-  //       body.modeOfPayment == 'IMPS/NEFT/RTGS'
-  //     ) {
-  //       let remainingAmount = body.pendingAmount - body.paidAmount;
-  //
-  //       if (body.discountAmount) {
-  //         remainingAmount -= parseFloat(body.discountAmount);
-  //       }
-  //
-  //       paymentData.pendingAmount = remainingAmount;
-  //       paymentData.paidAmount = body.paidAmount;
-  //     }
-  //
-  //
-  //
-  //     if (
-  //       body.modeOfPayment == 'CARD+CASH' ||
-  //       body.modeOfPayment == 'CASH+UPI' ||
-  //       body.modeOfPayment == 'CARD+UPI'
-  //     ) {
-  //
-  //       let remainingAmount = body.pendingAmount - totalAmount;
-  //       if (body.discountAmount) {
-  //         remainingAmount -= parseFloat(body.discountAmount);
-  //       }
-  //
-  //       paymentData.paidAmount = totalAmount;
-  //       paymentData.pendingAmount = remainingAmount;
-  //
-  //     }
-  //     console.log('finalyyDataResult', paymentData);
-  //      // await this.paymentRepository.save(paymentData)
-  //   } catch (e) {
-  //     console.error('Error saving duePaidPayment:', e.message);
-  //   }
-  //
-  //   return body;
-  // }
-
   async updateduePaidPayment(body) {
     console.log('finalResult', body);
      await this.duePaidPaymentRepository.save(body);
@@ -824,35 +752,16 @@ export class PaymentService {
       where: { id: body.id },
     });
     console.log('paymentData', paymentData);
+    paymentData.pendingAmount = body.balanceAmount;
+    paymentData.paidAmount = body.paidAmount;
+    paymentData.discountAmount = body.discountAmount;
+    paymentData.modeOfPayment = body.modeOfPayment;
+    paymentData.CASH = body.CASH;
+    paymentData.CARD = body.CARD;
+    paymentData.UPI = body.UPI;
+    console.log('hahagaa', paymentData);
 
-    if (body.modeOfPayment == 'CARD+CASH') {
-      const cardAmount = parseFloat(body.CARD) || 0;
-      const cashAmount = parseFloat(body.CASH) || 0;
-      const cardCashValue = cardAmount + cashAmount;
-      paymentData.pendingAmount = body.balanceAmount;
-      paymentData.paidAmount = cardCashValue;
-      paymentData.discountAmount = body.discountAmount;
-    } else if (body.modeOfPayment == 'CASH+UPI') {
-      const cashAmount = parseFloat(body.CASH) || 0;
-      const upiAmount = parseFloat(body.UPI) || 0;
-      const cashUpiValue = cashAmount + upiAmount;
-      paymentData.pendingAmount = body.balanceAmount;
-      paymentData.paidAmount = cashUpiValue;
-      paymentData.discountAmount = body.discountAmount;
-    } else if (body.modeOfPayment == 'CARD+UPI') {
-      const cardAmount = parseFloat(body.CARD) || 0;
-      const upiAmount = parseFloat(body.UPI) || 0;
-      const cardUpiValue = cardAmount + upiAmount;
-      paymentData.pendingAmount = body.balanceAmount;
-      paymentData.paidAmount = cardUpiValue;
-      paymentData.discountAmount = body.discountAmount;
-    } else {
-      paymentData.pendingAmount = body.balanceAmount;
-      paymentData.paidAmount = body.paidAmount;
-      paymentData.discountAmount = body.discountAmount;
-    }
-
-   await this.paymentRepository.save(paymentData);
+    await this.paymentRepository.save(paymentData);
 
     return body;
   }
