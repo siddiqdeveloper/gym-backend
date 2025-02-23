@@ -730,11 +730,16 @@ export class PaymentService {
     return result[0];
   }
 
-  //   update Due Payment
 
+
+
+
+  //   update Due Payment
   async updateduePaidPayment(body) {
     try {
       console.log('sajinUpdateData', body);
+        await this.duePaidPaymentRepository.save(body);
+
       const paymentMethods = [
         'CASH',
         'CARD',
@@ -756,6 +761,8 @@ export class PaymentService {
         where: { id: body.id },
       });
       console.log('paymentData', paymentData);
+
+
       if (
         body.modeOfPayment == 'CASH' ||
         body.modeOfPayment == 'UPI' ||
@@ -763,23 +770,35 @@ export class PaymentService {
         body.modeOfPayment == 'Cheque' ||
         body.modeOfPayment == 'IMPS/NEFT/RTGS'
       ) {
-        const remainingAmount = body.pendingAmount - body.paidAmount;
+        let remainingAmount = body.pendingAmount - body.paidAmount;
+
+        if (body.discountAmount) {
+          remainingAmount -= parseFloat(body.discountAmount);
+        }
+
         paymentData.pendingAmount = remainingAmount;
         paymentData.paidAmount = body.paidAmount;
       }
+
+
+
       if (
         body.modeOfPayment == 'CARD+CASH' ||
         body.modeOfPayment == 'CASH+UPI' ||
         body.modeOfPayment == 'CARD+UPI'
       ) {
 
-        const remainingAmount = body.pendingAmount - totalAmount;
+        let remainingAmount = body.pendingAmount - totalAmount;
+        if (body.discountAmount) {
+          remainingAmount -= parseFloat(body.discountAmount);
+        }
+
         paymentData.paidAmount = totalAmount;
         paymentData.pendingAmount = remainingAmount;
 
       }
       console.log('finalyyDataResult', paymentData);
-      await this.paymentRepository.save(paymentData)
+       await this.paymentRepository.save(paymentData)
     } catch (e) {
       console.error('Error saving duePaidPayment:', e.message);
     }
@@ -787,9 +806,18 @@ export class PaymentService {
     return body;
   }
 
-  // async getDetails(id: number): Promise<Payment> {
-  //   return await this.paymentRepository.findOne({ where: { id } });
-  // }
+
+
+
+
+
+
+
+
+
+
+
+
 
   async getDetails(id) {
     const result = await this.dataSource.query(

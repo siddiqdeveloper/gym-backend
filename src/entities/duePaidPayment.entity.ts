@@ -26,6 +26,11 @@ export class DuePaidPayment {
   @Column({ type: 'varchar', length: 50, nullable: true })
   totalAmount: string;
 
+
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  discountAmount: string;
+
   @Column({ type: 'varchar', length: 50, nullable: true })
   paidAmount: string;
 
