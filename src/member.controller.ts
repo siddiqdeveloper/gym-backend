@@ -696,10 +696,7 @@ export class MemberController {
     @Res() res: Response,
   ) {
     console.log('ywhb', body);
-    const data = await this.memberService.attendanceReport(
-      body.customStartDate,
-      body.selectedMember,
-    );
+    const data = await this.memberService.attendanceReport(body);
 
     res.send(data);
   }

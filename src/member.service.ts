@@ -647,18 +647,17 @@ convertTo24Hour(time12h) {
   }
   
 
-  async attendanceReport(customStartDate, selectedMember) {
-    customStartDate = "'" + customStartDate + "'";
-    selectedMember = "'" + selectedMember + "'";
+  async attendanceReport(body) {
+ 
+    const { customStartDate, customEndDate, selectedMember } = body;
+
+    console.log(customStartDate, customEndDate, selectedMember)
+
     const result = await this.dataSource.query(
-      'Call getAttendanceReportList(' +
-        customStartDate +
-        ',' +
-        selectedMember +
-        ')',
-      [],
+      'CALL getAttendanceReportList(?, ?, ?)',
+      [customStartDate, customEndDate, selectedMember],
     );
-    console.log('result', result);
+   
     return result[0];
   }
 

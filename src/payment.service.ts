@@ -177,7 +177,7 @@ export class PaymentService {
   async createduePaidPayment(body) {
     try {
       const details = await this.duePaidPaymentRepository.save(body);
-      const paymentData = await this.paymentRepository.findOne({
+      let paymentData:any = await this.paymentRepository.findOne({
         where: { id: details.paymentId },
       });
 
@@ -196,7 +196,8 @@ export class PaymentService {
           paymentData.pendingAmount =
             totalAmount - (paidAmount + pendingAmount);
         }
-
+       // delete paymentData.id;
+        
         await this.paymentRepository.save(paymentData);
         return body;
       } else {
@@ -746,10 +747,15 @@ export class PaymentService {
 
   async updateduePaidPayment(body) {
     console.log('finalResult', body);
+    let id = body.id;
+    if(body.id){
+      delete body.id;
+    }
+      console.log(body)
      await this.duePaidPaymentRepository.save(body);
 
-    const paymentData = await this.paymentRepository.findOne({
-      where: { id: body.id },
+    let paymentData:any = await this.paymentRepository.findOne({
+      where: { id: id },
     });
     console.log('paymentData', paymentData);
     paymentData.pendingAmount = body.balanceAmount;
