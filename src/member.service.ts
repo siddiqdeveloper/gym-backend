@@ -570,12 +570,22 @@ convertTo24Hour(time12h) {
         where: { memberId: body.memberId },
       });
       
-      console.log(memberDetails.joiningDate,'m');
+    
 
-      const givenDate = new Date(memberDetails.joiningDate);
+     let givenDate = new Date(memberDetails.joiningDate);
+
+      // Convert UTC to IST for the givenDate (if needed) to match your time zone (IST).
       const nowUTC = new Date();
       const todayIST = new Date(nowUTC.getTime() + (5.5 * 60 * 60 * 1000)); // Convert UTC to IST
-     let today:any = todayIST.setHours(0, 0, 0, 0);
+      let today: any = todayIST.setHours(0, 0, 0, 0);
+
+      // To ensure the givenDate is also in IST or in the same time zone (UTC in this case),
+      // set the givenDate to midnight in its time zone to only compare the date parts.
+      givenDate = new Date(givenDate);
+      givenDate.setUTCHours(0, 0, 0, 0); // Set the time to midnight (UTC)
+
+      console.log(givenDate, '-', todayIST);
+
       
       
       console.log(today); // Outputs today's date in IST
