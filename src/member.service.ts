@@ -569,42 +569,35 @@ convertTo24Hour(time12h) {
       const memberDetails = await this.memberRepository.findOne({
         where: { memberId: body.memberId },
       });
-      
-    
 
-      let givenDate = new Date(memberDetails.joiningDate);
-
-      // Convert UTC to IST for the givenDate (if needed) to match your time zone (IST).
-      const nowUTC = new Date();
-      const todayIST = new Date(nowUTC.getTime() + (5.5 * 60 * 60 * 1000)); // Convert UTC to IST
-      let today: any = todayIST.setHours(0, 0, 0, 0);
-      
-      // To ensure the givenDate is also in IST or in the same time zone (UTC in this case),
-      // set the givenDate to midnight in its time zone to only compare the date parts.
-       givenDate = new Date(givenDate);
-      givenDate.setUTCHours(0, 0, 0, 0); // Set the time to midnight (UTC)
-      
-      console.log(givenDate, '-', todayIST);
-      
-      // Check if the givenDate is strictly greater than today (i.e., don't allow if they are the same)
-      if (givenDate > today) {
-        console.log('Given date is in the future');
-      } else {
-        console.log('Given date is either today or in the past');
-      }
-
-      
-      
-      console.log(today); // Outputs today's date in IST
-      
-      console.log(givenDate,'-',todayIST)
-      if (givenDate > today) {
-        return {status:false,msg:'memberjoinidate'};
-      } 
-  
-      if (!memberDetails) {
+      if(!memberDetails){
         return {status:false,msg:'nomember'};
       }
+      
+
+      const moment = require('moment-timezone');
+
+        // Convert joiningDate to Moment object and ensure it’s in IST
+        const givenDate = moment.tz(memberDetails.joiningDate, 'Asia/Kolkata');  // joiningDate is assumed to be in IST
+
+        // Get today’s date in IST and set the time to midnight
+        const today = moment().tz('Asia/Kolkata').startOf('day'); // Today's date in IST, at midnight
+
+        // Log both dates for verification
+        console.log("Given Date in IST:", givenDate.format('YYYY-MM-DD HH:mm:ss'));
+        console.log("Today in IST:", today.format('YYYY-MM-DD HH:mm:ss'));
+        console.log(givenDate.isAfter(today))
+        // Compare the dates: check if givenDate is after today
+        if (givenDate.isAfter(today)) {
+          return {status:false,msg:'memberjoinidate'};
+        } 
+
+            
+
+              
+    
+      
+
   
       // Get current date and time in IST
       const currentDate = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });

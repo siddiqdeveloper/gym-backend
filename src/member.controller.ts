@@ -667,11 +667,16 @@ export class MemberController {
           data: check.data,
           message: 'Attendance Save successfully',
         };
-      }else if(check.status && check.msg == 'memberjoinidate' ){}
-       else {
+      }else if(!check.status && check.msg == 'memberjoinidate' ){
         return {
           status: false,
           message: 'Please contact front desk and  check your joining date',
+        };
+      }
+       else {
+        return {
+          status: false,
+          message: 'Please check your member id',
         };
       }
     } catch (error) {
