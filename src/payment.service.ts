@@ -767,6 +767,10 @@ export class PaymentService {
     paymentData.UPI = body.UPI;
     console.log('hahagaa', paymentData);
 
+    if(paymentData.discountAmount == ''){
+      paymentData.discountAmount = 0;
+    }
+
     await this.paymentRepository.save(paymentData);
 
     return body;
