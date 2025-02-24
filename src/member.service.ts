@@ -577,20 +577,21 @@ convertTo24Hour(time12h) {
 
       const moment = require('moment-timezone');
 
-        // Convert joiningDate to Moment object and ensure it’s in IST
-        const givenDate = moment.tz(memberDetails.joiningDate, 'Asia/Kolkata');  // joiningDate is assumed to be in IST
+      // Convert joiningDate to Moment object and ensure it’s in IST
+      const givenDate = moment.tz(memberDetails.joiningDate, 'Asia/Kolkata').startOf('day'); // Set to midnight
 
-        // Get today’s date in IST and set the time to midnight
-        const today = moment().tz('Asia/Kolkata').startOf('day'); // Today's date in IST, at midnight
+      // Get today’s date in IST and set the time to midnight
+      const today = moment().tz('Asia/Kolkata').startOf('day'); // Today's date in IST, at midnight
 
-        // Log both dates for verification
-        console.log("Given Date in IST:", givenDate.format('YYYY-MM-DD HH:mm:ss'));
-        console.log("Today in IST:", today.format('YYYY-MM-DD HH:mm:ss'));
-        console.log(givenDate.isAfter(today))
-        // Compare the dates: check if givenDate is after today
-        if (givenDate.isAfter(today)) {
-          return {status:false,msg:'memberjoinidate'};
-        } 
+      // Log both dates for verification
+      console.log("Given Date in IST:", givenDate.format('YYYY-MM-DD HH:mm:ss'));
+      console.log("Today in IST:", today.format('YYYY-MM-DD HH:mm:ss'));
+      console.log(givenDate.isAfter(today));
+
+      // Compare the dates: check if givenDate is after today
+      if (givenDate.isAfter(today)) {
+        return {status:false,msg:'memberjoinidate'};
+      }
 
             
 
