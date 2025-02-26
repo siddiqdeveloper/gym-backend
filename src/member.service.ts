@@ -65,6 +65,10 @@ export class MemberService {
       member.dob = this.formatDateForMySQL(member.dob);
     }
 
+    if(member.anniversaryDate){
+      member.anniversaryDate = this.formatDateForMySQL(member.anniversaryDate);
+    }
+
     // return this.memberRepository.save(member);
     const savedMember = await this.memberRepository.save(member);
     const savebmi = {
@@ -136,6 +140,30 @@ export class MemberService {
     console.log(member.workoutType);
 
     console.log(member);
+
+    if (member.workoutType) {
+      member.workoutType = member.workoutType.toString();
+    }
+
+    if (member.fitnessGoal) {
+      member.fitnessGoal = member.fitnessGoal.toString();
+    }
+
+    if (member.healthConditions) {
+      member.healthConditions = member.healthConditions.toString();
+    }
+
+    if(member.billDate){
+      member.billDate = this.formatDateForMySQL(member.billDate);
+    }
+
+    if(member.dob){
+      member.dob = this.formatDateForMySQL(member.dob);
+    }
+
+    if(member.anniversaryDate){
+      member.anniversaryDate = this.formatDateForMySQL(member.anniversaryDate);
+    }
 
     const result = await this.memberRepository.update(id, member);
 

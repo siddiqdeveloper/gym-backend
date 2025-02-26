@@ -759,13 +759,13 @@ export class PaymentService {
     });
     console.log('paymentData', paymentData);
     paymentData.pendingAmount = body.balanceAmount;
-    paymentData.paidAmount = body.paidAmount;
+    paymentData.paidAmount =   parseInt(paymentData.paidAmount)+ parseInt(body.paidAmount);
     paymentData.discountAmount = body.discountAmount;
     paymentData.modeOfPayment = body.modeOfPayment;
     paymentData.CASH = body.CASH;
     paymentData.CARD = body.CARD;
     paymentData.UPI = body.UPI;
-    console.log('hahagaa', paymentData);
+
 
     if(paymentData.discountAmount == ''){
       paymentData.discountAmount = 0;
