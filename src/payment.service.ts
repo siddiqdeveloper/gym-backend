@@ -177,7 +177,7 @@ export class PaymentService {
   async createduePaidPayment(body) {
     try {
       const details = await this.duePaidPaymentRepository.save(body);
-      let paymentData:any = await this.paymentRepository.findOne({
+      const paymentData: any = await this.paymentRepository.findOne({
         where: { id: details.paymentId },
       });
 
@@ -196,8 +196,8 @@ export class PaymentService {
           paymentData.pendingAmount =
             totalAmount - (paidAmount + pendingAmount);
         }
-       // delete paymentData.id;
-        
+        // delete paymentData.id;
+
         await this.paymentRepository.save(paymentData);
         return body;
       } else {
@@ -747,27 +747,27 @@ export class PaymentService {
 
   async updateduePaidPayment(body) {
     console.log('finalResult', body);
-    let id = body.id;
-    if(body.id){
+    const id = body.id;
+    if (body.id) {
       delete body.id;
     }
-      console.log(body)
-     await this.duePaidPaymentRepository.save(body);
+    console.log(body);
+    await this.duePaidPaymentRepository.save(body);
 
-    let paymentData:any = await this.paymentRepository.findOne({
+    const paymentData: any = await this.paymentRepository.findOne({
       where: { id: id },
     });
     console.log('paymentData', paymentData);
     paymentData.pendingAmount = body.balanceAmount;
-    paymentData.paidAmount =   parseInt(paymentData.paidAmount)+ parseInt(body.paidAmount);
+    paymentData.paidAmount =
+      parseInt(paymentData.paidAmount) + parseInt(body.paidAmount);
     paymentData.discountAmount = body.discountAmount;
     paymentData.modeOfPayment = body.modeOfPayment;
-    paymentData.CASH = body.CASH;
-    paymentData.CARD = body.CARD;
-    paymentData.UPI = body.UPI;
+    paymentData.CASH = body.CASH + paymentData.CASH;
+    paymentData.CARD = body.CARD + paymentData.CARD;
+    paymentData.UPI = body.UPI + paymentData.CARD;
 
-
-    if(paymentData.discountAmount == ''){
+    if (paymentData.discountAmount == '') {
       paymentData.discountAmount = 0;
     }
 
