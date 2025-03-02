@@ -277,7 +277,6 @@ export class MemberController {
     @Res() res: Response,
   ) {
     const data = await this.memberService.duePaymentList(body.params.memberId);
-
     res.send(data);
   }
 
@@ -667,13 +666,12 @@ export class MemberController {
           data: check.data,
           message: 'Attendance Save successfully',
         };
-      }else if(!check.status && check.msg == 'memberjoinidate' ){
+      } else if (!check.status && check.msg == 'memberjoinidate') {
         return {
           status: false,
           message: 'Please contact front desk and  check your joining date',
         };
-      }
-       else {
+      } else {
         return {
           status: false,
           message: 'Please check your member id',

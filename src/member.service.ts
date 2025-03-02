@@ -29,7 +29,6 @@ export class MemberService {
     private attendanceRepository: Repository<Attendance>,
   ) {}
 
-
   formatDateForMySQL(date) {
     const d = new Date(date);
     const year = d.getFullYear();
@@ -38,10 +37,9 @@ export class MemberService {
     const hours = String(d.getHours()).padStart(2, '0');
     const minutes = String(d.getMinutes()).padStart(2, '0');
     const seconds = String(d.getSeconds()).padStart(2, '0');
-    
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-}
 
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
 
   // Create a new member
   async create(member: any) {
@@ -57,15 +55,15 @@ export class MemberService {
       member.healthConditions = member.healthConditions.toString();
     }
 
-    if(member.billDate){
+    if (member.billDate) {
       member.billDate = this.formatDateForMySQL(member.billDate);
     }
 
-    if(member.dob){
+    if (member.dob) {
       member.dob = this.formatDateForMySQL(member.dob);
     }
 
-    if(member.anniversaryDate){
+    if (member.anniversaryDate) {
       member.anniversaryDate = this.formatDateForMySQL(member.anniversaryDate);
     }
 
@@ -153,15 +151,15 @@ export class MemberService {
       member.healthConditions = member.healthConditions.toString();
     }
 
-    if(member.billDate){
+    if (member.billDate) {
       member.billDate = this.formatDateForMySQL(member.billDate);
     }
 
-    if(member.dob){
+    if (member.dob) {
       member.dob = this.formatDateForMySQL(member.dob);
     }
 
-    if(member.anniversaryDate){
+    if (member.anniversaryDate) {
       member.anniversaryDate = this.formatDateForMySQL(member.anniversaryDate);
     }
 
@@ -569,83 +567,85 @@ export class MemberService {
   //   save attendance
   convertToMySQLDate(dateString) {
     // Split the date by "/"
-    const [day, month, year] = dateString.split("/").map(num => num.padStart(2, '0'));
+    const [day, month, year] = dateString
+      .split('/')
+      .map((num) => num.padStart(2, '0'));
 
     // Format it as YYYY-MM-DD
     return `${year}-${month}-${day}`;
-}
-
-convertTo24Hour(time12h) {
-  let [time, modifier] = time12h.split(' ');
-  let [hours, minutes, seconds] = time.split(':').map(Number);
-
-  if (modifier === 'PM' && hours !== 12) {
-      hours += 12;
-  } else if (modifier === 'AM' && hours === 12) {
-      hours = 0;
   }
 
-  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-}
+  convertTo24Hour(time12h) {
+    const [time, modifier] = time12h.split(' ');
+    let [hours, minutes, seconds] = time.split(':').map(Number);
+
+    if (modifier === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (modifier === 'AM' && hours === 12) {
+      hours = 0;
+    }
+
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
 
   async attendanceSave(body) {
     try {
       body.memberId = 'MEM' + body.memberId;
 
-  
       console.log(body.memberId);
       const memberDetails = await this.memberRepository.findOne({
         where: { memberId: body.memberId },
       });
 
-      if(!memberDetails){
-        return {status:false,msg:'nomember'};
+      if (!memberDetails) {
+        return { status: false, msg: 'nomember' };
       }
-      
 
       const moment = require('moment-timezone');
 
       // Convert joiningDate to Moment object and ensure it’s in IST
-      const givenDate = moment.tz(memberDetails.joiningDate, 'Asia/Kolkata').startOf('day'); // Set to midnight
+      const givenDate = moment
+        .tz(memberDetails.joiningDate, 'Asia/Kolkata')
+        .startOf('day'); // Set to midnight
 
       // Get today’s date in IST and set the time to midnight
       const today = moment().tz('Asia/Kolkata').startOf('day'); // Today's date in IST, at midnight
 
       // Log both dates for verification
-      console.log("Given Date in IST:", givenDate.format('YYYY-MM-DD HH:mm:ss'));
-      console.log("Today in IST:", today.format('YYYY-MM-DD HH:mm:ss'));
+      console.log(
+        'Given Date in IST:',
+        givenDate.format('YYYY-MM-DD HH:mm:ss'),
+      );
+      console.log('Today in IST:', today.format('YYYY-MM-DD HH:mm:ss'));
       console.log(givenDate.isAfter(today));
 
       // Compare the dates: check if givenDate is after today
       if (givenDate.isAfter(today)) {
-        return {status:false,msg:'memberjoinidate'};
+        return { status: false, msg: 'memberjoinidate' };
       }
 
-            
-
-              
-    
-      
-
-  
       // Get current date and time in IST
-      const currentDate = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-   
-     let datePart =  this.convertToMySQLDate(currentDate.split(", ")[0]);
-     let timePart =  this.convertTo24Hour(currentDate.split(", ")[1]);
-  
+      const currentDate = new Date().toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+      });
+
+      const datePart = this.convertToMySQLDate(currentDate.split(', ')[0]);
+      const timePart = this.convertTo24Hour(currentDate.split(', ')[1]);
+
       console.log('IST Date (MySQL Format):', datePart);
       console.log('IST Time:', timePart);
-  
+
       const result = await this.attendanceRepository.findOne({
         where: {
           memberId: body.memberId,
           date: datePart,
         },
       });
-  
+
       console.log('Attendance record:', result);
-  
+
       if (result) {
         result.checkOut = timePart;
         await this.attendanceRepository.save(result);
@@ -660,43 +660,39 @@ convertTo24Hour(time12h) {
         console.log('Creating new record:', createData);
         await this.attendanceRepository.save(createData);
       }
-  
+
       console.log(memberDetails.id);
       const details = await this.dataSource.query(
-        'call getMemberInfoAtt(' + memberDetails.id + ')'
+        'call getMemberInfoAtt(' + memberDetails.id + ')',
       );
 
-      if(details[0][0]){
-        if(details[0][0].balance<0){
+      if (details[0][0]) {
+        if (details[0][0].balance < 0) {
+          await this.memberRepository.update(memberDetails.id, {
+            isActive: 0,
+          });
 
-           await this.memberRepository.update(memberDetails.id, {
-            isActive:0
-           });
-
-            console.log(details[0][0].balance)
+          console.log(details[0][0].balance);
         }
       }
-  
-     
-      return {status:true,data:details[0][0]};
+
+      return { status: true, data: details[0][0] };
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new Error('Attendance save failed.');
     }
   }
-  
 
   async attendanceReport(body) {
- 
     const { customStartDate, customEndDate, selectedMember } = body;
 
-    console.log(customStartDate, customEndDate, selectedMember)
+    console.log(customStartDate, customEndDate, selectedMember);
 
     const result = await this.dataSource.query(
       'CALL getAttendanceReportList(?, ?, ?)',
       [customStartDate, customEndDate, selectedMember],
     );
-   
+
     return result[0];
   }
 
