@@ -1,4 +1,4 @@
-import { FellowLead } from "./fellow-lead.entity";
+import { FollowLead } from "./follow-lead.entity";
 import { Lead } from "./Lead.entity";
 import { Member } from "./Member.entity";
 import { Package } from "./Package.entity";
@@ -82,7 +82,7 @@ const entities = [
   Incentive,
   MemberExchanger,
   Attendance,
-
+  FollowLead,
   AssignManager,
 
   EmailTemplate

@@ -24,7 +24,7 @@ import { StaffService } from './staff.service';
 import { Staff } from './entities/staff.entity';
 import { FellowLeadController } from './fellow-leads/fellow-lead.controller';
 import { FellowLeadService } from './fellow-leads/fellow-lead.service';
-import { FellowLead } from './entities/fellow-lead.entity';
+import { FollowLead } from './entities/follow-lead.entity';
 import { Payment } from './entities/Payment';
 import { PaymentController } from './PaymentController';
 import { PaymentService } from './payment.service';
@@ -71,6 +71,8 @@ import {AssignManager} from "./entities/assignManager.entity";
 
 import { MasterController } from './master/master.controller';
 import { EmailTemplate } from './entities/email-template.entity';
+import { ChartsController } from './charts.controller';
+import { ChartsService } from './charts.service';
 
 
 
@@ -106,7 +108,7 @@ import { EmailTemplate } from './entities/email-template.entity';
     connectTimeout: 30000, // Increase timeout to 30 seconds
   },
     }),
-    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FellowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment,DuePaidPayment,Withdraw,Topup,BulkUpload,BulkUploadMeta,Bmi,CashTopUp,Withdrawal,Asset,PaymentType,
+    TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FollowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment,DuePaidPayment,Withdraw,Topup,BulkUpload,BulkUploadMeta,Bmi,CashTopUp,Withdrawal,Asset,PaymentType,
       FeedBack,FreeProgram,Salary,
       Setting,
       Incentive,
@@ -124,7 +126,7 @@ import { EmailTemplate } from './entities/email-template.entity';
 
   ],
   
-  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController,PaymentController,MiscController,MailController],
+  controllers: [AppController,MemberController,PackageController,LeadController,StaffController,FellowLeadController,PaymentController,MiscController,MailController,ChartsController],
   providers: [
     AppService,
     MemberService,
@@ -134,6 +136,7 @@ import { EmailTemplate } from './entities/email-template.entity';
     FellowLeadService,
     PaymentService,
     MailService,
+    ChartsService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,

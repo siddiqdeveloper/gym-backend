@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FellowLead } from '../entities/fellow-lead.entity';  
+import { FollowLead } from '../entities/follow-lead.entity';  
 import { DataSource } from 'typeorm';
 
 @Injectable()
 export class FellowLeadService {
   constructor(
-    @InjectRepository(FellowLead)
-    private fellowLeadRep: Repository<FellowLead>,
+    @InjectRepository(FollowLead)
+    private fellowLeadRep: Repository<FollowLead>,
     private dataSource: DataSource, 
 
   ) {}
@@ -17,16 +17,13 @@ export class FellowLeadService {
   async updateLeads(data){
 
     for(var i = 0; i<data.leads.length;i++){
-      if(data.leads[i].reason && data.leads[i].fellowup_date != ''){
+      if(data.leads[i].reason && data.leads[i].followup_date != ''){
         
 
-       let findData =  await this.fellowLeadRep.findOne({where:{fellowup_date:data.leads[i].fellowup_date,lead_id:data.leads[i].lead_id}});
+       let findData =  await this.fellowLeadRep.findOne({where:{followup_date:data.leads[i].followup_date,lead_id:data.leads[i].lead_id}});
         
         if(!findData){
-
           await this.fellowLeadRep.save(data.leads[i]);
-
-
         }
        
       }

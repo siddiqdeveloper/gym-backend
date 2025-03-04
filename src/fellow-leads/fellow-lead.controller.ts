@@ -24,11 +24,9 @@ export class FellowLeadController {
 
       }
 
-
     return {
       status: true,
-      message: 'Leads retrieved successfully',
-      data: [],
+      message: 'Leads information Updated', 
     };
 
   }

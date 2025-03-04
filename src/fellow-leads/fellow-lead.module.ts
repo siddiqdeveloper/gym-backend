@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FellowLead } from '../entities/fellow-lead.entity';
+import { FollowLead } from '../entities/follow-lead.entity';
 import { FellowLeadService } from './fellow-lead.service';
 import { FellowLeadController } from './fellow-lead.controller';
 
