@@ -133,6 +133,32 @@ export class FellowLeadController {
   }
 
 
+  @Get('followup-in-active')
+  async getFollowupInActive(@Query('date') date: string) {
+ 
+   
+    try {
+      const list = await this.fellowLeadService.getFollowupInActive(date);
+      return {
+        status: true,
+        message: 'Data retrieved successfully',
+        data: list,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
 
   @Put('status/:id')
   async updateStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {

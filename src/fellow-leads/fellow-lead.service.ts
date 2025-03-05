@@ -41,6 +41,13 @@ export class FellowLeadService {
  
   }
 
+  async getFollowupInActive(date: any) {
+    const result = await this.dataSource.query('CALL followupInActive(?)',[date]);
+    console.log()
+    return result[0];
+ 
+  }
+
   async findByDateDOB(date: any) {
     const result = await this.dataSource.query('CALL getFellowupDOB(?)',[date]);
     console.log()

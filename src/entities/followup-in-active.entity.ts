@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn,CreateDateColumn } from 'typeorm';
 
-@Entity('followupLead') // Replace with your actual table name
-export class FollowLead {
+@Entity('followupInActive') // Replace with your actual table name
+export class FollowupInActive {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -9,7 +9,7 @@ export class FollowLead {
   followup_date: Date | null;
 
   @Column({ type: 'int', nullable: true })
-  lead_id: number | null;
+  member_id: number | null;
 
   @Column({ type: 'text', nullable: true, collation: 'latin1_swedish_ci' })
   reason: string | null;
