@@ -64,5 +64,11 @@ export class Lead {
 
   @Column({ type:'tinyint', default: 1 })
   isActive: number;
+
+  @Column({ type:'int', default: null })
+  assignmentStatus: number;
+
+  @Column({ type:'int', default: 0})
+  assignmentStaff: number;
 }
 

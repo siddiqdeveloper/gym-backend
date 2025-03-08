@@ -31,6 +31,29 @@ export class FellowLeadController {
 
   }
 
+
+  @Post('unassignupdate')
+  async updateFellowLeadsunassignupdate(@Request() req:any){
+    
+      
+
+      try{
+         await this.fellowLeadService.unassignupdate(req.body);
+      }
+      catch(e){
+        console.log(e.message)
+
+      }
+
+    return {
+      status: true,
+      message: 'Leads information Updated', 
+    };
+
+  }
+
+  
+
   @Get('by-date')
   async getFellowLeadsByDate(@Query('date') date: string) {
  
@@ -131,6 +154,33 @@ export class FellowLeadController {
       );
     }
   }
+
+  @Get('unassignment')
+  async getUnassignment() {
+ 
+   
+    try {
+      const leads = await this.fellowLeadService.getUnassignment();
+      return {
+        status: true,
+        message: 'Leads retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  
 
 
   @Get('followup-in-active')

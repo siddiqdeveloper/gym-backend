@@ -18,8 +18,8 @@ export class FollowLead {
   remarks: string | null;
 
 
-  @Column({ type: 'varchar',length:50, nullable: true,})
-  charge: string | null;
+  @Column({ type: 'int', nullable: true,})
+  assignmentStaff: string | null;
 
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

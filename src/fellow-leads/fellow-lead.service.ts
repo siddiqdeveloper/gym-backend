@@ -3,15 +3,30 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FollowLead } from '../entities/follow-lead.entity';  
 import { DataSource } from 'typeorm';
+import { Lead } from 'src/entities/Lead.entity';
 
 @Injectable()
 export class FellowLeadService {
   constructor(
     @InjectRepository(FollowLead)
     private fellowLeadRep: Repository<FollowLead>,
+    @InjectRepository(Lead)
+    private leadRep: Repository<Lead>,
     private dataSource: DataSource, 
 
   ) {}
+
+  async unassignupdate(data){
+    console.log(data)
+
+    for(var i = 0; i<data.leads.length;i++){
+        console.log(data.leads[i]);
+        await this.leadRep.update({id:data.leads[i].id},{assignmentStaff:data.leads[i].assignmentStaff,
+          assignmentStatus:data.leads[i].assignmentStatus})
+       
+      }
+    }
+
 
 
   async updateLeads(data){
@@ -63,11 +78,14 @@ export class FellowLeadService {
 
   }
 
+  async getUnassignment(){
+    const result = await this.dataSource.query('CALL getunassignmentLeads()');
+    return result[0];
+  }
+
   async getInActiveLeads(){
     const result = await this.dataSource.query('CALL getNotActiveFellowupLeads()');
-    console.log()
     return result[0];
- 
 
   }
 
