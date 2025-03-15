@@ -10,10 +10,18 @@ import {
   HttpException,
   Req,
   Res,
+  UseInterceptors,
+  UploadedFiles,
   Query,
 } from '@nestjs/common';
 import { MemberService } from './member.service';
 import { Response } from 'express';
+  import { FileFieldsInterceptor } from '@nestjs/platform-express';
+  import { diskStorage } from 'multer';
+  import { extname } from 'path';
+  import * as multer from 'multer'; // ✅ Import multer
+
+  import { writeFileSync } from 'fs';
 
 @Controller('members')
 export class MemberController {
@@ -41,6 +49,29 @@ export class MemberController {
       );
     }
   }
+
+
+  @Post('uploadphoto')
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'photo', maxCount: 1 }], { storage: multer.memoryStorage() }))
+  async uploadFile(@UploadedFiles() files: { photo?: Express.Multer.File[] }, @Body() body: any) {
+    if (!files.photo || files.photo.length === 0) {
+      return { message: 'No file uploaded' };
+    }
+
+    const file = files.photo[0];
+    const memberId = body.memberId || 'default';
+    const fileExtension = extname(file.originalname);
+    const filePath = `./uploads/members/${memberId}${fileExtension}`;
+
+    // Save file manually
+    writeFileSync(filePath, file.buffer);
+
+    return { message: 'File uploaded successfully', filePath };
+  }
+
+
+
+
 
   // Get a member by ID
   @Get('get/:id')
