@@ -2,6 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { json, urlencoded ,static as expressStatic} from 'express';
 import { ValidationPipe } from '@nestjs/common';
+import { join } from 'path';
+import * as express from 'express';
+
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
 
@@ -42,8 +45,7 @@ async function bootstrap() {
   // Set up body parsers with a larger limit for JSON and URL encoded data
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
-  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+  app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
 
   // Start the application
   await app.listen(PORT);
