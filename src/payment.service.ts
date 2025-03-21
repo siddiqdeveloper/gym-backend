@@ -763,9 +763,14 @@ export class PaymentService {
       parseInt(paymentData.paidAmount) + parseInt(body.paidAmount);
     paymentData.discountAmount = body.discountAmount;
     paymentData.modeOfPayment = body.modeOfPayment;
-    paymentData.CASH = parseFloat(body.CASH) + parseFloat(paymentData.CASH);
-    paymentData.CARD = parseFloat(body.CARD) + parseFloat(paymentData.CARD);
-    paymentData.UPI = parseFloat(body.UPI) + parseFloat(paymentData.CARD);
+    paymentData.CASH = (parseFloat(body.CASH) || 0) + (parseFloat(paymentData.CASH) || 0);
+    paymentData.CARD = (parseFloat(body.CARD) || 0) + (parseFloat(paymentData.CARD) || 0);
+    paymentData.UPI = (parseFloat(body.UPI) || 0) + (parseFloat(paymentData.UPI) || 0);
+    
+
+    if(body){
+
+    }
 
     if (paymentData.discountAmount == '') {
       paymentData.discountAmount = 0;
