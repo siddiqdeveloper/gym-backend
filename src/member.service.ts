@@ -603,6 +603,10 @@ export class MemberService {
         return { status: false, msg: 'nomember' };
       }
 
+      if (memberDetails.close == 1) {
+        return { status: false, msg: 'memberjoinidate' };
+      }
+
       const moment = require('moment-timezone');
 
       // Convert joiningDate to Moment object and ensure it’s in IST
@@ -662,7 +666,7 @@ export class MemberService {
       }
 
       console.log(memberDetails.id);
-      const details = await this.dataSource.query(
+      var details = await this.dataSource.query(
         'call getMemberInfoAtt(' + memberDetails.id + ')',
       );
 
@@ -671,6 +675,9 @@ export class MemberService {
           await this.memberRepository.update(memberDetails.id, {
             isActive: 0,
           });
+          details = await this.dataSource.query(
+            'call getMemberInfoAtt(' + memberDetails.id + ')',
+          );
 
           console.log(details[0][0].balance);
         }

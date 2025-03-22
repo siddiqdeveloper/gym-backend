@@ -767,8 +767,15 @@ export class PaymentService {
     paymentData.CARD = (parseFloat(body.CARD) || 0) + (parseFloat(paymentData.CARD) || 0);
     paymentData.UPI = (parseFloat(body.UPI) || 0) + (parseFloat(paymentData.UPI) || 0);
     
-
-    if(body){
+    console.log(body.memberPaymentFor)
+    if(body.memberPaymentFor == 'Close'){
+      console.log(paymentData.memberId)
+      const update = await this.memberRepository.update(
+        { memberId: paymentData.memberId }, // WHERE condition
+        {
+          close: 1,
+        }, // Data to update
+      );
 
     }
 

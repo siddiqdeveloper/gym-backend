@@ -26,6 +26,9 @@ export class Member {
   age: number; // Age
 
   @Column({ type: 'int', nullable: true })
+  close: number; // Age
+
+  @Column({ type: 'int', nullable: true })
   interestedIn: number; // interestedIn
 
   @Column({ type: 'int', nullable: true })
