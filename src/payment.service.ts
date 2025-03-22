@@ -771,7 +771,7 @@ export class PaymentService {
     if(body.memberPaymentFor == 'Close'){
       console.log(paymentData.memberId)
       const update = await this.memberRepository.update(
-        { memberId: paymentData.memberId }, // WHERE condition
+        { id: paymentData.memberId }, // WHERE condition
         {
           close: 1,
         }, // Data to update
