@@ -27,11 +27,11 @@ export class StaffService {
         staff.otherDocuments = files.otherDocuments.map(file => file.path); // Map multiple file paths for otherDocuments
       }
 
-      if (files.dateOfBirth) {
+      if (staff.dateOfBirth) {
         staff.dateOfBirth = this.formatDateForMySQL(staff.dateOfBirth);
       }
 
-      if (files.dateOfJoining) {
+      if (staff.dateOfJoining) {
         staff.dateOfJoining  = this.formatDateForMySQL(staff.dateOfJoining); 
       }
     }
