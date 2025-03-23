@@ -38,6 +38,8 @@ import { PaymentType } from '../entities/paymentType.entity';
 import { Salary } from '../entities/salary.entity';
 import { Setting } from '../entities/setting.entity';
 import { AssignManager } from '../entities/assignManager.entity';
+import { StaffPerformance } from "../entities/staffperfomance.entity";
+import {StaffPerformanceMeta} from "../entities/staffPerformanceMeta,entity";
 
 @Injectable()
 export class MiscService {
@@ -99,6 +101,10 @@ export class MiscService {
     private settingRepository: Repository<Setting>,
     @InjectRepository(AssignManager)
     private assignManagerRepository: Repository<AssignManager>,
+    @InjectRepository(StaffPerformance)
+    private staffPerformanceRepository: Repository<StaffPerformance>,
+    @InjectRepository(StaffPerformanceMeta)
+    private staffPerformanceMetaRepository: Repository<StaffPerformanceMeta>,
   ) {}
 
   // electricity Consumption
@@ -1576,4 +1582,35 @@ export class MiscService {
 
     return this.assignManagerRepository.save(assignManager);
   }
+
+
+
+  async staffPerformanceSave(data: any) {
+
+    const ratingDetails = data.ratings;
+    delete data.ratings;
+
+
+    const saveStaffPerformance = {
+      date: data.date,
+      staff_name: data.staff_name,
+      rating: data.rating
+    };
+
+    const result = await this.staffPerformanceRepository.save(saveStaffPerformance);
+    if(ratingDetails){
+      for(let i=0;i<ratingDetails.length;i++){
+        console.log('hahaha',ratingDetails[i])
+        const saveMetaData ={
+          staffPerformanceId: result.id.toString(),
+          criterion:ratingDetails[i].criterion,
+          stars:ratingDetails[i].stars
+        };
+        const ratingDetailsSave = await this.staffPerformanceMetaRepository.save(saveMetaData);
+      }
+    }
+
+    return result;
+  }
+
 }

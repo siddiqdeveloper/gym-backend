@@ -3910,4 +3910,66 @@ export class MiscController {
       );
     }
   }
+
+
+
+
+
+
+
+//   StaffPerfomarnce Save
+
+
+  // @Post('staffPerformance/add')
+  //   // async staffPerformanceSave(@Body() body) {
+  //   //   try {
+  //   //     const reqdata: any = body;
+  //   //     const check = await this.mis.staffPerformanceSave(reqdata);
+  //   //
+  //   //     return {
+  //   //       status: true,
+  //   //       message: 'StaffPerformance  created successfully',
+  //   //       data: check,
+  //   //     };
+  //   //   } catch (error) {
+  //   //     console.log(error);
+  //   //     throw new HttpException(
+  //   //       {
+  //   //         status: false,
+  //   //         message: 'Failed to StaffPerformance',
+  //   //         error: error.message,
+  //   //       },
+  //   //       HttpStatus.BAD_REQUEST,
+  //   //     );
+  //   //   }
+  //   // }
+
+
+  @Post('staffPerformance/add')
+  async staffPerformanceSave(@Body() body: any) {
+    try {
+      console.log("Received Data in Backend:", body);
+      const savedData = await this.mis.staffPerformanceSave(body);
+      console.log("Saved Data:", savedData);
+
+      return {
+        status: true,
+        message: "Staff Performance created successfully",
+        data: savedData,
+      };
+    } catch (error) {
+      console.error("Error in Backend:", error);
+      throw new HttpException(
+        {
+          status: false,
+          message: "Failed to create Staff Performance",
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+
+
 }
