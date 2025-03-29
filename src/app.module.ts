@@ -73,8 +73,8 @@ import { MasterController } from './master/master.controller';
 import { EmailTemplate } from './entities/email-template.entity';
 import { ChartsController } from './charts.controller';
 import { ChartsService } from './charts.service';
-
-
+import {StaffPerformance} from "./entities/staffperfomance.entity";
+import {StaffPerformanceMeta} from "./entities/staffPerformanceMeta,entity";
 
 @Module({
   imports: [
@@ -117,7 +117,9 @@ import { ChartsService } from './charts.service';
 
       AssignManager,
 
-      EmailTemplate
+      EmailTemplate,
+      StaffPerformance,
+      StaffPerformanceMeta
 
       ]),
     MasterModule,
