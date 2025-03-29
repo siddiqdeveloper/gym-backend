@@ -43,6 +43,9 @@ import {AssignManager} from "./assignManager.entity";
 import { EmailTemplate } from "./email-template.entity";
 import {StaffPerformance} from "./staffperfomance.entity";
 import {StaffPerformanceMeta} from "./staffPerformanceMeta,entity";
+import { ContinuesAssignment } from "./continuesAssignment.entity";
+import { FollowupContinue } from "./follow-continue.entity";
+import { InactiveAssignment } from "./follow-inactive.entity";
 
 const entities = [
   User,
@@ -85,10 +88,12 @@ const entities = [
   Attendance,
   FollowLead,
   AssignManager,
-
+  FollowupContinue,
   EmailTemplate,
   StaffPerformance,
-  StaffPerformanceMeta
+  StaffPerformanceMeta,
+  ContinuesAssignment,
+  InactiveAssignment
 
  
 ];

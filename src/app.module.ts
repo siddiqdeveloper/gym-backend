@@ -75,6 +75,9 @@ import { ChartsController } from './charts.controller';
 import { ChartsService } from './charts.service';
 import {StaffPerformance} from "./entities/staffperfomance.entity";
 import {StaffPerformanceMeta} from "./entities/staffPerformanceMeta,entity";
+import { ContinuesAssignment } from './entities/continuesAssignment.entity';
+import { FollowupContinue } from './entities/follow-continue.entity';
+import { InactiveAssignment } from './entities/follow-inactive.entity';
 
 @Module({
   imports: [
@@ -119,7 +122,10 @@ import {StaffPerformanceMeta} from "./entities/staffPerformanceMeta,entity";
 
       EmailTemplate,
       StaffPerformance,
-      StaffPerformanceMeta
+      StaffPerformanceMeta,
+      ContinuesAssignment,
+      FollowupContinue,
+      InactiveAssignment
 
       ]),
     MasterModule,

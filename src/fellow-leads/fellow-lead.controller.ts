@@ -1,5 +1,6 @@
 import { Controller, Get, Query, Post,HttpException, HttpStatus,Request, Put, Param, Body, } from '@nestjs/common';
 import { FellowLeadService } from './fellow-lead.service';
+import { query } from 'express';
 
 
 @Controller('fellow-leads')
@@ -54,6 +55,9 @@ export class FellowLeadController {
 
   
 
+
+  
+
   @Get('by-date')
   async getFellowLeadsByDate(@Query('date') date: string) {
  
@@ -66,8 +70,35 @@ export class FellowLeadController {
         data: leads,
       };
     } catch (error) {
+
+      console.log(error)
       // Handle any potential errors from the service
   
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to get Data',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('continueabsend/by-date')
+  async getFellowLeadsContinueabsendByDate(@Query('date') date: string) {
+    try {
+      const leads = await this.fellowLeadService.getFellowLeadsContinueabsendByDate(date);
+      return {
+        status: true,
+        message: 'Leads retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+      console.log(error)
       throw new HttpException(
         {
           status: false,
@@ -132,8 +163,8 @@ export class FellowLeadController {
 
   @Get('inactiveLeads')
   async getInActiveLeads() {
- 
-   
+
+
     try {
       const leads = await this.fellowLeadService.getInActiveLeads();
       return {
@@ -154,6 +185,125 @@ export class FellowLeadController {
       );
     }
   }
+
+
+
+
+
+  @Get('continue-absents/get')
+  async getContinueAbsents(@Request() req:any) {
+    console.log(req.query);
+
+   
+    try {
+      const leads = await this.fellowLeadService.getContinueAbsents(req.query);
+      return {
+        status: true,
+        message: 'Retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('inactive/get')
+  async getInactive(@Request() req:any) {
+    console.log(req.query);
+
+   
+    try {
+      const leads = await this.fellowLeadService.getInactive(req.query);
+      return {
+        status: true,
+        message: 'Retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+
+      console.log(error)
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('dob/get')
+  async getDob(@Request() req:any) {
+    console.log(req.query);
+
+   
+    try {
+      const leads = await this.fellowLeadService.getDob(req.query);
+      return {
+        status: true,
+        message: 'Retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+
+      console.log(error)
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('pack/get')
+  async getPack(@Request() req:any) {
+    console.log(req.query);
+
+   
+    try {
+      const leads = await this.fellowLeadService.getPack(req.query);
+      return {
+        status: true,
+        message: 'Retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+
+      console.log(error)
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
 
   @Get('unassignment')
   async getUnassignment() {

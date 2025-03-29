@@ -4,14 +4,25 @@ import { Repository } from 'typeorm';
 import { FollowLead } from '../entities/follow-lead.entity';  
 import { DataSource } from 'typeorm';
 import { Lead } from 'src/entities/Lead.entity';
+import { ContinuesAssignment } from 'src/entities/continuesAssignment.entity';
+import { FollowupContinue } from 'src/entities/follow-continue.entity';
+import { InactiveAssignment } from 'src/entities/follow-inactive.entity';
 
 @Injectable()
 export class FellowLeadService {
   constructor(
     @InjectRepository(FollowLead)
     private fellowLeadRep: Repository<FollowLead>,
+    @InjectRepository(FollowupContinue)
+    private followupContinueRep: Repository<FollowupContinue>,
+    @InjectRepository(InactiveAssignment)
+    private inactiveAssignmentRep: Repository<InactiveAssignment>,
     @InjectRepository(Lead)
     private leadRep: Repository<Lead>,
+    @InjectRepository(ContinuesAssignment)
+    private continuesAssignmentRep: Repository<ContinuesAssignment>,
+
+    
     private dataSource: DataSource, 
 
   ) {}
@@ -19,11 +30,23 @@ export class FellowLeadService {
   async unassignupdate(data){
     console.log(data)
 
-    for(var i = 0; i<data.leads.length;i++){
-        console.log(data.leads[i]);
-        await this.leadRep.update({id:data.leads[i].id},{assignmentStaff:data.leads[i].assignmentStaff,
-          assignmentStatus:data.leads[i].assignmentStatus})
+    for(var i = 0; i<data.list.length;i++){
        
+        if(data.process == 'leads'){
+          await this.leadRep.update({id:data.list[i].id},{assignmentStaff:data.list[i].assignmentStaff,
+            assignmentStatus:data.list[i].assignmentStatus})
+        }
+
+        if(data.process == 'ca'){
+          await this.continuesAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
+        }
+
+        if(data.process == 'inactive'){
+
+          await this.inactiveAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
+        
+        }
+
       }
     }
 
@@ -44,7 +67,6 @@ export class FellowLeadService {
       }
     }
 
-
   }
 
 
@@ -55,6 +77,34 @@ export class FellowLeadService {
     return result[0];
  
   }
+
+  async getFellowLeadsContinueabsendByDate(date: any) {
+    const result = await this.dataSource.query('CALL getFellowupContinue(?)',[date]);
+    console.log()
+    return result[0];
+ 
+  }
+
+
+
+  
+  async updateContinue(data){
+
+    for(var i = 0; i<data.list.length;i++){
+      if(data.list[i].reason && data.list[i].followup_date != ''){
+      
+
+       let findData =  await this.followupContinueRep.findOne({where:{followup_date:data.list[i].followup_date,member_id:data.list[i].id}});
+        
+        if(!findData){
+          await this.followupContinueRep.save(data.list[i]);
+        }
+       
+      }
+    }
+
+  }
+
 
   async getFollowupInActive(date: any) {
     const result = await this.dataSource.query('CALL followupInActive(?)',[date]);
@@ -86,8 +136,45 @@ export class FellowLeadService {
   async getInActiveLeads(){
     const result = await this.dataSource.query('CALL getNotActiveFellowupLeads()');
     return result[0];
+  }
+
+  async getContinueAbsents(query){
+    const result = await this.dataSource.query('CALL getUnAssingmentCA('+query.days+')');
+    return result[0];
+  }
+
+  async getInactive(query){
+    const result = await this.dataSource.query('CALL getUnAssingmentInactive("'+query.startDate+'","'+query.endDate+'")');
+    return result[0];
+  }
+
+  async getDob(query){
+    const result = await this.dataSource.query('CALL getUnAssingmentDOB("'+query.startDate+'")');
+    return result[0];
+  }
+
+  async getPack(query){
+    const result = await this.dataSource.query('CALL getUnAssingmentPackageExpirySoon("'+query.startDate+'","'+query.endDate+'")');
+    return result[0];
+  }
+
+
+
+  async updateInactive(data){
+
+    for(var i = 0; i<data.list.length;i++){
+      if(data.list[i].reason && data.list[i].followup_date != ''){
+      
+
+       
+       
+      }
+    }
 
   }
+
+
+
 
   async updateStatus(id: any, isActive: boolean) {
     console.log(id)
