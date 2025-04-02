@@ -304,6 +304,36 @@ export class FellowLeadController {
   }
 
 
+  @Get('due/get')
+  async getdue(@Request() req:any) {
+    console.log(req.query);
+
+   
+    try {
+      const leads = await this.fellowLeadService.getdue(req.query);
+      return {
+        status: true,
+        message: 'Retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+
+      console.log(error)
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
 
   @Get('unassignment')
   async getUnassignment() {

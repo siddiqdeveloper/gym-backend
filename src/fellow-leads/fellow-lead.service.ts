@@ -167,6 +167,11 @@ export class FellowLeadService {
     return result[0];
   }
 
+  
+  async getdue(query){
+    const result = await this.dataSource.query('CALL getUnAssingmentdue("'+query.startDate+'","'+query.endDate+'")');
+    return result[0];
+  }
 
 
   async updateInactive(data){
