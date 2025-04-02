@@ -46,6 +46,7 @@ import {StaffPerformanceMeta} from "./staffPerformanceMeta,entity";
 import { ContinuesAssignment } from "./continuesAssignment.entity";
 import { FollowupContinue } from "./follow-continue.entity";
 import { InactiveAssignment } from "./follow-inactive.entity";
+import { DOBAssignment } from "./DOBAssignment.entity";
 
 const entities = [
   User,
@@ -93,7 +94,8 @@ const entities = [
   StaffPerformance,
   StaffPerformanceMeta,
   ContinuesAssignment,
-  InactiveAssignment
+  InactiveAssignment,
+  DOBAssignment
 
  
 ];

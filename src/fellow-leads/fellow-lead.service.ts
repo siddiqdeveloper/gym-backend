@@ -7,6 +7,7 @@ import { Lead } from 'src/entities/Lead.entity';
 import { ContinuesAssignment } from 'src/entities/continuesAssignment.entity';
 import { FollowupContinue } from 'src/entities/follow-continue.entity';
 import { InactiveAssignment } from 'src/entities/follow-inactive.entity';
+import { DOBAssignment } from 'src/entities/DOBAssignment.entity';
 
 @Injectable()
 export class FellowLeadService {
@@ -21,6 +22,8 @@ export class FellowLeadService {
     private leadRep: Repository<Lead>,
     @InjectRepository(ContinuesAssignment)
     private continuesAssignmentRep: Repository<ContinuesAssignment>,
+    @InjectRepository(DOBAssignment)
+    private DOBAssignmentRep: Repository<DOBAssignment>,
 
     
     private dataSource: DataSource, 
@@ -44,6 +47,12 @@ export class FellowLeadService {
         if(data.process == 'inactive'){
 
           await this.inactiveAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
+        
+        }
+
+        if(data.process == 'dob'){
+
+          await this.DOBAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }
 
@@ -110,7 +119,7 @@ export class FellowLeadService {
     const result = await this.dataSource.query('CALL followupInActive(?)',[date]);
     console.log()
     return result[0];
- 
+
   }
 
   async findByDateDOB(date: any) {

@@ -78,6 +78,7 @@ import {StaffPerformanceMeta} from "./entities/staffPerformanceMeta,entity";
 import { ContinuesAssignment } from './entities/continuesAssignment.entity';
 import { FollowupContinue } from './entities/follow-continue.entity';
 import { InactiveAssignment } from './entities/follow-inactive.entity';
+import { DOBAssignment } from './entities/DOBAssignment.entity';
 
 @Module({
   imports: [
@@ -125,7 +126,8 @@ import { InactiveAssignment } from './entities/follow-inactive.entity';
       StaffPerformanceMeta,
       ContinuesAssignment,
       FollowupContinue,
-      InactiveAssignment
+      InactiveAssignment,
+      DOBAssignment
 
       ]),
     MasterModule,
