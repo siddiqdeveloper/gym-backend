@@ -9,6 +9,7 @@ import { FollowupContinue } from 'src/entities/follow-continue.entity';
 import { InactiveAssignment } from 'src/entities/follow-inactive.entity';
 import { DOBAssignment } from 'src/entities/DOBAssignment.entity';
 import { PackageExpiryAssignment } from 'src/entities/PackageExpiryAssignment.entity';
+import { leadsAssignment } from 'src/entities/leadsAssignment.entity';
 
 @Injectable()
 export class FellowLeadService {
@@ -27,6 +28,8 @@ export class FellowLeadService {
     private DOBAssignmentRep: Repository<DOBAssignment>,
     @InjectRepository(PackageExpiryAssignment)
     private packageExpiryAssignmentRep: Repository<PackageExpiryAssignment>,
+    @InjectRepository(leadsAssignment)
+    private leadsAssignmentRep: Repository<leadsAssignment>,
 
     
 
@@ -41,8 +44,7 @@ export class FellowLeadService {
     for(var i = 0; i<data.list.length;i++){
        
         if(data.process == 'leads'){
-          await this.leadRep.update({id:data.list[i].id},{assignmentStaff:data.list[i].assignmentStaff,
-            assignmentStatus:data.list[i].assignmentStatus})
+          await this.leadsAssignmentRep.insert({staff_id:data.list[i].assignmentStaff,lead_id:data.list[i].id})
         }
 
         if(data.process == 'ca'){
@@ -75,12 +77,17 @@ export class FellowLeadService {
   async updateLeads(data){
 
     for(var i = 0; i<data.leads.length;i++){
-      if(data.leads[i].reason && data.leads[i].followup_date != ''){
+      if(data.leads[i].reason || data.leads[i].callback_date != ''){
         
 
-       let findData =  await this.fellowLeadRep.findOne({where:{followup_date:data.leads[i].followup_date,lead_id:data.leads[i].lead_id}});
+       let findData =  await this.fellowLeadRep.findOne({where:{followup_date:data.date,lead_id:data.leads[i].lead_id}});
         
         if(!findData){
+          data.leads[i].followup_date = data.date;
+          if(data.leads[i].callback_date == ''){
+             data.leads[i].callback_date = null;
+          }
+          delete data.leads[i].id
           await this.fellowLeadRep.save(data.leads[i]);
         }
        
@@ -99,8 +106,9 @@ export class FellowLeadService {
   }
 
   async getFellowLeadsContinueabsendByDate(date: any) {
+   
     const result = await this.dataSource.query('CALL getFellowupContinue(?)',[date]);
-    console.log()
+  
     return result[0];
  
   }

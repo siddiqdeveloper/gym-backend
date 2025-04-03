@@ -19,7 +19,7 @@ export class FollowupContinue {
 
 
   @Column({ type: 'int', nullable: true,})
-  assignmentStaff: string | null;
+  staff_id: string | null;
 
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

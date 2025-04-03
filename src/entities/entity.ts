@@ -48,6 +48,7 @@ import { FollowupContinue } from "./follow-continue.entity";
 import { InactiveAssignment } from "./follow-inactive.entity";
 import { DOBAssignment } from "./DOBAssignment.entity";
 import { PackageExpiryAssignment } from "./PackageExpiryAssignment.entity";
+import { leadsAssignment } from "./leadsAssignment.entity";
 
 const entities = [
   User,
@@ -97,7 +98,8 @@ const entities = [
   ContinuesAssignment,
   InactiveAssignment,
   DOBAssignment,
-  PackageExpiryAssignment
+  PackageExpiryAssignment,
+  leadsAssignment
 
  
 ];

@@ -8,6 +8,9 @@ export class FollowLead {
   @Column({ type: 'date', nullable: true })
   followup_date: Date | null;
 
+  @Column({ type: 'date', nullable: true })
+  callback_date: Date | null;
+
   @Column({ type: 'int', nullable: true })
   lead_id: number | null;
 
@@ -19,7 +22,7 @@ export class FollowLead {
 
 
   @Column({ type: 'int', nullable: true,})
-  assignmentStaff: string | null;
+ staff_id: string | null;
 
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
