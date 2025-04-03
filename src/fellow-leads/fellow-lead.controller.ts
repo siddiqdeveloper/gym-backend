@@ -86,6 +86,34 @@ export class FellowLeadController {
   }
 
 
+  @Get('followup-package-expried/by-date')
+  async getFellowPackageExpriy(@Query('date') date: string) {
+ 
+   
+    try {
+      const leads = await this.fellowLeadService.getFellowPackageExpriy(date);
+      return {
+        status: true,
+        message: 'Leads retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+
+      console.log(error)
+      // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to get Data',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
 
   @Get('continueabsend/by-date')
   async getFellowLeadsContinueabsendByDate(@Query('date') date: string) {

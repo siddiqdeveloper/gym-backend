@@ -8,6 +8,7 @@ import { ContinuesAssignment } from 'src/entities/continuesAssignment.entity';
 import { FollowupContinue } from 'src/entities/follow-continue.entity';
 import { InactiveAssignment } from 'src/entities/follow-inactive.entity';
 import { DOBAssignment } from 'src/entities/DOBAssignment.entity';
+import { PackageExpiryAssignment } from 'src/entities/PackageExpiryAssignment.entity';
 
 @Injectable()
 export class FellowLeadService {
@@ -24,6 +25,10 @@ export class FellowLeadService {
     private continuesAssignmentRep: Repository<ContinuesAssignment>,
     @InjectRepository(DOBAssignment)
     private DOBAssignmentRep: Repository<DOBAssignment>,
+    @InjectRepository(PackageExpiryAssignment)
+    private packageExpiryAssignmentRep: Repository<PackageExpiryAssignment>,
+
+    
 
     
     private dataSource: DataSource, 
@@ -53,6 +58,12 @@ export class FellowLeadService {
         if(data.process == 'dob'){
 
           await this.DOBAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
+        
+        }
+
+        if(data.process == 'pack'){
+
+          await this.packageExpiryAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }
 
@@ -200,5 +211,12 @@ export class FellowLeadService {
     fellow.isActive = isActive?1:0;
     console.log(fellow)
     return this.fellowLeadRep.save(fellow);
+  }
+
+  async getFellowPackageExpriy(date: any) {
+    const result = await this.dataSource.query('CALL getFellowupPackageExpriy(?)',[date]);
+    console.log()
+    return result[0];
+ 
   }
 }

@@ -79,6 +79,7 @@ import { ContinuesAssignment } from './entities/continuesAssignment.entity';
 import { FollowupContinue } from './entities/follow-continue.entity';
 import { InactiveAssignment } from './entities/follow-inactive.entity';
 import { DOBAssignment } from './entities/DOBAssignment.entity';
+import { PackageExpiryAssignment } from './entities/PackageExpiryAssignment.entity';
 
 @Module({
   imports: [
@@ -127,7 +128,8 @@ import { DOBAssignment } from './entities/DOBAssignment.entity';
       ContinuesAssignment,
       FollowupContinue,
       InactiveAssignment,
-      DOBAssignment
+      DOBAssignment,
+      PackageExpiryAssignment
 
       ]),
     MasterModule,
