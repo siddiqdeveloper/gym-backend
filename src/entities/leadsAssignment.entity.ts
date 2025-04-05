@@ -8,6 +8,11 @@ export class leadsAssignment {
     @Column()
     lead_id: number;
 
+    
+
+    @Column({ type: 'date', nullable: true })
+    assignDate: Date | null;
+
 
     @Column()
     staff_id: number;

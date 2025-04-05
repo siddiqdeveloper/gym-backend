@@ -65,34 +65,34 @@ export class FellowLeadService {
     for(var i = 0; i<data.list.length;i++){
        
         if(data.process == 'leads'){
-          await this.leadsAssignmentRep.insert({staff_id:data.list[i].assignmentStaff,lead_id:data.list[i].id})
+          await this.leadsAssignmentRep.insert({assignDate:data.assignDate,staff_id:data.list[i].assignmentStaff,lead_id:data.list[i].id})
         }
 
         if(data.process == 'ca'){
-          await this.continuesAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
+          await this.continuesAssignmentRep.insert({assignDate:data.assignDate,member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         }
 
         if(data.process == 'inactive'){
 
-          await this.inactiveAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
+          await this.inactiveAssignmentRep.insert({assignDate:data.assignDate,member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }
 
         if(data.process == 'dob'){
 
-          await this.DOBAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
+          await this.DOBAssignmentRep.insert({assignDate:data.assignDate,member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }
 
         if(data.process == 'pack'){
 
-          await this.packageExpiryAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
+          await this.packageExpiryAssignmentRep.insert({assignDate:data.assignDate,member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }
 
         if(data.process == 'due'){
 
-          await this.dueAssignmentRep.insert({member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
+          await this.dueAssignmentRep.insert({assignDate:data.assignDate,member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }
 
@@ -389,8 +389,8 @@ export class FellowLeadService {
     return this.fellowLeadRep.save(fellow);
   }
 
-  async getFellowPackageExpriy(date: any) {
-    const result = await this.dataSource.query('CALL getFellowupPackageExpriy(?)',[date]);
+  async getFellowPackageExpriy(date: any,assignDate:any) {
+    const result = await this.dataSource.query('CALL getFellowupPackageExpriy(?,?)',[date,assignDate]);
     console.log()
     return result[0];
  

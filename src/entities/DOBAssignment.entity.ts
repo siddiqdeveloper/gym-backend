@@ -11,6 +11,11 @@ export class DOBAssignment {
     @Column({ type: 'varchar', length: 50})
     member_code: string;
 
+
+    @Column({ type: 'date', nullable: true })
+    assignDate: Date | null;
+
+
     @Column()
     staff_id: number;
 

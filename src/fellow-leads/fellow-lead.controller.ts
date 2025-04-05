@@ -87,11 +87,11 @@ export class FellowLeadController {
 
 
   @Get('followup-package-expried/by-date')
-  async getFellowPackageExpriy(@Query('date') date: string) {
+  async getFellowPackageExpriy(@Query('date') date: string,@Query('assignDate') assignDate: string) {
  
    
     try {
-      const leads = await this.fellowLeadService.getFellowPackageExpriy(date);
+      const leads = await this.fellowLeadService.getFellowPackageExpriy(date,assignDate);
       return {
         status: true,
         message: 'Leads retrieved successfully',
