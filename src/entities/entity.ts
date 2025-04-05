@@ -45,10 +45,15 @@ import {StaffPerformance} from "./staffperfomance.entity";
 import {StaffPerformanceMeta} from "./staffPerformanceMeta,entity";
 import { ContinuesAssignment } from "./continuesAssignment.entity";
 import { FollowupContinue } from "./follow-continue.entity";
-import { InactiveAssignment } from "./follow-inactive.entity";
+import { InactiveAssignment } from "./inactiveAssignment,entity";
 import { DOBAssignment } from "./DOBAssignment.entity";
 import { PackageExpiryAssignment } from "./PackageExpiryAssignment.entity";
 import { leadsAssignment } from "./leadsAssignment.entity";
+import { FollowupPackageExpriy } from "./followu-package-expriy.entity";
+import { FollowupDOB } from "./follow-dob.entity";
+import { FollowupDue } from "./follow-due.entity";
+import { FollowupInActive } from "./follow-inactive.entity";
+import { DueAssignment } from "./DueAssignment.entity";
 
 const entities = [
   User,
@@ -99,7 +104,12 @@ const entities = [
   InactiveAssignment,
   DOBAssignment,
   PackageExpiryAssignment,
-  leadsAssignment
+  leadsAssignment,
+  FollowupPackageExpriy,
+  FollowupDOB,
+  FollowupDue,
+  FollowupInActive,
+  DueAssignment
 
  
 ];

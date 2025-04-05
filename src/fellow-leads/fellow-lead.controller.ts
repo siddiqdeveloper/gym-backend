@@ -138,7 +138,7 @@ export class FellowLeadController {
     }
   }
 
-  @Get('by-dobdate')
+  @Get('dob/by-date')
   async getFellowLeadsByDateDOB(@Query('date') date: string) {
  
    
@@ -359,7 +359,38 @@ export class FellowLeadController {
       );
     }
   }
+  
 
+  @Get('due-payments/get')
+  async AssignedDue(@Query('date') date: string) {
+
+
+   
+    try {
+      const leads = await this.fellowLeadService.AssignedDue(date);
+      return {
+        status: true,
+        message: 'Retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+
+      console.log(error)
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  
 
 
 
@@ -388,10 +419,40 @@ export class FellowLeadController {
     }
   }
 
+
+
+  
+  @Get('dashbaord-summary')
+  async getDashbaordSummary(@Request() req:any) {
+ 
+   let query  = req.query;
+    try {
+      const data = await this.fellowLeadService.getDashbaordSummary(query);
+      return {
+        status: true,
+        message: 'retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error)
+      // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
   
 
 
-  @Get('followup-in-active')
+  @Get('inactive/by-date')
   async getFollowupInActive(@Query('date') date: string) {
  
    
@@ -404,6 +465,7 @@ export class FellowLeadController {
       };
     } catch (error) {
       // Handle any potential errors from the service
+      console.log(error)
   
       throw new HttpException(
         {

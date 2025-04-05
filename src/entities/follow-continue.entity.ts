@@ -8,6 +8,9 @@ export class FollowupContinue {
   @Column({ type: 'date', nullable: true })
   followup_date: Date | null;
 
+  @Column({ type: 'date', nullable: true })
+  callback_date: Date | null;
+
   @Column({ type: 'int', nullable: true })
   member_id: number | null;
 

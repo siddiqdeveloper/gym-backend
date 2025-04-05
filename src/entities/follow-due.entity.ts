@@ -1,12 +1,15 @@
 import { Entity, Column, PrimaryGeneratedColumn,CreateDateColumn } from 'typeorm';
 
-@Entity('followupInActive') // Replace with your actual table name
-export class FollowupInActive {
+@Entity('followupDue') // Replace with your actual table name
+export class FollowupDue {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'date', nullable: true })
   followup_date: Date | null;
+
+  @Column({ type: 'date', nullable: true })
+  callback_date: Date | null;
 
   @Column({ type: 'int', nullable: true })
   member_id: number | null;
@@ -18,8 +21,8 @@ export class FollowupInActive {
   remarks: string | null;
 
 
-  @Column({ type: 'varchar',length:50, nullable: true,})
-  charge: string | null;
+  @Column({ type: 'int', nullable: true,})
+  staff_id: string | null;
 
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

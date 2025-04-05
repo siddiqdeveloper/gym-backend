@@ -77,10 +77,15 @@ import {StaffPerformance} from "./entities/staffperfomance.entity";
 import {StaffPerformanceMeta} from "./entities/staffPerformanceMeta,entity";
 import { ContinuesAssignment } from './entities/continuesAssignment.entity';
 import { FollowupContinue } from './entities/follow-continue.entity';
-import { InactiveAssignment } from './entities/follow-inactive.entity';
+import { InactiveAssignment } from './entities/inactiveAssignment,entity';
 import { DOBAssignment } from './entities/DOBAssignment.entity';
 import { PackageExpiryAssignment } from './entities/PackageExpiryAssignment.entity';
 import { leadsAssignment } from './entities/leadsAssignment.entity';
+import { FollowupPackageExpriy } from './entities/followu-package-expriy.entity';
+import { FollowupDOB } from './entities/follow-dob.entity';
+import { FollowupDue } from './entities/follow-due.entity';
+import { FollowupInActive } from './entities/follow-inactive.entity';
+import { DueAssignment } from './entities/DueAssignment.entity';
 
 @Module({
   imports: [
@@ -131,7 +136,12 @@ import { leadsAssignment } from './entities/leadsAssignment.entity';
       InactiveAssignment,
       DOBAssignment,
       PackageExpiryAssignment,
-      leadsAssignment
+      leadsAssignment,
+      FollowupPackageExpriy,
+      FollowupDOB,
+      FollowupDue,
+      FollowupInActive,
+      DueAssignment
 
       ]),
     MasterModule,

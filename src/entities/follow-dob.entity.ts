@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn,CreateDateColumn } from 'typeorm';
 
-@Entity('followupInActive') // Replace with your actual table name
-export class FollowupInActive {
+@Entity('followupDOB') // Replace with your actual table name
+export class FollowupDOB {
   @PrimaryGeneratedColumn()
   id: number;
 
