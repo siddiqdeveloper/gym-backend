@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn,CreateDateColumn } from 'typeorm';
 
-@Entity('inactiveAssignment') // Replace with your actual table name
+@Entity('inactiveassignment') // Replace with your actual table name
 export class InactiveAssignment {
   @PrimaryGeneratedColumn()
   id: number;

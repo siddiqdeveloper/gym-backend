@@ -59,11 +59,11 @@ export class FellowLeadController {
   
 
   @Get('by-date')
-  async getFellowLeadsByDate(@Query('date') date: string) {
+  async getFellowLeadsByDate(@Query('date') date: string,@Query('assignDate') assignDate: string) {
  
    
     try {
-      const leads = await this.fellowLeadService.findByDate(date);
+      const leads = await this.fellowLeadService.findByDate(date,assignDate);
       return {
         status: true,
         message: 'Leads retrieved successfully',
@@ -116,9 +116,9 @@ export class FellowLeadController {
 
 
   @Get('continueabsend/by-date')
-  async getFellowLeadsContinueabsendByDate(@Query('date') date: string) {
+  async getFellowLeadsContinueabsendByDate(@Query('date') date: string,@Query('assignDate') assignDate: string) {
     try {
-      const leads = await this.fellowLeadService.getFellowLeadsContinueabsendByDate(date);
+      const leads = await this.fellowLeadService.getFellowLeadsContinueabsendByDate(date,assignDate);
       return {
         status: true,
         message: 'Leads retrieved successfully',
@@ -139,11 +139,11 @@ export class FellowLeadController {
   }
 
   @Get('dob/by-date')
-  async getFellowLeadsByDateDOB(@Query('date') date: string) {
+  async getFellowLeadsByDateDOB(@Query('date') date: string,@Query('assignDate') assignDate: string) {
  
    
     try {
-      const leads = await this.fellowLeadService.findByDateDOB(date);
+      const leads = await this.fellowLeadService.findByDateDOB(date,assignDate);
       return {
         status: true,
         message: 'Leads retrieved successfully',
@@ -362,12 +362,12 @@ export class FellowLeadController {
   
 
   @Get('due-payments/get')
-  async AssignedDue(@Query('date') date: string) {
+  async AssignedDue(@Query('date') date: string,@Query('assignDate') assignDate: string) {
 
 
    
     try {
-      const leads = await this.fellowLeadService.AssignedDue(date);
+      const leads = await this.fellowLeadService.AssignedDue(date,assignDate);
       return {
         status: true,
         message: 'Retrieved successfully',
@@ -453,11 +453,11 @@ export class FellowLeadController {
 
 
   @Get('inactive/by-date')
-  async getFollowupInActive(@Query('date') date: string) {
+  async getFollowupInActive(@Query('date') date: string,@Query('assignDate') assignDate: string) {
  
    
     try {
-      const list = await this.fellowLeadService.getFollowupInActive(date);
+      const list = await this.fellowLeadService.getFollowupInActive(date,assignDate);
       return {
         status: true,
         message: 'Data retrieved successfully',

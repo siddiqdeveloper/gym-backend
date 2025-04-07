@@ -253,14 +253,14 @@ export class FellowLeadService {
 
 
   // Fetch fellow leads by a specific date
-  async findByDate(date: any) {
+  async findByDate(date: any,assignDate:any) {
     const result = await this.dataSource.query('CALL getFellowupLead(?)',[date]);
     console.log()
     return result[0];
  
   }
 
-  async getFellowLeadsContinueabsendByDate(date: any) {
+  async getFellowLeadsContinueabsendByDate(date: any,assignDate:any) {
    
     const result = await this.dataSource.query('CALL getFellowupContinue(?)',[date]);
   
@@ -273,14 +273,14 @@ export class FellowLeadService {
 
 
 
-  async getFollowupInActive(date: any) {
+  async getFollowupInActive(date: any,assignDate:any) {
     const result = await this.dataSource.query('CALL followupInActive(?)',[date]);
     console.log()
     return result[0];
 
   }
 
-  async findByDateDOB(date: any) {
+  async findByDateDOB(date: any,assignDate:any) {
     const result = await this.dataSource.query('CALL getFellowupDOB(?)',[date]);
     console.log()
     return result[0];
@@ -354,7 +354,7 @@ export class FellowLeadService {
   }
 
     
-  async AssignedDue(date){
+  async AssignedDue(date,assignDate:any){
     const result = await this.dataSource.query('CALL getFellowupDue("'+date+'")');
     return result[0];
   }

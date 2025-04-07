@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-@Entity('continuesAssignment')
+@Entity('continuesassignment')
 export class ContinuesAssignment {
     @PrimaryGeneratedColumn()
     id: number;

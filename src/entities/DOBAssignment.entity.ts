@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-@Entity('dobAssignment')
+@Entity('dobassignment')
 export class DOBAssignment {
     @PrimaryGeneratedColumn()
     id: number;
