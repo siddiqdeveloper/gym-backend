@@ -292,7 +292,7 @@ export class PaymentController {
     @Res() res: Response,
   ) {
     console.log('ywhb', body);
-    const data = await this.paymentService.maleMember();
+    const data = await this.paymentService.maleMember(body.filters);
 
     res.send(data);
   }
@@ -304,7 +304,7 @@ export class PaymentController {
     @Res() res: Response,
   ) {
     console.log('ywhb', body);
-    const data = await this.paymentService.femaleMember();
+    const data = await this.paymentService.femaleMember(body.filters);
 
     res.send(data);
   }

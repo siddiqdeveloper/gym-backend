@@ -293,18 +293,52 @@ export class PaymentService {
     return result[0];
   }
 
-  async maleMember(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getmaleMember()');
-    console.log();
+  async maleMember(filter): Promise<Lead[]> {
+    const whereClauses: string[] = [];
+  
+    if (filter.customStartDate) {
+      whereClauses.push(`AND joiningDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND joiningDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND memberId LIKE '%${filter.selectedMember}%'`);
+    }
+  
+    const whereString = whereClauses.join(' ');
+  
+    const result = await this.dataSource.query('CALL getmaleMember(?)', [whereString]);
+  
     return result[0];
   }
 
-  async femaleMember(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getfemaleMember()');
-    console.log();
+
+  async femaleMember(filter): Promise<Lead[]> {
+    const whereClauses: string[] = [];
+  
+    if (filter.customStartDate) {
+      whereClauses.push(`AND joiningDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND joiningDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND memberId LIKE '%${filter.selectedMember}%'`);
+    }
+  
+    const whereString = whereClauses.join(' ');
+  
+    const result = await this.dataSource.query('CALL getfemaleMember(?)', [whereString]);
+  
     return result[0];
   }
 
+ 
   async annualSales(customStartDate, customEndDate, selectedTrainer) {
     customStartDate = "'" + customStartDate + "'";
     customEndDate = "'" + customEndDate + "'";

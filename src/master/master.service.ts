@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EmailTemplate } from 'src/entities/email-template.entity';
 import { Connection, DataSource, Repository } from 'typeorm';
+import puppeteer, { Browser, Page } from 'puppeteer';
+
 
 
 export enum UserType {
@@ -101,6 +103,24 @@ export class MasterService {
     return this.emailTemplateRepository.save(emaailTemplateData);
   }
 
+
+  async  snapShort() {
+    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+
+    (async () => {
+      const browser: Browser = await puppeteer.launch();
+      const page: Page = await browser.newPage();
+      await page.goto('http://localhost:3001');
+      await delay(3000);
+    
+      await page.screenshot({ path: 'screenshot.png', fullPage: true });
+    
+      await browser.close();
+    })();
+  }
+  
+  
 
 
 }

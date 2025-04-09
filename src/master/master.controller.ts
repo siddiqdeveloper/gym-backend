@@ -176,6 +176,32 @@ async updatePackageStatus(@Param('id') id: string, @Body() body: { isActive: boo
     }, HttpStatus.BAD_REQUEST);
   }
 }
+
+
+@Get('cctv/take/snapshort')
+async snapShort() {
+  try {
+    const data = await this.ms.snapShort();
+    if (false) {
+      throw new HttpException({
+        status: false,
+        message: 'Email Template not found',
+      }, HttpStatus.NOT_FOUND);
+    }
+    return {
+      status: true,
+      message: 'Snapshort taken successfully',
+      data: [],
+    };
+  } catch (error) {
+    console.log(error);
+    throw new HttpException({
+      status: false,
+      message: 'Failed to fetch Email Template',
+      error: error.message,
+    }, HttpStatus.NOT_FOUND);
+  }
+}
  
 
 }
