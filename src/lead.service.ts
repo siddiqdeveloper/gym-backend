@@ -17,7 +17,7 @@ export class LeadService {
     return await this.leadRepository.save(lead);
   }
 
-  async findAll(): Promise<Lead[]> {
+  async findAll() {
     const result = await this.dataSource.query('CALL get_all_leads()');
     console.log()
     return result[0];
