@@ -293,7 +293,7 @@ export class PaymentService {
     return result[0];
   }
 
-  async maleMember(filter): Promise<Lead[]> {
+  async maleMember(filter) {
     const whereClauses: string[] = [];
   
     if (filter.customStartDate) {
@@ -359,16 +359,57 @@ export class PaymentService {
     }
   }
 
-  async topSelling(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL gettopSelling()');
-    console.log();
+  async topSelling(filter) {
+
+    const whereClauses: string[] = [];
+
+    if (filter.customStartDate) {
+      whereClauses.push(`AND m.joiningDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND m.joiningDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND m.memberId LIKE '%${filter.selectedMember}%'`);
+    }
+
+    const whereString = whereClauses.join(' ');
+
+    console.log(whereString);
+  
+    const result = await this.dataSource.query('CALL gettopSelling(?)', [whereString]);
+
     return result[0];
   }
 
-  async lowSelling(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getlowSelling()');
-    console.log();
+  async lowSelling(filter) {
+  
+
+
+    const whereClauses: string[] = [];
+
+    if (filter.customStartDate) {
+      whereClauses.push(`AND m.joiningDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND m.joiningDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND m.memberId LIKE '%${filter.selectedMember}%'`);
+    }
+
+    const whereString = whereClauses.join(' ');
+
+    console.log(whereString);
+  
+    const result = await this.dataSource.query('CALL getlowSelling(?)', [whereString]);
+
     return result[0];
+  
   }
 
   async branchWise(): Promise<Lead[]> {
@@ -377,9 +418,26 @@ export class PaymentService {
     return result[0];
   }
 
-  async collection(): Promise<Lead[]> {
-    const result = await this.dataSource.query('CALL getcollection()');
-    console.log();
+  async collection(filter) {
+
+    const whereClauses: string[] = [];
+  
+    if (filter.customStartDate) {
+      whereClauses.push(`AND pt.feePaymentDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND pt.feePaymentDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedTrainer) {
+      whereClauses.push(`AND pt.trainerName LIKE '%${filter.selectedTrainer}%'`);
+    }
+  
+    const whereString = whereClauses.join(' ');
+
+    const result = await this.dataSource.query('CALL getcollection(?)',[whereString]);
+
     return result[0];
   }
 
@@ -834,5 +892,123 @@ export class PaymentService {
 
   async removePayment(id: number): Promise<void> {
     await this.paymentRepository.delete(id);
+  }
+
+  async transactionPaymentdetails(query) {
+
+    console.log( "CALL transactionPaymentdetails('"+query.startDate+"','"+query.endDate+"')")
+    
+    const result = await this.dataSource.query(
+      "CALL transactionPaymentdetails('"+query.startDate+"','"+query.endDate+"')",
+    );
+
+  
+    return result[0][0];
+  }
+
+  async getsplitpay() {
+    const result = await this.dataSource.query(
+      'CALL getSplitPay()',
+    );
+
+  
+    return result[0];
+  }
+
+
+  async newmembersReports(filter) {
+    const whereClauses: string[] = [];
+  
+
+    console.log(filter);
+    if (filter.customStartDate) {
+      whereClauses.push(`AND pt.feePaymentDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND pt.feePaymentDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND mem.memberId LIKE '%${filter.selectedMember}%'`);
+    }
+  
+    const whereString = whereClauses.join(' ');
+  
+    const result = await this.dataSource.query('CALL getNewMembers(?)', [whereString]);
+  
+    return result[0];
+  }
+
+  async renewalmembers(filter) {
+    const whereClauses: string[] = [];
+  
+
+    console.log(filter);
+    if (filter.customStartDate) {
+      whereClauses.push(`AND pt.feePaymentDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND pt.feePaymentDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND mem.memberId LIKE '%${filter.selectedMember}%'`);
+    }
+  
+    const whereString = whereClauses.join(' ');
+  
+    const result = await this.dataSource.query('CALL getRenewvalMembers(?)', [whereString]);
+  
+    return result[0];
+  }
+
+  async inactiveReports(filter) {
+    const whereClauses: string[] = [];
+  
+
+    console.log(filter);
+    if (filter.customStartDate) {
+      whereClauses.push(`AND mem.endDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND mem.endDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND mem.memberId LIKE '%${filter.selectedMember}%'`);
+    }
+  
+    const whereString = whereClauses.join(' ');
+  
+    const result = await this.dataSource.query('CALL getInacitveReport(?)', [whereString]);
+  
+    return result[0];
+  }
+
+  async activeReports(filter) {
+    const whereClauses: string[] = [];
+  
+
+    console.log(filter);
+    if (filter.customStartDate) {
+      whereClauses.push(`AND mem.endDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND mem.endDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND mem.memberId LIKE '%${filter.selectedMember}%'`);
+    }
+  
+    const whereString = whereClauses.join(' ');
+  
+    const result = await this.dataSource.query('CALL getAcitveReport(?)', [whereString]);
+  
+    return result[0];
   }
 }

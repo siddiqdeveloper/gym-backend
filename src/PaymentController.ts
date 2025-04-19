@@ -285,29 +285,54 @@ export class PaymentController {
     res.send(data);
   }
 
-  @Post('maleMember/report')
-  async maleMember(
-    @Body() body,
-    @Req() request: Request,
-    @Res() res: Response,
-  ) {
-    console.log('ywhb', body);
-    const data = await this.paymentService.maleMember(body.filters);
+  @Get('maleMember/report')
+  async maleMember( @Req() request: any) {
 
-    res.send(data);
+    try {
+      const data = await this.paymentService.maleMember(request.query);
+      return {
+        status: true,
+        message: 'AllTodayCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve AllTodayCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
-  @Post('femaleMember/report')
-  async femaleMember(
-    @Body() body,
-    @Req() request: Request,
-    @Res() res: Response,
-  ) {
-    console.log('ywhb', body);
-    const data = await this.paymentService.femaleMember(body.filters);
 
-    res.send(data);
+  @Get('femaleMember/report')
+  async femaleMember(@Req() request: any) {
+
+    try {
+      const data = await this.paymentService.femaleMember(request.query);
+      return {
+        status: true,
+        message: 'AllTodayCollection retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve AllTodayCollection',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
+
+
 
   @Post('annualSales/reports')
   async annualSales(
@@ -325,28 +350,57 @@ export class PaymentController {
     res.send(data);
   }
 
-  @Post('topSelling/report')
-  async topSelling(
-    @Body() body,
-    @Req() request: Request,
-    @Res() res: Response,
-  ) {
-    console.log('ywhb', body);
-    const data = await this.paymentService.topSelling();
+  @Get('topSelling/report')
+  async topSelling(@Req() request: any) {
+    
 
-    res.send(data);
+    try {
+      console.log(request.query);
+      const data = await this.paymentService.topSelling(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
   }
 
-  @Post('lowSelling/report')
+  @Get('lowSelling/report')
   async lowSelling(
-    @Body() body,
-    @Req() request: Request,
-    @Res() res: Response,
-  ) {
-    console.log('ywhb', body);
-    const data = await this.paymentService.lowSelling();
 
-    res.send(data);
+    @Req() request: any,
+
+  ) {
+   
+    try {
+      const data = await this.paymentService.lowSelling(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Post('branchWise/report')
@@ -368,7 +422,7 @@ export class PaymentController {
     @Res() res: Response,
   ) {
     console.log('ywhb', body);
-    const data = await this.paymentService.collection();
+    const data = await this.paymentService.collection(body.filters);
 
     res.send(data);
   }
@@ -1601,6 +1655,149 @@ export class PaymentController {
         {
           status: false,
           message: `Failed to delete Payment with ID ${id}`,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+  
+  }
+
+  @Get('newmembers/report')
+  async newmembersReports( @Req() request: any) {
+    try {
+      console.log(request.query);
+      const data = await this.paymentService.newmembersReports(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('inactive/report')
+  async inactiveReports( @Req() request: any) {
+    try {
+      console.log(request.query);
+      const data = await this.paymentService.inactiveReports(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('acitve/report')
+  async activeReports( @Req() request: any) {
+    try {
+      console.log(request.query);
+      const data = await this.paymentService.activeReports(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('renewalmembers/report')
+  async renewalmembers( @Req() request: any) {
+    try {
+      console.log(request.query);
+      const data = await this.paymentService.renewalmembers(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('transaction/paymentdetails')
+  async transactionPaymentdetails( @Req() request: any,) {
+    try {
+      console.log(request.query);
+      const data = await this.paymentService.transactionPaymentdetails(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('getsplitpay')
+  async getsplitpay() {
+    try {
+      const data = await this.paymentService.getsplitpay();
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
           error: error.message,
         },
         HttpStatus.BAD_REQUEST,
