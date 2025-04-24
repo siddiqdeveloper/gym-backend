@@ -295,8 +295,8 @@ export class FellowLeadService {
 
   }
 
-  async getUnassignment(){
-    const result = await this.dataSource.query('CALL getunassignmentLeads()');
+  async getUnassignment(query){
+    const result = await this.dataSource.query('CALL getunassignmentLeads("'+query.startDate+'","'+query.endDate+'")');
     return result[0];
   }
 

@@ -395,11 +395,13 @@ export class FellowLeadController {
 
 
   @Get('unassignment')
-  async getUnassignment() {
+  async getUnassignment(@Request() req:any) {
+ 
+   let query  = req.query;
  
    
     try {
-      const leads = await this.fellowLeadService.getUnassignment();
+      const leads = await this.fellowLeadService.getUnassignment(query);
       return {
         status: true,
         message: 'Leads retrieved successfully',
