@@ -54,6 +54,8 @@ import { FollowupDOB } from "./follow-dob.entity";
 import { FollowupDue } from "./follow-due.entity";
 import { FollowupInActive } from "./follow-inactive.entity";
 import { DueAssignment } from "./DueAssignment.entity";
+import { FollowupReason } from "./follow-reason.entity";
+import { BlockMembers } from "./blockMemebers.entity";
 
 const entities = [
   User,
@@ -109,7 +111,9 @@ const entities = [
   FollowupDOB,
   FollowupDue,
   FollowupInActive,
-  DueAssignment
+  DueAssignment,
+  FollowupReason,
+  BlockMembers
 
  
 ];

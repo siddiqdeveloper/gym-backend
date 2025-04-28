@@ -27,7 +27,7 @@ export class MasterService {
 
   async fetchCode(query): Promise<string> {
 
-      let lastMember:any =  await this.dataSource.query('select * from '+query.t+' order by id desc limit 1 ');
+     let lastMember:any =  await this.dataSource.query('select *  from '+query.t+' order by id desc limit 1 ');
       if(lastMember){
         lastMember = lastMember[0];
       }
@@ -119,6 +119,8 @@ export class MasterService {
       await browser.close();
     })();
   }
+
+
   
   
 

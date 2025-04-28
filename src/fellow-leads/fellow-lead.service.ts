@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository,Not } from 'typeorm';
 import { FollowLead } from '../entities/follow-lead.entity';  
 import { DataSource } from 'typeorm';
 import { Lead } from 'src/entities/Lead.entity';
@@ -15,6 +15,8 @@ import { FollowupDOB } from 'src/entities/follow-dob.entity';
 import { FollowupDue } from 'src/entities/follow-due.entity';
 import { FollowupInActive } from 'src/entities/follow-inactive.entity';
 import { DueAssignment } from 'src/entities/DueAssignment.entity';
+import { FollowupReason } from 'src/entities/follow-reason.entity';
+import { BlockMembers } from 'src/entities/blockMemebers.entity';
 
 @Injectable()
 export class FellowLeadService {
@@ -25,9 +27,8 @@ export class FellowLeadService {
     private followupDueRep: Repository<FollowupDue>,
     @InjectRepository(FollowupInActive)
     private followupInActiveRep: Repository<FollowupInActive>,
-
-
-    
+    @InjectRepository(FollowupReason)
+    private readonly followupReasonRepo: Repository<FollowupReason>,
 
     @InjectRepository(FollowupContinue)
     private followupContinueRep: Repository<FollowupContinue>,
@@ -49,8 +50,10 @@ export class FellowLeadService {
     private leadsAssignmentRep: Repository<leadsAssignment>,
     @InjectRepository(DueAssignment)
     private dueAssignmentRep: Repository<DueAssignment>,
+    @InjectRepository(BlockMembers)
+    private blockMembersRep: Repository<BlockMembers>,
 
-
+    
 
     
 
@@ -122,6 +125,9 @@ export class FellowLeadService {
               }
               delete data.list[i].id
               await this.followupDOBRep.save(data.list[i]);
+            }else{
+              await this.followupDOBRep.update(check.id, data.list[i]);
+
             }
 
           }
@@ -131,7 +137,7 @@ export class FellowLeadService {
 
     }else{
       for(var i = 0; i<data.list.length;i++){
-        console.log(data.list[i].callback_date)
+
         if( data.list[i].reason != ''){
   
         
@@ -145,6 +151,9 @@ export class FellowLeadService {
               }
               delete data.list[i].id
               await this.fellowLeadRep.save(data.list[i]);
+            }else{
+              await this.fellowLeadRep.update(check.id, data.list[i]);
+
             }
           }
          
@@ -160,6 +169,9 @@ export class FellowLeadService {
               }
               delete data.list[i].id
               await this.followupContinueRep.save(data.list[i]);
+            }else{
+              await this.followupContinueRep.update(check.id, data.list[i]);
+
             }
             
           }
@@ -176,6 +188,8 @@ export class FellowLeadService {
               }
               delete data.list[i].id
               await this.followupPackageExpriyRep.save(data.list[i]);
+            }else{
+              await this.followupPackageExpriyRep.update(check.id, data.list[i]);
             }
             
           }
@@ -192,6 +206,8 @@ export class FellowLeadService {
               }
               delete data.list[i].id
               await this.followupDOBRep.save(data.list[i]);
+            }else{
+              await this.followupDOBRep.update(check.id, data.list[i]);
             }
             
           }
@@ -208,6 +224,8 @@ export class FellowLeadService {
               }
               delete data.list[i].id
               await this.followupDueRep.save(data.list[i]);
+            }else{
+              await this.followupDueRep.update(check.id, data.list[i]);
             }
             
           }
@@ -224,6 +242,21 @@ export class FellowLeadService {
               }
               delete data.list[i].id
               await this.followupInActiveRep.save(data.list[i]);
+            }else{
+              console.log(check.id);
+              delete data.list[i].id;
+              delete data.list[i].memberId; 
+
+              let update:any = {
+                followup_date: data.date,
+                callback_date: data.list[i].callback_date,
+                member_id: data.list[i].member_id,
+                reason: data.list[i].reason ,
+                remarks: data.list[i].remarks,
+                staff_id: data.list[i].staff_id 
+               }
+              let d = await this.followupInActiveRep.update(check.id, update);
+              console.log(d);
             }
             
           }
@@ -381,7 +414,7 @@ export class FellowLeadService {
     console.log(id)
     let fellow:any = await this.fellowLeadRep.findOne({where:{id:id}});
     if (!fellow) {
-      throw new Error('fellow not found');
+      return {msg:'fellow not found'};
     }
    
     fellow.isActive = isActive?1:0;
@@ -394,5 +427,105 @@ export class FellowLeadService {
     console.log()
     return result[0];
  
+  }
+
+
+  async createFollowupReason(body: any) {
+    const { reasonName, type,process } = body;
+
+    const existing = await this.followupReasonRepo.findOne({
+      where: { reasonName },
+    });
+
+    if (existing) {
+      return {msg:'Reason name already'};
+    }
+
+    const newReason =  this.followupReasonRepo.create({
+      reasonName,
+      type: type,
+      process: process,
+      isActive: 1,
+    });
+
+    return await this.followupReasonRepo.save(newReason);
+  }
+
+  async updateFollowupReason(body: any) {
+    const { id, reasonName, selectType } = body;
+
+    const existing = await this.followupReasonRepo.findOne({
+      where: {
+        reasonName,
+        id: Not(id),
+      },
+    });
+
+    if (existing) {
+      return {msg:'Reason name already'};
+    }
+
+    const reason = await this.followupReasonRepo.findOne({ where: { id } });
+
+    if (!reason) {
+      return {msg:'Reason not found'};
+    }
+
+    reason.reasonName = reasonName;
+    reason.type = selectType;
+
+    return await this.followupReasonRepo.save(reason);
+  }
+
+
+  async addFollowupBlock(body){
+    const details = await this.blockMembersRep.save(body);
+    return details;
+
+
+  }
+
+  async followupBlockList(){
+    const result = await this.dataSource.query('CALL getBlockListMembers(?)',['leads']);
+ 
+    return result[0];
+
+  }
+
+  async getFollowupReasonById(id: number) {
+    const reason = await this.followupReasonRepo.findOne({ where: { id } });
+
+    if (!reason) {
+      return {msg:'Reason not found'};
+    }
+
+    return reason;
+  }
+
+  async getAllFollowupReasons() {
+    return await this.followupReasonRepo.find({
+      order: { id: 'DESC' },
+    });
+  }
+
+  async toggleFollowupReasonStatus(id: number) {
+    const reason = await this.followupReasonRepo.findOne({ where: { id } });
+
+    if (!reason) {
+      return {msg:'Reason not found'};
+    }
+
+    reason.isActive = reason.isActive ? 1 : 0;
+    return await this.followupReasonRepo.save(reason);
+  }
+
+  async softDeleteFollowupReason(id: number) {
+    const reason = await this.followupReasonRepo.findOne({ where: { id } });
+
+    if (!reason) {
+      return {msg:'Reason not found'};
+    }
+
+    return await this.followupReasonRepo.softDelete(id);
   }
 }

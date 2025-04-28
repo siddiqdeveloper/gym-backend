@@ -97,6 +97,28 @@ export class PaymentService {
       payment.joiningDate = this.formatDateForMySQL(payment.joiningDate);
     }
 
+
+    if (payment.modeOfPayment == 'CASH') {
+      payment.CASH = payment.paidAmount;
+    }
+
+    if (payment.modeOfPayment == 'UPI') {
+      payment.UPI = payment.paidAmount;
+    }
+
+
+    if (payment.modeOfPayment == 'CARD') {
+      payment.CARD = payment.paidAmount;
+    }
+
+    if (payment.modeOfPayment == 'CHEQUE') {
+      payment.Cheque = payment.paidAmount;
+    }
+
+    if (payment.modeOfPayment == 'BANK') {
+      payment.Bank = payment.paidAmount;
+    }
+
     if (payment.pendingAmountDate) {
       payment.pendingAmountDate = this.formatDateForMySQL(
         payment.pendingAmountDate,
@@ -922,11 +944,11 @@ export class PaymentService {
 
     console.log(filter);
     if (filter.customStartDate) {
-      whereClauses.push(`AND pt.feePaymentDate >= '${filter.customStartDate}'`);
+      whereClauses.push(`AND mem.joiningDate >= '${filter.customStartDate}'`);
     }
   
     if (filter.customEndDate) {
-      whereClauses.push(`AND pt.feePaymentDate <= '${filter.customEndDate}'`);
+      whereClauses.push(`AND mem.joiningDate <= '${filter.customEndDate}'`);
     }
   
     if (filter.selectedMember) {

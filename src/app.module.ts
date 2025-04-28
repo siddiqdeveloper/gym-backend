@@ -86,6 +86,8 @@ import { FollowupDOB } from './entities/follow-dob.entity';
 import { FollowupDue } from './entities/follow-due.entity';
 import { FollowupInActive } from './entities/follow-inactive.entity';
 import { DueAssignment } from './entities/DueAssignment.entity';
+import { FollowupReason } from './entities/follow-reason.entity';
+import { BlockMembers } from './entities/blockMemebers.entity';
 
 @Module({
   imports: [
@@ -141,8 +143,9 @@ import { DueAssignment } from './entities/DueAssignment.entity';
       FollowupDOB,
       FollowupDue,
       FollowupInActive,
-      DueAssignment
-
+      DueAssignment,
+      FollowupReason,
+      BlockMembers
       ]),
     MasterModule,
     UserModule,

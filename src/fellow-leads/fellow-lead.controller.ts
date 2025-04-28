@@ -1,6 +1,7 @@
-import { Controller, Get, Query, Post,HttpException, HttpStatus,Request, Put, Param, Body, } from '@nestjs/common';
+import { Controller, Get, Query, Post,HttpException, HttpStatus,Request, Put, Param, Body, Res} from '@nestjs/common';
 import { FellowLeadService } from './fellow-lead.service';
 import { query } from 'express';
+import { Response } from 'express';
 
 
 @Controller('fellow-leads')
@@ -151,6 +152,7 @@ export class FellowLeadController {
       };
     } catch (error) {
       // Handle any potential errors from the service
+      console.log(error)
   
       throw new HttpException(
         {
@@ -409,7 +411,7 @@ export class FellowLeadController {
       };
     } catch (error) {
       // Handle any potential errors from the service
-  
+      console.log(error)
       throw new HttpException(
         {
           status: false,
@@ -498,6 +500,155 @@ export class FellowLeadController {
         message: 'Failed to update Fellow Lead status',
         error: error.message,
       }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+
+  
+  @Post('followup-reasons/add')
+  async createFollowupReason(@Body() body: any, @Res() res: Response) {
+    try {
+      const result = await this.fellowLeadService.createFollowupReason(body);
+      return res.status(HttpStatus.CREATED).send({
+        status: true,
+        message: 'Follow-up reason added successfully',
+        data: result,
+      });
+    } catch (err) {
+      return res.status(HttpStatus.BAD_REQUEST).send({
+        status: false,
+        message: `Failed to add follow-up reason: ${err.message}`,
+        data: null,
+      });
+    }
+  }
+
+  @Post('followup-reasons/update')
+  async updateFollowupReason(@Body() body: any, @Res() res: Response) {
+    try {
+      const result = await this.fellowLeadService.updateFollowupReason(body);
+      return res.status(HttpStatus.OK).send({
+        status: true,
+        message: 'Follow-up reason updated successfully',
+        data: result,
+      });
+    } catch (err) {
+      return res.status(HttpStatus.BAD_REQUEST).send({
+        status: false,
+        message: `Failed to update follow-up reason: ${err.message}`,
+        data: null,
+      });
+    }
+  }
+
+
+  @Post('followup-block/add')
+  async addFollowupBlock(@Body() body: any, @Res() res: Response) {
+    try {
+      const result = await this.fellowLeadService.addFollowupBlock(body);
+      return res.status(HttpStatus.OK).send({
+        status: true,
+        message: 'Blocked successfully',
+        data: result,
+      });
+    } catch (err) {
+      return res.status(HttpStatus.BAD_REQUEST).send({
+        status: false,
+        message: `Failed to update follow-up reason: ${err.message}`,
+        data: null,
+      });
+    }
+  }
+
+
+  @Get('followup-block/list')
+  async ListFollowupBlock(@Body() body: any, @Res() res: Response) {
+    try {
+      const result = await this.fellowLeadService.followupBlockList();
+      return res.status(HttpStatus.OK).send({
+        status: true,
+        message: 'Data fetched successfully',
+        data: result,
+      });
+    } catch (err) {
+      return res.status(HttpStatus.BAD_REQUEST).send({
+        status: false,
+        message: `Failed to update follow-up reason: ${err.message}`,
+        data: null,
+      });
+    }
+  }
+
+  @Get('followup-reasons/get/:id')
+  async getByIdFollowupReason(@Param('id') id: number, @Res() res: Response) {
+    try {
+      const result = await this.fellowLeadService.getFollowupReasonById(id);
+      return res.status(HttpStatus.OK).send({
+        status: true,
+        message: 'Follow-up reason fetched successfully',
+        data: result,
+      });
+    } catch (err) {
+      return res.status(HttpStatus.NOT_FOUND).send({
+        status: false,
+        message: `Follow-up reason not found: ${err.message}`,
+        data: null,
+      });
+    }
+  }
+
+  @Get('followup-reasons-all')
+  async getAllFollowupReason(@Res() res: Response) {
+    try {
+      const result = await this.fellowLeadService.getAllFollowupReasons();
+      return res.status(HttpStatus.OK).send({
+        status: true,
+        message: 'Follow-up reason list fetched successfully',
+        data: result,
+      });
+    } catch (err) {
+      return res.status(HttpStatus.BAD_REQUEST).send({
+        status: false,
+        message: `Failed to fetch follow-up reasons: ${err.message}`,
+        data: null,
+      });
+    }
+  }
+
+  @Post('followup-reasons/delete/:id')
+  async softDeleteFollowupReason(@Param('id') id: number, @Res() res: Response) {
+    try {
+      await this.fellowLeadService.softDeleteFollowupReason(id);
+      return res.status(HttpStatus.OK).send({
+        status: true,
+        message: 'Follow-up reason soft deleted successfully',
+        data: null,
+      });
+    } catch (err) {
+      return res.status(HttpStatus.NOT_FOUND).send({
+        status: false,
+        message: `Failed to soft delete follow-up reason: ${err.message}`,
+        data: null,
+      });
+    }
+  }
+
+  @Put('followup-reasons/status/:id')
+  async updateStatusFollowupReason(@Param('id') id: number, @Body() body: { isActive: boolean }, @Res() res: Response) {
+    try {
+      const data = await this.fellowLeadService.toggleFollowupReasonStatus(id);
+      return res.status(HttpStatus.OK).send({
+        status: true,
+        message: 'Follow-up reason status updated successfully',
+        data: data,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(HttpStatus.BAD_REQUEST).send({
+        status: false,
+        message: `Failed to update follow-up reason status: ${error.message}`,
+        data: null,
+      });
     }
   }
 }
