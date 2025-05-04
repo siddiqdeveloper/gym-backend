@@ -1784,9 +1784,10 @@ export class PaymentController {
 
 
   @Get('getsplitpay')
-  async getsplitpay() {
+  async getsplitpay( @Req() request: any,) {
     try {
-      const data = await this.paymentService.getsplitpay();
+
+      const data = await this.paymentService.getsplitpay(request.query);
       return {
         status: true,
         message: 'transactionDashboard retrieved successfully',

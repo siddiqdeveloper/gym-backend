@@ -40,6 +40,7 @@ import { Setting } from '../entities/setting.entity';
 import { AssignManager } from '../entities/assignManager.entity';
 import { StaffPerformance } from "../entities/staffperfomance.entity";
 import {StaffPerformanceMeta} from "../entities/staffPerformanceMeta,entity";
+import { CheckListItem } from 'src/entities/checkListtIem.entity';
 
 @Injectable()
 export class MiscService {
@@ -55,6 +56,12 @@ export class MiscService {
     private reminderRepository: Repository<Reminder>,
     @InjectRepository(CheckList)
     private checkListRepository: Repository<CheckList>,
+
+    @InjectRepository(CheckListItem)
+    private checkListItemRepository: Repository<CheckListItem>,
+
+
+    
     @InjectRepository(WorkOutType)
     private workOutTypeRepository: Repository<WorkOutType>,
     @InjectRepository(Exercise)
@@ -197,6 +204,8 @@ export class MiscService {
         { id: body.id },
         body,
       );
+
+
       return updateWater;
     } catch (error) {
       console.error('Error updating Water consumption', error);
@@ -365,6 +374,42 @@ export class MiscService {
       throw new Error('Failed to save CheckList');
     }
   }
+
+  async createCheckListItem(body) {
+    try {
+      return await this.checkListItemRepository.save(body);
+    } catch (error) {
+      console.error('Error saving CheckList Item', error);
+      throw new Error('Failed to save CheckList Iem');
+    }
+  }
+
+  async updateCheckListItem(body) {
+    try {
+      const updateCheckList = await this.checkListItemRepository.update(
+        { id: body.id },
+        body,
+      );
+      return updateCheckList;
+    } catch (error) {
+      console.error('Error updating CheckList', error);
+      throw new Error('Failed to updating CheckList');
+    }
+  }
+
+
+  async checkListItemfindOne(id: number) {
+    return await this.checkListItemRepository.findOne({ where: { id } });
+  }
+
+  async checkListItemfindAll(): Promise<CheckList[]> {
+    const result = await this.dataSource.query('CALL get_all_checkListItem()');
+
+    return result[0];
+  }
+
+
+  
 
   async updateCheckList(body) {
     try {

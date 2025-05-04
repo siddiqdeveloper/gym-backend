@@ -13,9 +13,16 @@ export class WaterConsumption {
   @Column({ type: 'varchar', length: 100 })
   description: string;
 
+  
+  @Column({ type: 'int', default:null })
+  personInCharge: number;
+
 
   @Column({ type: 'varchar', length: 100 })
   numberOfCans: string;
+
+  @Column({ type: 'varchar', length: 100 })
+  ratepercan: string;
 
 
   @Column({ type: 'varchar', length: 100 })

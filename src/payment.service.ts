@@ -928,11 +928,30 @@ export class PaymentService {
     return result[0][0];
   }
 
-  async getsplitpay() {
-    const result = await this.dataSource.query(
-      'CALL getSplitPay()',
-    );
 
+
+  async getsplitpay(filter) {
+    const whereClauses: string[] = [];
+  
+
+    console.log(filter);
+    if (filter.customStartDate) {
+      whereClauses.push(`AND pa.feePaymentDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND pa.feePaymentDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.splitpayfilter) {
+      whereClauses.push(`AND pa.modeOfPayment IN ('${filter.splitpayfilter}')`);
+    }else{
+      whereClauses.push(" AND pa.modeOfPayment IN  ('CARD+CASH','CASH+UPI','CARD+UPI')");
+    }
+  
+    const whereString = whereClauses.join(' ');
+  
+    const result = await this.dataSource.query('CALL getSplitPay(?)', [whereString]);
   
     return result[0];
   }

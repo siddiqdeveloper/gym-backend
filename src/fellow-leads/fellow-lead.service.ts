@@ -423,7 +423,7 @@ export class FellowLeadService {
   }
 
   async getFellowPackageExpriy(date: any,assignDate:any) {
-    const result = await this.dataSource.query('CALL getFellowupPackageExpriy(?,?)',[date,assignDate]);
+    const result = await this.dataSource.query('CALL getFellowupPackageExpriy(?,?)',[date]);
     console.log()
     return result[0];
  

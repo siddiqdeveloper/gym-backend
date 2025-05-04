@@ -88,6 +88,7 @@ import { FollowupInActive } from './entities/follow-inactive.entity';
 import { DueAssignment } from './entities/DueAssignment.entity';
 import { FollowupReason } from './entities/follow-reason.entity';
 import { BlockMembers } from './entities/blockMemebers.entity';
+import { CheckListItem } from './entities/checkListtIem.entity';
 
 @Module({
   imports: [
@@ -145,7 +146,8 @@ import { BlockMembers } from './entities/blockMemebers.entity';
       FollowupInActive,
       DueAssignment,
       FollowupReason,
-      BlockMembers
+      BlockMembers,
+      CheckListItem
       ]),
     MasterModule,
     UserModule,

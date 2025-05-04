@@ -32,6 +32,7 @@ import {Setting} from "../entities/setting.entity"
 import {AssignManager} from "../entities/assignManager.entity";
 import {StaffPerformance} from "../entities/staffperfomance.entity";
 import {StaffPerformanceMeta} from "../entities/staffPerformanceMeta,entity";
+import { CheckListItem } from 'src/entities/checkListtIem.entity';
 
 @Module({
   imports: [
@@ -65,7 +66,8 @@ import {StaffPerformanceMeta} from "../entities/staffPerformanceMeta,entity";
       Setting,
       AssignManager,
       StaffPerformance,
-      StaffPerformanceMeta
+      StaffPerformanceMeta,
+      CheckListItem
 
     ]),
   ],

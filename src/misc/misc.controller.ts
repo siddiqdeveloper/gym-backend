@@ -206,19 +206,18 @@ export class MiscController {
 
   @Post('water/update')
   async updateWater(
-    @Body() body,
-    @Res() res: Response,
-    @Req() request: Request,
+    @Body() body
   ) {
     try {
-      const check = await this.mis.updateWater(body);
-      return {
-        status: true,
-        message: 'Water Consumption Updated successfully',
-        data: check,
-      };
-    } catch (error) {
-      console.log(error);
+      console.log(body)
+        const check = await this.mis.updateWater(body);
+        console.log(check,'---');
+        return {
+          status: true,
+          message: 'Water Consumption Updated successfully',
+        };
+      } catch (error) {
+        console.log(error);
       throw new HttpException(
         {
           status: false,
@@ -625,6 +624,31 @@ export class MiscController {
         {
           status: false,
           message: 'Failed to CheckList',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  
+  @Post('checkListitem/add')
+  async createCheckListItem(@Body() body) {
+    try {
+      const reqdata: any = body;
+      const check = await this.mis.createCheckListItem(reqdata);
+      return {
+        status: true,
+        message: 'CheckList Item created successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to CheckList Item',
           error: error.message,
         },
         HttpStatus.BAD_REQUEST,

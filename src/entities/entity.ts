@@ -56,6 +56,7 @@ import { FollowupInActive } from "./follow-inactive.entity";
 import { DueAssignment } from "./DueAssignment.entity";
 import { FollowupReason } from "./follow-reason.entity";
 import { BlockMembers } from "./blockMemebers.entity";
+import { CheckListItem } from "./checkListtIem.entity";
 
 const entities = [
   User,
@@ -113,7 +114,8 @@ const entities = [
   FollowupInActive,
   DueAssignment,
   FollowupReason,
-  BlockMembers
+  BlockMembers,
+  CheckListItem
 
  
 ];
