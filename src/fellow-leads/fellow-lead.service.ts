@@ -76,25 +76,21 @@ export class FellowLeadService {
         }
 
         if(data.process == 'inactive'){
-
           await this.inactiveAssignmentRep.insert({assignDate:data.assignDate,member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }
 
         if(data.process == 'dob'){
-
           await this.DOBAssignmentRep.insert({assignDate:data.assignDate,member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }
 
         if(data.process == 'pack'){
-
           await this.packageExpiryAssignmentRep.insert({assignDate:data.assignDate,member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }
 
         if(data.process == 'due'){
-
           await this.dueAssignmentRep.insert({assignDate:data.assignDate,member_code:data.list[i].memberId,member_id:data.list[i].id,staff_id:data.list[i].assignmentStaff})
         
         }

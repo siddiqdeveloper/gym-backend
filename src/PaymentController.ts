@@ -403,6 +403,67 @@ export class PaymentController {
     }
   }
 
+
+  @Get('memberregisterfees/report')
+  async getMemberRegisterFees(
+
+    @Req() request: any,
+
+  ) {
+   
+    try {
+      const data = await this.paymentService.getMemberRegisterFees(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('membersbypackages/report')
+  async getMembersByPackages(
+
+    @Req() request: any,
+
+  ) {
+   
+    try {
+      const data = await this.paymentService.getMembersByPackages(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+  
+  
+
+
+
+
   @Post('branchWise/report')
   async branchWise(
     @Body() body,
@@ -1799,6 +1860,30 @@ export class PaymentController {
         {
           status: false,
           message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('ebsummary/report')
+  async ebSummary( @Req() request: any,) {
+    try {
+
+      const data = await this.paymentService.ebSummary(request.query);
+      return {
+        status: true,
+        message: 'retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve ',
           error: error.message,
         },
         HttpStatus.BAD_REQUEST,

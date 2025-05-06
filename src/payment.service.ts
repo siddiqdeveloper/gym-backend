@@ -381,6 +381,60 @@ export class PaymentService {
     }
   }
 
+
+  
+  
+
+
+  async getMemberRegisterFees(filter) {
+
+    const whereClauses: string[] = [];
+
+    if (filter.customStartDate) {
+      whereClauses.push(`AND mem.joiningDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND mem.joiningDate <= '${filter.customEndDate}'`);
+    }
+  
+
+    const whereString = whereClauses.join(' ');
+
+    console.log(whereString);
+  
+    const result = await this.dataSource.query('CALL getMemberRegisterFees(?)', [whereString]);
+
+    return result[0];
+  }
+
+
+  async getMembersByPackages(filter) {
+
+    const whereClauses: string[] = [];
+
+    if (filter.customStartDate) {
+      whereClauses.push(`AND mem.joiningDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND mem.joiningDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedPackage) {
+      whereClauses.push(`AND pa.id =  '${filter.selectedPackage}'`);
+    }
+
+    const whereString = whereClauses.join(' ');
+
+    console.log(whereString);
+  
+    const result = await this.dataSource.query('CALL getMembersByPackages(?)', [whereString]);
+
+    return result[0];
+  }
+
+
   async topSelling(filter) {
 
     const whereClauses: string[] = [];
@@ -931,6 +985,7 @@ export class PaymentService {
 
 
   async getsplitpay(filter) {
+
     const whereClauses: string[] = [];
   
 
@@ -954,6 +1009,20 @@ export class PaymentService {
     const result = await this.dataSource.query('CALL getSplitPay(?)', [whereString]);
   
     return result[0];
+   
+
+  
+   
+  }
+
+  async ebSummary(filter) {
+    console.log(  "CALL getEBSummary('"+filter.customStartDate+"','"+filter.customEndDate+"')")
+    const result = await this.dataSource.query(
+      "CALL getEBSummary('"+filter.customStartDate+"','"+filter.customEndDate+"')",
+    );
+
+    return result[0];
+   
   }
 
 
