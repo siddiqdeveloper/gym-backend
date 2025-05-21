@@ -368,7 +368,15 @@ export class MiscService {
 
   async createCheckList(body) {
     try {
-      return await this.checkListRepository.save(body);
+
+      for(var i = 0;i<body.checkList.length; i++){
+
+        let item = {...body.checkList[i],date:body.date};
+
+        console.log(item)
+        await this.checkListRepository.save(item);
+      }
+      return body.date;
     } catch (error) {
       console.error('Error saving CheckList', error);
       throw new Error('Failed to save CheckList');
@@ -409,6 +417,25 @@ export class MiscService {
   }
 
 
+
+  async removeCheckListItem(id: number): Promise<void> {
+    await this.checkListItemRepository.delete(id);
+  }
+
+  async updatecheckListItemStatus(id: any, isActive: boolean) {
+    const checkList: any = await this.checkListItemRepository.findOne({
+      where: { id: id },
+    });
+    if (!checkList) {
+      throw new Error('checkList not found');
+    }
+
+    checkList.isActive = isActive ? 1 : 0;
+
+    return this.checkListItemRepository.save(checkList);
+  }
+
+
   
 
   async updateCheckList(body) {
@@ -424,6 +451,20 @@ export class MiscService {
     }
   }
 
+
+
+  async saveCheckList(body) {
+    try {
+      const updateCheckList = await this.checkListRepository.save(body);
+      return updateCheckList;
+    } catch (error) {
+      console.error('Error updating CheckList', error);
+      throw new Error('Failed to updating CheckList');
+    }
+  }
+
+
+
   async checkListfindOne(id: number): Promise<CheckList> {
     return await this.checkListRepository.findOne({ where: { id } });
   }
@@ -434,12 +475,18 @@ export class MiscService {
     return result[0];
   }
 
+  async checkListitemall(): Promise<CheckList[]> {
+    const result = await this.dataSource.query('CALL get_all_checkListItem()');
+
+    return result[0];
+  }
+
   async removeCheckList(id: number): Promise<void> {
-    await this.checkListRepository.delete(id);
+    await this.checkListItemRepository.delete(id);
   }
 
   async updatecheckListStatus(id: any, isActive: boolean) {
-    const checkList: any = await this.checkListRepository.findOne({
+    const checkList: any = await this.checkListItemRepository.findOne({
       where: { id: id },
     });
     if (!checkList) {
@@ -448,7 +495,7 @@ export class MiscService {
 
     checkList.isActive = isActive ? 1 : 0;
 
-    return this.checkListRepository.save(checkList);
+    return this.checkListItemRepository.save(checkList);
   }
 
   // workOutType

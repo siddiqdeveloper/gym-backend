@@ -89,6 +89,7 @@ import { DueAssignment } from './entities/DueAssignment.entity';
 import { FollowupReason } from './entities/follow-reason.entity';
 import { BlockMembers } from './entities/blockMemebers.entity';
 import { CheckListItem } from './entities/checkListtIem.entity';
+import { StandardMessage } from './entities/StandardMessage';
 
 @Module({
   imports: [
@@ -147,7 +148,8 @@ import { CheckListItem } from './entities/checkListtIem.entity';
       DueAssignment,
       FollowupReason,
       BlockMembers,
-      CheckListItem
+      CheckListItem,
+      StandardMessage
       ]),
     MasterModule,
     UserModule,

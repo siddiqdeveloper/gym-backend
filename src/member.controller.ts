@@ -16,12 +16,19 @@ import {
 } from '@nestjs/common';
 import { MemberService } from './member.service';
 import { Response } from 'express';
-  import { FileFieldsInterceptor } from '@nestjs/platform-express';
-  import { diskStorage } from 'multer';
-  import { extname } from 'path';
-  import * as multer from 'multer'; // ✅ Import multer
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import * as path from 'path';
+import * as handlebars from 'handlebars'; // Import Handlebars
+import * as util from 'util';
+import * as fs from 'fs';
+import * as multer from 'multer'; // ✅ Import multer
+import { writeFileSync } from 'fs';
+import { from } from 'rxjs';
 
-  import { writeFileSync } from 'fs';
+
+
 
 @Controller('members')
 export class MemberController {
@@ -746,4 +753,186 @@ export class MemberController {
 
     res.send(data);
   }
+
+
+  @Get('attendance/reports/delete')
+  async attendaceReportDelete(@Query('id') id: number) {
+    try {
+      const data = await this.memberService.attendaceReportDelete(id);
+      return {
+        status: true,
+        message: 'attendaceReport retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve attendaceReport',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('transaction-details')
+  async getTransactionMemberDetails(@Query('id') id: number) {
+    try {
+      const data = await this.memberService.getTransactionMemberDetails(id);
+      return {
+        status: true,
+        message: ' retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve attendaceReport',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Get('followup-details-bymember')
+  async getTransactionMemberDetailsFollowup(@Query('id') id: number) {
+    try {
+      const data = await this.memberService.getTransactionMemberDetailsFollowup(id);
+      return {
+        status: true,
+        message: ' retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve attendaceReport',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('generate-pdf')
+  async getPdf(@Res() res: Response,@Query('id') id: number) {
+     try {
+      console.log(id);
+
+       const fromDB = await this.memberService.getMemberInvoiceDetails(id);
+
+      //  res.send(fromDB);
+
+
+            // 1. Read the HTML template
+            const htmlFilePath = path.join(__dirname, '..', 'pdfhtml', 'member_invoice.html');
+            const htmlTemplate = await util.promisify(fs.readFile)(htmlFilePath, 'utf-8');
+
+            let data = {
+                "registration_fees":fromDB.registration_fees?fromDB.registration_fees:'-',
+                "invoiceId": fromDB.id,
+                "membershipName": fromDB.name,
+                "memberContact": fromDB.mobile,
+                "modeOfPayment": fromDB.modeOfPayment,
+                "billingDate":fromDB.feePaymentDate,
+                "packageName": fromDB.packageName,
+                "startDate": fromDB.joiningDate,
+                "endDate": fromDB.endDate,
+                "billingIncharge": "-",
+                "packageFee": fromDB.packageAmount,
+                "due": fromDB.pendingAmount?fromDB.pendingAmount:'-',
+                "discount": fromDB.discountAmount?fromDB.discountAmount:'-',
+                "tax": 0,
+                "cash": fromDB.CASH,
+                "upi": fromDB.UPI,
+                "card": fromDB.CARD,
+                "online": fromDB.Bank,
+                "giftVoucher": 0,
+                "totalAmountPaid": fromDB.paidAmount,
+                "dueAmountToBePaid": fromDB.pendingAmount,
+                "dueDateForBalancePayment": fromDB.pendingAmountDate
+            };
+            // 2. Compile the Handlebars template
+            const template = handlebars.compile(htmlTemplate);
+
+            // 3. Generate the HTML with data
+
+            console.log(template)
+            const updatedHtml = template(data);
+            // console.log(updatedHtml)
+
+            // 4. Generate the PDF
+            const pdfBuffer = await this.memberService.generatePdf(updatedHtml);
+
+        
+
+
+
+                  if (!Buffer.isBuffer(pdfBuffer) || pdfBuffer.length === 0) {
+                      return res.status(500).send('PDF generation failed');
+                    }
+
+                    // Optionally save to debug
+                    // fs.writeFileSync('debug.pdf', pdfBuffer);
+
+                    res.set({
+                      'Content-Type': 'application/pdf',
+                      'Content-Disposition': 'inline; filename="invoice.pdf"',
+                      'Content-Length': pdfBuffer.length,
+                    });
+
+                    res.send(pdfBuffer);
+
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    }
+
+  @Get('standard-message/all')
+  findAllStandardMessage() {
+    return this.memberService.findAllStandardMessage();
+  }
+
+  @Get('standard-message/findbytype')
+  async findAllStandardMessageType(@Query('type') type: string) {
+     try {
+      const data = await this.memberService.findAllStandardMessageType(type);
+      return {
+        status: true,
+        message: ' retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve ',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+  }
+
+  @Post('standard-message/update')
+  updateStandardMessage(@Body() body: { key: string; content: string }) {
+    return this.memberService.updateByKeyStandardMessage(body.key, body.content);
+  }
+
+
+  
 }

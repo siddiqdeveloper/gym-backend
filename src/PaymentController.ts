@@ -13,10 +13,18 @@ import {
 } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { Response } from 'express';
+import { CheckList } from './entities/checkList.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Controller('payments')
 export class PaymentController {
-  constructor(private readonly paymentService: PaymentService) {}
+  constructor(
+    private readonly paymentService: PaymentService,
+     
+
+
+  ) {}
 
   @Post()
   async create(@Body() body) {
@@ -1730,6 +1738,30 @@ export class PaymentController {
     try {
       console.log(request.query);
       const data = await this.paymentService.newmembersReports(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Get('report/checklist')
+  async getChecklistReport( @Req() request: any) {
+    try {
+      console.log(request.query);
+      const data = await this.paymentService.getChecklistReport(request.query);
       return {
         status: true,
         message: 'transactionDashboard retrieved successfully',

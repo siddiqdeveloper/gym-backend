@@ -12,6 +12,8 @@ import { CashTopUp } from './entities/cashtop.entity';
 import { MemberExchanger } from './entities/memberExchanger.entity';
 import { Attendance } from './entities/attendance.entity';
 import { Lead } from './entities/Lead.entity';
+import * as puppeteer from 'puppeteer';
+import { StandardMessage } from './entities/StandardMessage';
 
 @Injectable()
 export class MemberService {
@@ -27,7 +29,29 @@ export class MemberService {
     private memberExchangerRepository: Repository<MemberExchanger>,
     @InjectRepository(Attendance)
     private attendanceRepository: Repository<Attendance>,
+    @InjectRepository(StandardMessage)
+    private readonly repoStandardMessage: Repository<StandardMessage>,
   ) {}
+
+
+   async updateByKeyStandardMessage(key: string, content: string){
+    const msg = await this.repoStandardMessage.findOne({ where: { key } });
+    msg.content = content;
+    return this.repoStandardMessage.save(msg);
+  }
+
+
+  async findAllStandardMessage(){
+    return this.repoStandardMessage.find();
+  }
+
+
+  async findAllStandardMessageType(type){
+   let msg = await this.repoStandardMessage.findOne({ where: { key:type } });
+   return msg;
+  } 
+
+
 
   formatDateForMySQL(date) {
     const d = new Date(date);
@@ -708,4 +732,66 @@ export class MemberService {
     console.log('result', result);
     return result[0];
   }
+
+  async attendaceReportDelete(id){
+    console.log(id)
+    let data  = await this.attendanceRepository.delete({id:id});
+
+  }
+
+
+   async getTransactionMemberDetails(id) {
+    const result = await this.dataSource.query('CALL getTransactionData('+id+')');
+    console.log('result', result);
+    return result[0];
+  }
+
+   async getTransactionMemberDetailsFollowup(id) {
+    const result = await this.dataSource.query('CALL getMembersFollowupList('+id+')');
+    console.log('result', result);
+    return result[0];
+  }
+
+  async getMemberInvoiceDetails(id) {
+    const result = await this.dataSource.query('CALL getMemberInvoiceDetails('+id+')');
+    console.log('result', result);
+    return result[0][0];
+  }
+
+
+  async generatePdf(htmlContent: string) {
+        const fs = require('fs').promises;
+        try {
+            const browser = await puppeteer.launch({
+                headless: true,
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
+            });
+            const page = await browser.newPage();
+            await page.setContent(htmlContent, {
+                waitUntil: 'networkidle0',
+            });
+            const pageContent = await page.content();
+            await fs.writeFile('page_content.html', pageContent);
+            console.log("Page content saved to page_content.html");
+
+            const pdfBuffer = await page.pdf({
+                format: 'A4',
+                printBackground: true,
+            });
+            await browser.close();
+
+ 
+            //save the pdf
+            await fs.writeFile('debug.pdf', pdfBuffer); //save the pdf to debug.pdf
+            console.log("PDF generated and saved to debug.pdf"); //added log
+
+            return Buffer.from(pdfBuffer);
+        } catch (e) {
+            console.error("Puppeteer error", e);
+            throw new Error("PDF generation failed: " + e.message);
+        }
+    }
+
+  
+
 }

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Invoice</title>
+  <style>
+    body {
+     font-family: "Open Sans", sans-serif;
+      padding: 20px;
+      font-size:13px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    .invoice-box {
+      background: #fff;
+      padding: 30px;
+      border: 1px solid #eee;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-bottom: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 21px;
+      background: #f3f3f3;
+      border: solid 1px #1c1c1c3d;
+    }
+    table th, table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #0000003d;
+      border-left: 1px solid #0000003d;
+    }
+    .total-row td {
+      font-weight: bold;
+    }
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <div class="invoice-box">
+    <div style="text-align: center;">
+      <!-- <img src="https://gymitfitness.com/storage/2024/01/gymit-logo.png" alt="Logo" style="height: 80px;"><br/> -->
+      <h1>GYM IT FITNESS</h1>
+      <p>NO: -04, KHAN STREET, CHOOLAIMEDU HIGH ROAD, CHENNAI-600 094</p>
+      <p>CONTACT: 7358 505 505 | WWW.GYMITFITNESS.COM</p>
+    </div>
+
+    <h2>Invoice Details</h2>
+
+    <table>
+     <tr>
+        <th>Invoice No :</th>
+        <td>{{invoiceId}}</td>
+      </tr>
+      <tr>
+        <th>Membership Name</th>
+        <td>{{membershipName}}</td>
+      </tr>
+      <tr>
+        <th>Member Contact</th>
+        <td>{{memberContact}}</td>
+      </tr>
+      <tr>
+        <th>Billing Date</th>
+        <td>{{billingDate}}</td>
+      </tr>
+       <tr>
+        <th>Payment Method</th>
+        <td>UPI</td>
+      </tr>
+    </table>
+
+    <h2>Membership Details</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Package Name</th>
+          <th>Package Amount</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Billing Incharge</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{packageName}}</td>
+          <td>₹{{packageFee}}</td>
+          <td>{{startDate}}</td>
+          <td>{{endDate}}</td>
+          <td>{{billingIncharge}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Billing Details</h2>
+    <table>
+      <tr>
+        <th>Particulars</th>
+        <th>Amount (Rs)</th>
+      </tr>
+
+      <tr>
+        <td>Registration Fee</td>
+        <td>₹{{registration_fees}}</td>
+      </tr>
+    
+      <tr>
+        <td>Discount</td>
+        <td>₹{{discount}}</td>
+      </tr>
+      <tr>
+        <td>Tax 18%</td>
+        <td>₹{{tax}}</td>
+      </tr>
+       <tr class="total-row">
+        <td>Due Amount</td>
+        <td>₹{{dueAmount}}</td>
+      </tr>
+      <tr>
+        <td>Total Amount Paid</td>
+        <td>₹{{totalAmountPaid}}</td>
+      </tr>
+      
+     
+    </table>
+
+    <div class="footer">
+ <p style="font-weight:700;text-transform: uppercase;margin-bottom:100px;"> NON REFUNDABLE / NON EXTENDABLE / NON Transferable 
+<br>
+<span style="color:#EF8218"> Turn Fat into Fit</span>
+
+</p>
+      <p style="text-align:left;">Authorized Signatory</p>
+    </div>
+  </div>
+<!-- Code injected by live-server -->
+
+</body>
+</html>

@@ -57,6 +57,7 @@ import { DueAssignment } from "./DueAssignment.entity";
 import { FollowupReason } from "./follow-reason.entity";
 import { BlockMembers } from "./blockMemebers.entity";
 import { CheckListItem } from "./checkListtIem.entity";
+import { StandardMessage } from "./StandardMessage";
 
 const entities = [
   User,
@@ -115,7 +116,8 @@ const entities = [
   DueAssignment,
   FollowupReason,
   BlockMembers,
-  CheckListItem
+  CheckListItem,
+  StandardMessage
 
  
 ];

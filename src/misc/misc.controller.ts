@@ -608,7 +608,7 @@ export class MiscController {
 
   // ////////////// checkList ///////////////
 
-  @Post('checkList/add')
+  @Post('checkList/save')
   async createCheckList(@Body() body) {
     try {
       const reqdata: any = body;
@@ -631,6 +631,78 @@ export class MiscController {
     }
   }
 
+
+
+
+      @Delete('checkListitem/delete/:id')
+      async removeCheckListItem(@Param('id') id: number) {
+        try {
+          await this.mis.removeCheckListItem(id);
+          return {
+            status: true,
+            message: 'CheckListItem deleted successfully',
+          };
+        } catch (error) {
+          throw new HttpException(
+            {
+              status: false,
+              message: `Failed to delete CheckListItem with ID ${id}`,
+              error: error.message,
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      }
+    
+      @Put('checkListitemStatus/:id')
+      async updatecheckListStatus(
+        @Param('id') id: string,
+        @Body() body: { isActive: boolean },
+      ) {
+        try {
+          const data = await this.mis.updatecheckListItemStatus(id, body.isActive);
+          return {
+            status: true,
+            message: 'CheckListItem status updated successfully',
+            data: data,
+          };
+        } catch (error) {
+          console.log(error);
+          throw new HttpException(
+            {
+              status: false,
+              message: 'Failed to update CheckListItem status',
+              error: error.message,
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      }
+
+
+  
+  @Get('checkListitem/all')
+  async checkListitemall() {
+    try {
+      const data = await this.mis.checkListitemall();
+
+      return {
+        status: true,
+        message: 'CheckList retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve CheckList',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
   
   @Post('checkListitem/add')
@@ -656,6 +728,10 @@ export class MiscController {
     }
   }
 
+
+
+
+
   @Post('checkList/update')
   async updateCheckList(
     @Body() body,
@@ -667,6 +743,33 @@ export class MiscController {
       return {
         status: true,
         message: 'CheckList Updated successfully',
+        data: check,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to CheckList',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+  @Post('checkListItem/update')
+  async updateCheckListItem(
+    @Body() body,
+    @Res() res: Response,
+    @Req() request: Request,
+  ) {
+    try {
+      const check = await this.mis.updateCheckListItem(body);
+      return {
+        status: true,
+        message: 'CheckList Item Updated successfully',
         data: check,
       };
     } catch (error) {
@@ -749,7 +852,7 @@ export class MiscController {
   }
 
   @Put('checkListStatus/:id')
-  async updatecheckListStatus(
+  async updatecheckListItemStatus(
     @Param('id') id: string,
     @Body() body: { isActive: boolean },
   ) {

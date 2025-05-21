@@ -8,6 +8,7 @@ import { Incentive } from './entities/incentive.entity';
 import { CashTopUp } from './entities/cashtop.entity';
 import { Member } from './entities/Member.entity';
 import { WaterConsumption } from './entities/waterConsumption.entity';
+import { CheckList } from './entities/checkList.entity';
 
 @Injectable()
 export class PaymentService {
@@ -21,6 +22,8 @@ export class PaymentService {
     private readonly incentiveRepository: Repository<Incentive>,
     @InjectRepository(Member)
     private memberRepository: Repository<Member>,
+    @InjectRepository(CheckList)
+    private checkListRepository: Repository<CheckList>,
   ) {}
 
   formatDateForMySQL(dateStr) {
@@ -1121,4 +1124,70 @@ export class PaymentService {
   
     return result[0];
   }
+
+
+  async getChecklistReport(filter) {
+    const whereClauses: string[] = [];
+  
+
+    console.log(filter);
+    if (filter.customStartDate) {
+      whereClauses.push(`AND mem.endDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND mem.endDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND mem.memberId LIKE '%${filter.selectedMember}%'`);
+    }
+  
+    const whereString = whereClauses.join(' ');
+  
+    const titles = await this.checkListRepository.find();
+    
+  
+    
+    // Dynamically generate titleToFieldMap
+    const titleToFieldMap = titles.reduce((map, title) => {
+      const fieldName = title.title.replace(/\s+/g, '').toLowerCase(); // Example: 'Cardio Machine Clean-up' -> 'cardioMachineCleanup'
+      map[title.title] = fieldName;
+      return map;
+    }, {});
+
+    
+    console.log(titleToFieldMap);
+   
+
+
+    let resultOg =await this.dataSource.query('CALL getCheckListReport(?)', [whereString]);
+
+    const pivotMap = new Map();
+
+
+    const titleSet = new Set();
+
+    resultOg[0].forEach(({ date, title, checked }) => {
+
+      let t:any = title.replaceAll('-','_').replaceAll('/','_').replaceAll(' ','_').toLowerCase();
+    
+      titleSet.add(title);
+
+
+    
+    
+      if (!pivotMap.has(date)) {
+        pivotMap.set(date, { date });
+      }
+      pivotMap.get(date)[t] = checked;
+    });
+    const uniqueTitles = Array.from(titleSet).map((title:any) => ({ header:title,field: title.replaceAll('-','_').replaceAll('/','_').replaceAll(' ','_').toLowerCase() }));
+
+   let  transformedData =  Array.from(pivotMap.values());
+  
+    return {report:transformedData,titles:uniqueTitles};
+  
+  }
+
 }
