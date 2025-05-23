@@ -132,6 +132,10 @@ export class PaymentService {
       payment.discountAmount = parseFloat(payment.discountAmount);
     }
 
+    if (payment.registration_fees == '') {
+      payment.registration_fees = 0;
+    }
+
     console.log(update, createPaymentDto.memberId);
 
     return this.paymentRepository.save(payment);
@@ -1116,6 +1120,9 @@ export class PaymentService {
   
     if (filter.selectedMember) {
       whereClauses.push(`AND mem.memberId LIKE '%${filter.selectedMember}%'`);
+    }
+    if (true) {
+      whereClauses.push(`AND mem.memberExchanged = 'yes'`);
     }
   
     const whereString = whereClauses.join(' ');

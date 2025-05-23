@@ -14,6 +14,8 @@ import { Attendance } from './entities/attendance.entity';
 import { Lead } from './entities/Lead.entity';
 import * as puppeteer from 'puppeteer';
 import { StandardMessage } from './entities/StandardMessage';
+import { Staff } from './entities/staff.entity';
+import { StaffAttendance } from './entities/staffAttendance.entity';
 
 @Injectable()
 export class MemberService {
@@ -21,6 +23,10 @@ export class MemberService {
     private dataSource: DataSource,
     @InjectRepository(Member)
     private memberRepository: Repository<Member>,
+
+    @InjectRepository(Staff)
+    private staffRepository: Repository<Staff>,
+
     @InjectRepository(InActiveMember)
     private inActiveMemberRepository: Repository<InActiveMember>,
     @InjectRepository(Bmi)
@@ -29,6 +35,9 @@ export class MemberService {
     private memberExchangerRepository: Repository<MemberExchanger>,
     @InjectRepository(Attendance)
     private attendanceRepository: Repository<Attendance>,
+     @InjectRepository(StaffAttendance)
+    private satffAttendanceRepository: Repository<StaffAttendance>,
+
     @InjectRepository(StandardMessage)
     private readonly repoStandardMessage: Repository<StandardMessage>,
   ) {}
@@ -143,7 +152,7 @@ export class MemberService {
 
   // Update a member
   async update(id: any, member) {
-    member.memberId = 'MEM' + id;
+    //member.memberId = 'MEM' + id;
     delete member.id;
 
     if (member.fitnessGoal.length == 0) {
@@ -159,9 +168,7 @@ export class MemberService {
     member.healthConditions = member.healthConditions
       ? member.healthConditions.join(',')
       : '';
-    console.log(member.workoutType);
 
-    console.log(member);
 
     if (member.workoutType) {
       member.workoutType = member.workoutType.toString();
@@ -186,6 +193,7 @@ export class MemberService {
     if (member.anniversaryDate) {
       member.anniversaryDate = this.formatDateForMySQL(member.anniversaryDate);
     }
+    console.log(member.memberExchanged)
 
     const result = await this.memberRepository.update(id, member);
 
@@ -583,6 +591,12 @@ export class MemberService {
     const result = await this.dataSource.query('CALL getAttendaceReport()');
     return result[0];
   }
+
+   async staffAttendanceReport() {
+    const result = await this.dataSource.query('CALL staffAttendanceReport()');
+    return result[0];
+  }
+  
   async dashbaordDetails() {
     const result = await this.dataSource.query('CALL getDashbaordCount()');
     return result[0];
@@ -612,6 +626,63 @@ export class MemberService {
     return `${hours.toString().padStart(2, '0')}:${minutes
       .toString()
       .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+
+  async staffloginsave(body){
+
+    console.log(body.staffId)
+     console.log(body.staffId);
+      const details = await this.staffRepository.findOne({
+        where: { id: body.staffId },
+      });
+
+      if (!details) {
+        return { status: false, msg: 'nomember' };
+      }
+
+      const moment = require('moment-timezone');
+
+
+      // Get today’s date in IST and set the time to midnight
+      const today = moment().tz('Asia/Kolkata').startOf('day'); // Today's date in IST, at midnight
+
+
+      // Get current date and time in IST
+      const currentDate = new Date().toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+      });
+
+      const datePart = this.convertToMySQLDate(currentDate.split(', ')[0]);
+      const timePart = this.convertTo24Hour(currentDate.split(', ')[1]);
+
+      console.log('IST Date (MySQL Format):', datePart);
+      console.log('IST Time:', timePart);
+
+      const result = await this.satffAttendanceRepository.findOne({
+        where: {
+          staff_id: body.staffId,
+          date: datePart,
+        },
+      });
+
+      console.log('Attendance record:', result);
+
+      if (result) {
+        result.checkOut = timePart;
+        await this.satffAttendanceRepository.save(result);
+        console.log('Check-out time updated:', timePart);
+      } else {
+        console.log(body);
+        const createData = {
+          staff_id: body.staffId,
+          date: datePart,
+          checkIn: timePart,
+        };
+        console.log('Creating new record:', createData);
+        await this.satffAttendanceRepository.save(createData);
+      }
+        return { status: true, data: details };  
   }
 
   async attendanceSave(body) {

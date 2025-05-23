@@ -90,6 +90,7 @@ import { FollowupReason } from './entities/follow-reason.entity';
 import { BlockMembers } from './entities/blockMemebers.entity';
 import { CheckListItem } from './entities/checkListtIem.entity';
 import { StandardMessage } from './entities/StandardMessage';
+import { StaffAttendance } from './entities/staffAttendance.entity';
 
 @Module({
   imports: [
@@ -149,7 +150,8 @@ import { StandardMessage } from './entities/StandardMessage';
       FollowupReason,
       BlockMembers,
       CheckListItem,
-      StandardMessage
+      StandardMessage,
+      StaffAttendance
       ]),
     MasterModule,
     UserModule,

@@ -58,6 +58,7 @@ import { FollowupReason } from "./follow-reason.entity";
 import { BlockMembers } from "./blockMemebers.entity";
 import { CheckListItem } from "./checkListtIem.entity";
 import { StandardMessage } from "./StandardMessage";
+import { StaffAttendance } from "./staffAttendance.entity";
 
 const entities = [
   User,
@@ -117,7 +118,8 @@ const entities = [
   FollowupReason,
   BlockMembers,
   CheckListItem,
-  StandardMessage
+  StandardMessage,
+  StaffAttendance
 
  
 ];

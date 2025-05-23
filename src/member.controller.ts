@@ -690,6 +690,31 @@ export class MemberController {
     }
   }
 
+
+   @Get('staffattendancereport')
+  async staffAttendanceReport() {
+    try {
+      const data = await this.memberService.staffAttendanceReport();
+      return {
+        status: true,
+        message: 'attendaceReport retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve attendaceReport',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  
+
   //   attendance Save
 
   @Post('attendance/save')
@@ -713,6 +738,41 @@ export class MemberController {
         return {
           status: false,
           message: 'Please check your member id',
+        };
+      }
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create Attendance',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
+
+  @Post('staff/attendance/save')
+  async stafflogin(@Body() body) {
+    try {
+      const reqdata: any = body;
+
+      const check = await this.memberService.staffloginsave(reqdata);
+      if (check.status) {
+        return {
+          status: true,
+          data: check.data,
+          type:'staff',
+          message: 'Attendance Save successfully',
+        };
+      } else {
+        return {
+          status: false,
+            type:'staff',
+          message: 'Please check your staff id',
         };
       }
     } catch (error) {

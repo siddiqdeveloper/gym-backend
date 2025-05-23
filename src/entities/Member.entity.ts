@@ -19,6 +19,11 @@ export class Member {
   @Column({ length: 15, nullable: true })
   mobile: string; // Mobile number
 
+
+  @Column({ length: 50, nullable: true })
+  memberExchanged:string;
+
+
   @Column({ length: 50, nullable: true })
   email: string; // Email
 
