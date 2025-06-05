@@ -345,9 +345,9 @@ export class MemberController {
   }
 
   @Post('cancel')
-  async cancel(@Body() { memberId }) {
+  async cancel(@Body() { memberId,reason }) {
     try {
-      const data = await this.memberService.cancel(memberId);
+      const data = await this.memberService.cancel(memberId,reason);
       return {
         status: true,
         message: 'Member Cancel successfully',
@@ -734,7 +734,12 @@ export class MemberController {
           status: false,
           message: 'Please contact front desk and  check your joining date',
         };
-      } else {
+      } else if (!check.status && check.msg == 'membercancel') {
+        return {
+          status: false,
+          message: 'Your membership is canceled',
+        };
+      }else {
         return {
           status: false,
           message: 'Please check your member id',
@@ -766,6 +771,7 @@ export class MemberController {
           status: true,
           data: check.data,
           type:'staff',
+          checkType:check.checkType,
           message: 'Attendance Save successfully',
         };
       } else {

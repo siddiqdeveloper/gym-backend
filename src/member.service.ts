@@ -393,12 +393,13 @@ export class MemberService {
     }
   }
 
-  async cancel(body) {
+  async cancel(body,reason) {
     console.log('aaaabody', body);
     const member = await this.memberRepository.findOne({
       where: { id: body },
     });
     member.cancel = 1;
+    member.reason = reason
     await this.memberRepository.save(member);
     return body;
   }
@@ -642,7 +643,7 @@ export class MemberService {
       }
 
       const moment = require('moment-timezone');
-
+     let  checkType = '';
 
       // Get today’s date in IST and set the time to midnight
       const today = moment().tz('Asia/Kolkata').startOf('day'); // Today's date in IST, at midnight
@@ -659,21 +660,39 @@ export class MemberService {
       console.log('IST Date (MySQL Format):', datePart);
       console.log('IST Time:', timePart);
 
+      
       const result = await this.satffAttendanceRepository.findOne({
         where: {
           staff_id: body.staffId,
           date: datePart,
         },
+        order: {
+          id: 'DESC', // or any timestamp column like `updated_at`
+        },
       });
 
-      console.log('Attendance record:', result);
+     
 
       if (result) {
-        result.checkOut = timePart;
+        if(result.checkOut == null){
+          checkType = 'checkOut';
+         result.checkOut = timePart;
         await this.satffAttendanceRepository.save(result);
         console.log('Check-out time updated:', timePart);
+        }else{
+                    checkType = 'checkin';
+             const createData = {
+          staff_id: body.staffId,
+          date: datePart,
+          checkIn: timePart,
+        };
+        console.log('Creating new record:', createData);
+        await this.satffAttendanceRepository.save(createData);
+        }
+       
       } else {
-        console.log(body);
+      
+          checkType = 'checkin';
         const createData = {
           staff_id: body.staffId,
           date: datePart,
@@ -682,7 +701,7 @@ export class MemberService {
         console.log('Creating new record:', createData);
         await this.satffAttendanceRepository.save(createData);
       }
-        return { status: true, data: details };  
+        return { status: true, data: details,checkType:checkType };  
   }
 
   async attendanceSave(body) {
@@ -700,6 +719,10 @@ export class MemberService {
 
       if (memberDetails.close == 1) {
         return { status: false, msg: 'memberjoinidate' };
+      }
+
+      if (memberDetails.cancel == 1) {
+        return { status: false, msg: 'membercancel' };
       }
 
       const moment = require('moment-timezone');

@@ -41,6 +41,8 @@ import { AssignManager } from '../entities/assignManager.entity';
 import { StaffPerformance } from "../entities/staffperfomance.entity";
 import {StaffPerformanceMeta} from "../entities/staffPerformanceMeta,entity";
 import { CheckListItem } from 'src/entities/checkListtIem.entity';
+import { promisify } from 'util';
+import { exec,spawn } from 'child_process';
 
 @Injectable()
 export class MiscService {
@@ -666,6 +668,101 @@ export class MiscService {
   // freeze
 
   // freeze
+
+
+  
+async exportAllTablesToExcel(): Promise<Buffer> {
+  const dbName = process.env.dbName;
+
+    // 1. Get all table names
+    const tables = await this.getAllTables(dbName);
+
+    // 2. Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // 3. For each table, fetch data and add to workbook as a sheet
+    for (const table of tables) {
+      const data = await this.getTableData(table);
+
+      // Convert data (array of objects) to worksheet
+      const worksheet = XLSX.utils.json_to_sheet(data);
+
+      // Add sheet named after the table
+      XLSX.utils.book_append_sheet(workbook, worksheet, table);
+    }
+
+    // 4. Generate buffer (xlsx file in memory)
+    const excelBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+
+    return excelBuffer;
+  }
+
+  private async getAllTables(dbName: string): Promise<string[]> {
+    const query = `
+      SELECT table_name FROM information_schema.tables
+      WHERE table_schema = ?
+    `;
+    const result = await this.dataSource.query(query, [dbName]);
+    return result.map(row => row.table_name);
+  }
+
+  private async getTableData(tableName: string): Promise<any[]> {
+    const query = `SELECT * FROM \`${tableName}\``;
+    return await this.dataSource.query(query);
+  }
+
+
+// async  generateSqlBackup(): Promise<string> {
+//   const dbHost = process.env.dbHost;
+//   const dbUser = process.env.dbUser;
+//   const dbPass = process.env.dbPassword;
+//   const dbName = process.env.dbName;
+
+//   if (!dbHost || !dbUser || !dbPass || !dbName) {
+//     throw new Error('Missing DB environment variables');
+//   }
+
+//   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+//   const outputFile = path.join(__dirname, `../../sql-backup-${timestamp}.sql`);
+
+//   return new Promise((resolve, reject) => {
+//     const mysqldumpPath = `C:\\Program Files\\MariaDB 11.6\\bin\\mysqldump.exe`;
+
+//     const dumpProcess = spawn(mysqldumpPath, [
+//       '--skip-ssl',
+//       '-h', dbHost,
+//       '-u', dbUser,
+//       `-p${dbPass}`,
+//       '--routines',
+//       '--triggers',
+//       '--events',
+//       '--databases',
+//       dbName,
+//     ]);
+
+//     const writeStream = fs.createWriteStream(outputFile);
+
+//     dumpProcess.stdout.pipe(writeStream);
+
+//     let errorOutput = '';
+
+//     dumpProcess.stderr.on('data', (data) => {
+//       errorOutput += data.toString();
+//     });
+
+//     dumpProcess.on('close', (code) => {
+//       if (code === 0) {
+//         resolve(outputFile);
+//       } else {
+//         reject(new Error(`mysqldump failed with exit code ${code}: ${errorOutput}`));
+//       }
+//     });
+
+//     dumpProcess.on('error', (err) => {
+//       reject(err);
+//     });
+//   });
+// }
 
   async getMemberListInFreeze() {
     const result = await this.dataSource.query('CALL getmemberListInFreeze()');

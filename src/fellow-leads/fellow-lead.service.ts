@@ -366,6 +366,13 @@ export class FellowLeadService {
     return result[0];
   }
 
+   async getInactiveBill(query){
+    const result = await this.dataSource.query('CALL getInactiveBill("'+query.startDate+'","'+query.endDate+'")');
+    return result[0];
+  }
+
+  
+
   async getDob(query){
     const result = await this.dataSource.query('CALL getUnAssingmentDOB("'+query.startDate+'")');
     return result[0];

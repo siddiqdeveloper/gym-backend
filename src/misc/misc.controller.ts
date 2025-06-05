@@ -21,12 +21,42 @@ import puppeteer from 'puppeteer';
 import * as twig from 'twig';
 import * as path from 'path';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import * as fs from 'fs';
 
 @Controller('misc')
 export class MiscController {
   constructor(private mis: MiscService) {}
 
   // Electricity Consumption
+
+  
+
+
+  @Get('backup/excel-download')
+async downloadExcelBackup(@Res() res: Response) {
+  
+    const excelBuffer = await this.mis.exportAllTablesToExcel();
+
+    res.set({
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename="database-export.xlsx"',
+      'Content-Length': excelBuffer.length,
+    });
+
+    res.end(excelBuffer);
+  }
+
+  //  @Get('backup/download')
+  // async downloadBackup(@Res() res: Response) {
+  //   const filePath = await this.mis.generateSqlBackup();
+  //   const fileName = path.basename(filePath);
+
+  //   res.setHeader('Content-Type', 'application/sql');
+  //   res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+  //   const fileStream = fs.createReadStream(filePath);
+  //   fileStream.pipe(res);
+  // }
 
   @Post('meter/add')
   async createMeter(@Body() body) {

@@ -25,6 +25,11 @@ export class Member {
 
 
   @Column({ length: 50, nullable: true })
+  reason:string;
+  
+
+
+  @Column({ length: 50, nullable: true })
   email: string; // Email
 
   @Column({ type: 'int', nullable: true })
