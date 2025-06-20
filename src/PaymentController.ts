@@ -440,6 +440,34 @@ export class PaymentController {
   }
 
 
+  @Get('cancel/report')
+  async cancelReport(
+
+    @Req() request: any,
+
+  ) {
+   
+    try {
+      const data = await this.paymentService.cancelReport();
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+
   @Get('membersbypackages/report')
   async getMembersByPackages(
 
@@ -1731,6 +1759,31 @@ export class PaymentController {
     }
 
   
+  }
+
+
+
+ @Get('alltransaction/report')
+  async alltransaction( @Req() request: any) {
+    try {
+      console.log(request.query);
+      const data = await this.paymentService.alltransaction(request.query);
+      return {
+        status: true,
+        message: 'transactionDashboard retrieved successfully',
+        data: data,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to retrieve transactionDashboard',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get('newmembers/report')

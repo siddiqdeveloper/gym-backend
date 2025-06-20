@@ -218,6 +218,28 @@ export class FellowLeadController {
 
 
 
+  @Get('summary/reasondata')
+  async summaryReasondata(@Request() req:any) {   
+    try {
+      const leads = await this.fellowLeadService.summaryReasondata(req.query);
+      return {
+        status: true,
+        message: 'Retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
 
   @Get('continue-absents/get')
@@ -234,6 +256,34 @@ export class FellowLeadController {
       };
     } catch (error) {
       // Handle any potential errors from the service
+  
+      throw new HttpException(
+        {
+          status: false,
+          message: 'Failed to create lead',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Get('inactive/get/bills')
+  async getInactiveBill(@Request() req:any) {
+    console.log(req.query);
+
+   
+    try {
+      const leads = await this.fellowLeadService.getInactiveBill(req.query);
+      return {
+        status: true,
+        message: 'Retrieved successfully',
+        data: leads,
+      };
+    } catch (error) {
+      // Handle any potential errors from the service
+
+      console.log(error)
   
       throw new HttpException(
         {

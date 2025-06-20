@@ -356,6 +356,15 @@ export class FellowLeadService {
     return result[0];
   }
 
+  async summaryReasondata(data){
+    console.log(data);
+    let result = []
+    if(data.type  == 'continuous absent'){
+        result = await this.dataSource.query('CALL casummaryReasondata(?)',[data.reason]);
+    }
+    return result[0];
+  }
+
   async getContinueAbsents(query){
     const result = await this.dataSource.query('CALL getUnAssingmentCA('+query.days+')');
     return result[0];
@@ -365,6 +374,13 @@ export class FellowLeadService {
     const result = await this.dataSource.query('CALL getUnAssingmentInactive("'+query.startDate+'","'+query.endDate+'")');
     return result[0];
   }
+
+   async getInactiveBill(query){
+    const result = await this.dataSource.query('CALL getInactiveBill("'+query.startDate+'","'+query.endDate+'")');
+    return result[0];
+  }
+
+  
 
   async getDob(query){
     const result = await this.dataSource.query('CALL getUnAssingmentDOB("'+query.startDate+'")');

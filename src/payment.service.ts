@@ -612,6 +612,16 @@ export class PaymentService {
     return result[0];
   }
 
+  async cancelReport(): Promise<Lead[]> {
+    const result = await this.dataSource.query('CALL cancelReport()');
+    console.log();
+    return result[0];
+  }
+
+
+
+  
+
   async getALlFemaleMember(): Promise<Lead[]> {
     const result = await this.dataSource.query('CALL getfemaleMember()');
     console.log();
@@ -1032,6 +1042,30 @@ export class PaymentService {
    
   }
 
+
+  async alltransaction(filter) {
+    const whereClauses: string[] = [];
+  
+
+    console.log(filter);
+    if (filter.customStartDate) {
+      whereClauses.push(`AND mem.joiningDate >= '${filter.customStartDate}'`);
+    }
+  
+    if (filter.customEndDate) {
+      whereClauses.push(`AND mem.joiningDate <= '${filter.customEndDate}'`);
+    }
+  
+    if (filter.selectedMember) {
+      whereClauses.push(`AND mem.memberId LIKE '%${filter.selectedMember}%'`);
+    }
+  
+    const whereString = whereClauses.join(' ');
+  
+    const result = await this.dataSource.query('CALL alltransaction(?)', [whereString]);
+  
+    return result[0];
+  }
 
   async newmembersReports(filter) {
     const whereClauses: string[] = [];
