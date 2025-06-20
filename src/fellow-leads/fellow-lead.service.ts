@@ -362,6 +362,10 @@ export class FellowLeadService {
     if(data.type  == 'continuous absent'){
         result = await this.dataSource.query('CALL casummaryReasondata(?)',[data.reason]);
     }
+
+     if(data.type  == 'leads'){
+        result = await this.dataSource.query('CALL casummaryReasondata(?)',[data.reason]);
+    } 
     return result[0];
   }
 
@@ -499,10 +503,13 @@ export class FellowLeadService {
 
   async followupBlockList(type){
   let result = [];
+    console.log(type);
     if(type == 'pack'){
   result = await this.dataSource.query('CALL getBlockListMembers(?)',['leads']);
-    }else{
-    result = await this.dataSource.query('CALL followuppackageexpriyblocked()',[]);
+    }
+  
+    if(type == 'leads'){
+    result = await this.dataSource.query('CALL followupleadsblocked()',[]);
     }
  
  
