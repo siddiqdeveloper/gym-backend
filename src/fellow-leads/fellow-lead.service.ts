@@ -481,8 +481,14 @@ export class FellowLeadService {
 
   }
 
-  async followupBlockList(){
-    const result = await this.dataSource.query('CALL getBlockListMembers(?)',['leads']);
+  async followupBlockList(type){
+  let result = [];
+    if(type == 'pack'){
+  result = await this.dataSource.query('CALL getBlockListMembers(?)',['leads']);
+    }else{
+    result = await this.dataSource.query('CALL followuppackageexpriyblocked()',[]);
+    }
+ 
  
     return result[0];
 

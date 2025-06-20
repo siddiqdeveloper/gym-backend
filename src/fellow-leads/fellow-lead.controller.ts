@@ -562,9 +562,9 @@ export class FellowLeadController {
 
 
   @Get('followup-block/list')
-  async ListFollowupBlock(@Body() body: any, @Res() res: Response) {
+  async ListFollowupBlock(@Body() body: any, @Res() res: Response,@Param('type') type: number) {
     try {
-      const result = await this.fellowLeadService.followupBlockList();
+      const result = await this.fellowLeadService.followupBlockList(type);
       return res.status(HttpStatus.OK).send({
         status: true,
         message: 'Data fetched successfully',
