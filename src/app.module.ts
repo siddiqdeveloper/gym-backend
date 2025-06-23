@@ -119,9 +119,12 @@ import { StaffAttendance } from './entities/staffAttendance.entity';
       entities: entities,
       synchronize: process.env.dbSync === 'true',
       logging: "all",
+      ssl: false,
       logger:"file",
+        connectTimeout: 40000, // 40 seconds
+
       extra: {
-    connectTimeout: 30000, // Increase timeout to 30 seconds
+    connectTimeout: 40000, // Increase timeout to 30 seconds
   },
     }),
     TypeOrmModule.forFeature([Member,Package,Lead,Staff,Payment,FollowLead,ElectricityConsumption,WaterConsumption,ServiceLog,Reminder,CheckList,WorkOutType,Exercise,Freeze,InActiveMember,Gst,PettyCash,BankDetails,BranchDetails,Expense,ReceivePayment,DuePaidPayment,Withdraw,Topup,BulkUpload,BulkUploadMeta,Bmi,CashTopUp,Withdrawal,Asset,PaymentType,
