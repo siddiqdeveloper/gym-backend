@@ -937,6 +937,7 @@ export class PaymentService {
       delete body.id;
     }
     console.log(body);
+    body.paymentId = id;
     await this.duePaidPaymentRepository.save(body);
 
     const paymentData: any = await this.paymentRepository.findOne({
@@ -944,16 +945,18 @@ export class PaymentService {
     });
     console.log('paymentData', paymentData);
     paymentData.pendingAmount = body.balanceAmount;
-    paymentData.paidAmount =
-      parseInt(paymentData.paidAmount) + parseInt(body.paidAmount);
+    paymentData.paidAmount = parseInt(body.paidAmount);
     paymentData.discountAmount = body.discountAmount;
     paymentData.modeOfPayment = body.modeOfPayment;
-    paymentData.CASH = (parseFloat(body.CASH) || 0) + (parseFloat(paymentData.CASH) || 0);
-    paymentData.CARD = (parseFloat(body.CARD) || 0) + (parseFloat(paymentData.CARD) || 0);
-    paymentData.UPI = (parseFloat(body.UPI) || 0) + (parseFloat(paymentData.UPI) || 0);
+    paymentData.CASH = (parseFloat(body.CASH) || 0)
+    paymentData.CARD = (parseFloat(body.CARD) || 0)
+    paymentData.UPI = (parseFloat(body.UPI) || 0)
+
+    paymentData.memberPaymentFor = 'Pending';
     
     console.log(body.memberPaymentFor)
     if(body.memberPaymentFor == 'Close'){
+      paymentData.memberPaymentFor = 'Pending Close-out';
       console.log(paymentData.memberId)
       const update = await this.memberRepository.update(
         { id: paymentData.memberId }, // WHERE condition
@@ -967,7 +970,7 @@ export class PaymentService {
     if (paymentData.discountAmount == '') {
       paymentData.discountAmount = 0;
     }
-
+    delete paymentData.id;
     await this.paymentRepository.save(paymentData);
 
     return body;
