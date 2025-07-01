@@ -511,6 +511,10 @@ export class FellowLeadService {
     if(type == 'leads'){
     result = await this.dataSource.query('CALL followupleadsblocked()',[]);
     }
+
+    if(type == 'ca'){
+    result = await this.dataSource.query('CALL followupcontinueblocked()',[]);
+    }
  
  
     return result[0];
