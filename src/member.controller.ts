@@ -917,7 +917,7 @@ export class MemberController {
                 "endDate": fromDB.endDate,
                 "billingIncharge": "-",
                 "packageFee": fromDB.packageAmount,
-                "due": fromDB.pendingAmount?fromDB.pendingAmount:'-',
+                "dueAmount": fromDB.pendingAmount?fromDB.pendingAmount:'-',
                 "discount": fromDB.discountAmount?fromDB.discountAmount:'-',
                 "tax": 0,
                 "cash": fromDB.CASH,
