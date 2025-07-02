@@ -505,7 +505,7 @@ export class FellowLeadService {
   let result = [];
     console.log(type);
     if(type == 'pack'){
-  result = await this.dataSource.query('CALL getBlockListMembers(?)',['leads']);
+     result = await this.dataSource.query('CALL followuppackblocked()',[]);
     }
   
     if(type == 'leads'){
@@ -514,6 +514,19 @@ export class FellowLeadService {
 
     if(type == 'ca'){
     result = await this.dataSource.query('CALL followupcontinueblocked()',[]);
+    }
+
+    
+    if(type == 'inactive'){
+    result = await this.dataSource.query('CALL followupinactiveblocked()',[]);
+    }
+
+    if(type == 'dob'){
+       result = await this.dataSource.query('CALL followupdobblocked()',[]);
+    }
+
+      if(type == 'due'){
+       result = await this.dataSource.query('CALL followupdueblocked()',[]);
     }
  
  
