@@ -363,9 +363,31 @@ export class FellowLeadService {
         result = await this.dataSource.query('CALL casummaryReasondata(?)',[data.reason]);
     }
 
-     if(data.type  == 'leads'){
-        result = await this.dataSource.query('CALL casummaryReasondata(?)',[data.reason]);
+    if(data.type  == 'leads'){
+        result = await this.dataSource.query('CALL leadssummaryReasondata(?)',[data.reason]);
+    }
+    
+    if(data.type  == 'inactive'){
+        result = await this.dataSource.query('CALL inactivesummaryReasondata(?)',[data.reason]);
     } 
+
+    if(data.type  == 'due payment'){
+        result = await this.dataSource.query('CALL due_payment_summaryReasondata(?)',[data.reason]);
+    } 
+
+    if(data.type  == 'package expiring soon'){
+        result = await this.dataSource.query('CALL paccksummaryReasondata(?)',[data.reason]);
+    }
+    
+      if(data.type  == 'birthday wishes'){
+        result = await this.dataSource.query('CALL dobsummaryReasondata(?)',[data.reason]);
+    }
+
+
+    
+
+    
+
     return result[0];
   }
 

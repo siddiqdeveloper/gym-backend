@@ -228,12 +228,13 @@ export class FellowLeadController {
         data: leads,
       };
     } catch (error) {
+      console.log(error)
       // Handle any potential errors from the service
   
       throw new HttpException(
         {
           status: false,
-          message: 'Failed to create lead',
+          message: 'Failed  to get data ',
           error: error.message,
         },
         HttpStatus.BAD_REQUEST,
