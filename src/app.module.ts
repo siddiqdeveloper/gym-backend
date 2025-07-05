@@ -91,7 +91,7 @@ import { BlockMembers } from './entities/blockMemebers.entity';
 import { CheckListItem } from './entities/checkListtIem.entity';
 import { StandardMessage } from './entities/StandardMessage';
 import { StaffAttendance } from './entities/staffAttendance.entity';
-
+console.log(process.env.NODE_ENV)
 @Module({
   imports: [
     // CacheModule.register({
@@ -107,7 +107,7 @@ import { StaffAttendance } from './entities/staffAttendance.entity';
     
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+        envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',

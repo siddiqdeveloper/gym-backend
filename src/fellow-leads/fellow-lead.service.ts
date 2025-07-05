@@ -134,6 +134,44 @@ export class FellowLeadService {
     }else{
       for(var i = 0; i<data.list.length;i++){
 
+           if (data.list[i].hasOwnProperty('name')) {
+        delete data.list[i].name;
+    }
+    if (data.list[i].hasOwnProperty('mobile')) {
+        delete data.list[i].mobile;
+    }
+    if (data.list[i].hasOwnProperty('walkinDate')) {
+        delete data.list[i].walkinDate;
+    }
+    if (data.list[i].hasOwnProperty('followup_id')) {
+        delete data.list[i].followup_id;
+    }
+    if (data.list[i].hasOwnProperty('assignDate')) {
+        delete data.list[i].assignDate;
+    }
+    if (data.list[i].hasOwnProperty('last_callback_date')) {
+        delete data.list[i].last_callback_date;
+    }
+    if (data.list[i].hasOwnProperty('last_followup_date')) {
+        delete data.list[i].last_followup_date;
+    }
+      if (data.list[i].hasOwnProperty('prereason')) {
+        delete data.list[i].prereason;
+    }
+
+   if (data.list[i].hasOwnProperty('index')) {
+        delete data.list[i].index;
+    }
+
+    if (data.list[i].hasOwnProperty('followup_count')) {
+        delete data.list[i].followup_count;
+    }
+
+    if (data.list[i].hasOwnProperty('balance_Days')) {
+        delete data.list[i].balance_Days;
+    }
+
+
         if( data.list[i].reason != ''){
   
         
@@ -146,8 +184,14 @@ export class FellowLeadService {
                  data.list[i].callback_date = null;
               }
               delete data.list[i].id
+              delete data.list[i].name;
               await this.fellowLeadRep.save(data.list[i]);
             }else{
+                  data.list[i].followup_date = data.date;
+
+
+         
+          
               await this.fellowLeadRep.update(check.id, data.list[i]);
 
             }
